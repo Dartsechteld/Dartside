@@ -1,1 +1,263 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Darts Echteld Poules</title>
+  <style>
+    :root {
+      --bg: #0f5660;
+      --line: #ffffff;
+      --text: #ffffff;
+      --button-1: #6da5d6;
+      --button-2: #1d5f93;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+      padding: 18px 10px 28px;
+    }
+
+    .logo-card {
+      width: 120px;
+      height: 126px;
+      margin: 0 auto 16px;
+      background: #f7eadf;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .darts-logo {
+      text-align: center;
+      line-height: 1;
+    }
+
+    .darts-logo .darts {
+      display: block;
+      color: #c51616;
+      font-size: 31px;
+      font-weight: 900;
+      font-style: italic;
+      text-shadow: 2px 2px 0 #fff, 3px 3px 2px #555;
+      transform: rotate(-5deg);
+    }
+
+    .darts-logo .pins {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 28px;
+    }
+
+    .place-button {
+      width: 82px;
+      height: 22px;
+      border: 2px solid #e9eef4;
+      border-radius: 4px;
+      background: linear-gradient(var(--button-1), var(--button-2));
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 2px #00395f;
+    }
+
+    .pool {
+      width: 280px;
+      margin: 0 auto 16px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .pool th,
+    .pool td {
+      border: 1px solid var(--line);
+      color: var(--text);
+      height: 17px;
+      padding: 1px 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .pool .title th {
+      height: 18px;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .pool .headers th:first-child,
+    .pool td:first-child {
+      width: 96px;
+      text-align: left;
+    }
+
+    .pool .headers th:not(:first-child),
+    .pool td:not(:first-child) {
+      width: 46px;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="logo-card" aria-label="Darts Echteld">
+      <div class="darts-logo">
+        <span class="pins">🎯🎯🎯</span>
+        <span class="darts">Darts</span>
+      </div>
+      <div class="place-button">Echteld</div>
+    </section>
+
+    <div id="poules"></div>
+  </main>
+
+  <script>
+    /*
+      Google Sheets koppeling
+
+      1. Zet je Google Sheet op: Bestand > Delen > Publiceren op internet.
+      2. Vul hieronder je SHEET_ID en GID in.
+
+      Voorbeeld sheet-url:
+      https://docs.google.com/spreadsheets/d/SHEET_ID/edit#gid=GID
+    */
+
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=1492837350&single=true&output=csv';
+
+    const poolBereiken = [
+      { naam: 'Poule A', startRij: 11, eindRij: 16 },
+      { naam: 'Poule B', startRij: 19, eindRij: 24 },
+      { naam: 'Poule C', startRij: 27, eindRij: 32 },
+      { naam: 'Poule D', startRij: 35, eindRij: 40 },
+      { naam: 'Poule E', startRij: 43, eindRij: 48 },
+      { naam: 'Poule F', startRij: 51, eindRij: 56 },
+      { naam: 'Poule G', startRij: 59, eindRij: 64 },
+      { naam: 'Poule H', startRij: 67, eindRij: 72 }
+    ];
+
+    function parseCSV(csv) {
+      const rows = [];
+      let row = [];
+      let value = '';
+      let insideQuotes = false;
+
+      for (let i = 0; i < csv.length; i++) {
+        const char = csv[i];
+        const nextChar = csv[i + 1];
+
+        if (char === '"' && insideQuotes && nextChar === '"') {
+          value += '"';
+          i++;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === ',' && !insideQuotes) {
+          row.push(value);
+          value = '';
+        } else if ((char === '
+' || char === '
+') && !insideQuotes) {
+          if (value !== '' || row.length > 0) {
+            row.push(value);
+            rows.push(row);
+            row = [];
+            value = '';
+          }
+          if (char === '
+' && nextChar === '
+') i++;
+        } else {
+          value += char;
+        }
+      }
+
+      if (value !== '' || row.length > 0) {
+        row.push(value);
+        rows.push(row);
+      }
+
+      return rows;
+    }
+
+    function cel(rows, rij, kolom) {
+      return rows[rij - 1]?.[kolom - 1]?.trim() || '';
+    }
+
+    function maakPouleTabel(poule, rows) {
+      const regels = [];
+
+      for (let rij = poule.startRij; rij <= poule.eindRij; rij++) {
+        regels.push({
+          naam: cel(rows, rij, 1),
+          hf: cel(rows, rij, 2),
+          v: cel(rows, rij, 3),
+          t: cel(rows, rij, 4),
+          p: cel(rows, rij, 5)
+        });
+      }
+
+      const table = document.createElement('table');
+      table.className = 'pool';
+      table.innerHTML = `
+        <tr class="title"><th colspan="5">${poule.naam}</th></tr>
+        <tr class="headers">
+          <th>Naam</th><th>HF</th><th>V</th><th>T</th><th>P</th>
+        </tr>
+        ${regels.map(regel => `
+          <tr>
+            <td>${regel.naam}</td>
+            <td>${regel.hf}</td>
+            <td>${regel.v}</td>
+            <td>${regel.t}</td>
+            <td>${regel.p}</td>
+          </tr>
+        `).join('')}
+      `;
+
+      return table;
+    }
+
+    async function laadPoules() {
+      const container = document.getElementById('poules');
+      container.innerHTML = '';
+
+      try {
+        const response = await fetch(SHEET_CSV_URL, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Sheet kon niet geladen worden.');
+
+        const csv = await response.text();
+        const rows = parseCSV(csv);
+
+        poolBereiken.forEach((poule) => {
+          container.appendChild(maakPouleTabel(poule, rows));
+        });
+      } catch (error) {
+        container.innerHTML = `<p style="text-align:center;font-weight:700;">${error.message}</p>`;
+      }
+    }
+
+    laadPoules();
+    setInterval(laadPoules, 30000);
+  </script>
+</body>
+</html>
+
 
