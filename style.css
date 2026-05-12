@@ -25,12 +25,10 @@ body{
 }
 
 .menu{
-  max-width:360px;
-  margin:0 auto;
-  padding:12px 15px 0;
   display:flex;
   justify-content:center;
   gap:8px;
+  margin:0 auto 20px;
 }
 
 .menu a{
