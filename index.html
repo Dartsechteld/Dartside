@@ -133,18 +133,30 @@ function maakTabel(poule, data){
   html += '<th>P</th>';
   html += '</tr>';
 
-  for(let rij = poule.start; rij <= poule.eind; rij++){
+let aantalSpelers = 0;
 
-    html += '<tr>';
+for(let rij = poule.start; rij <= poule.eind; rij++){
 
-    html += '<td>' + cel(data, rij, 2) + '</td>';
-    html += '<td>' + cel(data, rij, 3) + '</td>';
-    html += '<td>' + cel(data, rij, 4) + '</td>';
-    html += '<td>' + cel(data, rij, 5) + '</td>';
-    html += '<td>' + cel(data, rij, 6) + '</td>';
+  const naam = cel(data, rij, 2);
 
-    html += '</tr>';
+  if(naam.trim() === ''){
+    continue;
   }
+
+  aantalSpelers++;
+
+  html += '<tr>';
+  html += '<td>' + naam + '</td>';
+  html += '<td>' + cel(data, rij, 3) + '</td>';
+  html += '<td>' + cel(data, rij, 4) + '</td>';
+  html += '<td>' + cel(data, rij, 5) + '</td>';
+  html += '<td>' + cel(data, rij, 6) + '</td>';
+  html += '</tr>';
+}
+
+if(aantalSpelers === 0){
+  return '';
+}
 
   html += '</table>';
 
