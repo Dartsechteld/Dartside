@@ -188,37 +188,36 @@ body{
 /* POULES */
 
 .pool{
-
-  border-collapse:separate;
-
-  border-spacing:0 10px;
+  width:100%;
+  table-layout:fixed;
 }
 
 .pool tr{
-
   background:var(--card);
 }
 
 .pool th{
-
   background:transparent;
-
   border:none;
-
   padding:14px;
-
   font-size:15px;
+  text-align:center;
 }
 
 .pool td{
-
   border:none;
-
   padding:12px;
 }
 
 .pool td:first-child{
+  width:55%;
+  text-align:left;
   font-weight:600;
+}
+
+.pool td:not(:first-child){
+  width:11.25%;
+  text-align:center;
 }
 
 /* STATUS */
