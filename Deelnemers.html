@@ -5,122 +5,22 @@
 <title>Darts deelnemers</title>
   
 <link rel="icon" type="image/png" href="logo.png">
+<link rel="stylesheet" href="style.css">
 
-  <style>
-body {
-  margin: 0;
-  background: #0f5963;
-  font-family: Arial, sans-serif;
-}
-
-.dart-card {
-  width: 220px;
-  padding: 18px 12px;
-  color: white;
-  margin: 0 auto;
-}
-
-.logo-img{
-  display:block;
-  width:120px;
-  margin:0 auto 20px;
-}
-
-
-.plaats {
-  width: 95px;
-  margin: 0 auto 14px;
-  text-align: center;
-  background: #0b7fc3;
-  border: 2px solid #62b5ff;
-  font-size: 18px;
-  line-height: 24px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 18px;
-}
-
-.info th,
-.info td,
-.lijst td {
-  border: 1px solid white;
-  height: 18px;
-  font-size: 12px;
-}
-
-.info th,
-.info td {
-  text-align: center;
-  font-weight: bold;
-}
-
-.lijst td:first-child {
-  width: 24px;
-  text-align: center;
-}
-
-.lijst td:nth-child(2) {
-  padding-left: 6px;
-  font-weight: bold;
-}
-
-.lijst td:last-child {
-  width: 28px;
-  text-align: center;
-}
-
-input[type="checkbox"] {
-  width: 12px;
-  height: 12px;
-}
-
-.menu {
-  width: 220px;
-  background: #083f47;
-  padding: 8px 12px;
-  box-sizing: border-box;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-
-  margin: 0 auto;
-}
-
-.menu a {
-  color: white;
-  text-decoration: none;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  border: 1px solid white;
-  padding: 4px 8px;
-  background: #0b7fc3;
-}
-
-.menu a:hover {
-  background: #62b5ff;
-  color: #083f47;
-}
-    
-</style>
 </head>
 
 <body>
 
-<nav class="menu">
-  <a href="index.html">Poulestand</a>
-  <a href="Deelnemers.html">Deelnemers</a>
-</nav>
+
   
 <div class="dart-card">
 
   <img src="logo.png" class="logo-img" alt="Darts Echteld">
-
+  <nav class="menu">
+  <a href="index.html">Poulestand</a>
+  <a class="active" href="Deelnemers.html">Deelnemers</a>
+</nav>
+<link rel="stylesheet" href="style.css">
   <div class="plaats" id="plaats">Echteld</div>
 
   <table class="info">
