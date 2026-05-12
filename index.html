@@ -144,6 +144,4623 @@ setInterval(laadPoules, 30000);
 </script>
 
     
+
+weergeven zoals al die andere html
+
+Een paar seconden nagedacht
+Ja — maak dit als één HTML-blok met vaste breedte en tabellen:
+
+<div class="dart-card">
+  <img src="darts-logo.png" class="logo" alt="Darts">
+
+  <div class="plaats">Echteld</div>
+
+  <table class="info">
+    <tr><th>Deelnemers</th></tr>
+    <tr><td>13 juni 2026</td></tr>
+  </table>
+
+  <table class="lijst">
+    <tbody>
+      <tr><td>1</td><td>Jeroen</td><td><input type="checkbox"></td></tr>
+      <tr><td>2</td><td>Martijn</td><td><input type="checkbox"></td></tr>
+      <tr><td>3</td><td>Berlino</td><td><input type="checkbox"></td></tr>
+      <tr><td>4</td><td>Angelo T</td><td><input type="checkbox"></td></tr>
+      <tr><td>5</td><td>Bets</td><td><input type="checkbox"></td></tr>
+    </tbody>
+  </table>
+</div>
+.dart-card {
+  width: 220px;
+  background: #0f5963;
+  padding: 18px 12px;
+  color: white;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.logo {
+  display: block;
+  width: 95px;
+  margin: 0 auto 6px;
+}
+
+.plaats {
+  width: 95px;
+  margin: 0 auto 18px;
+  text-align: center;
+  border: 2px solid #62b5ff;
+  background: #0b7fc3;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.info th,
+.info td,
+.lijst td {
+  border: 1px solid white;
+  height: 18px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.info th {
+  font-weight: bold;
+}
+
+.lijst td:nth-child(1) {
+  width: 26px;
+}
+
+.lijst td:nth-child(2) {
+  text-align: left;
+  padding-left: 6px;
+  font-weight: bold;
+}
+
+.lijst td:nth-child(3) {
+  width: 28px;
+}
+
+input[type="checkbox"] {
+  width: 12px;
+  height: 12px;
+}
+
+nee de gegevens uit de sheets
+
+Upload even het Excel- of Google Sheets-bestand (.xlsx / .csv), dan maak ik er direct dezelfde HTML-weergave van zoals je andere pagina’s — inclusief:
+
+deelnemerslijst
+
+reserve lijst
+
+datum / locatie
+
+checkboxes
+
+automatische rijen uit de sheetgegevens
+
+zelfde styling/layout als de bestaande HTML.
+
+
+https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pubhtml?gid=74050298&single=true
+
+Nagedacht gedurende 23s
+Gebruik deze URL als CSV-bron in je HTML:
+
+<script>
+const sheetUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
+</script>
+Volledige basis:
+
+<div class="dart-card">
+  <div id="plaats" class="plaats"></div>
+  <div id="datum" class="datum"></div>
+
+  <h3>Deelnemers</h3>
+  <table id="deelnemers"></table>
+
+  <h3>Reserve lijst</h3>
+  <table id="reserve"></table>
+</div>
+
+<script>
+const sheetUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
+
+fetch(sheetUrl)
+  .then(r => r.text())
+  .then(csv => {
+    const rows = csv
+      .split(/\r?\n/)
+      .map(r => r.split(",").map(c => c.replace(/^"|"$/g, "").trim()));
+
+    let mode = "deelnemers";
+
+    rows.forEach(row => {
+      const text = row.join(" ").toLowerCase();
+      const nummer = row[0];
+      const naam = row[1];
+
+      if (text.includes("reserve")) {
+        mode = "reserve";
+        return;
+      }
+
+      if (!naam || isNaN(Number(nummer))) return;
+
+      addRow(mode === "reserve" ? "reserve" : "deelnemers", nummer, naam);
+    });
+  });
+
+function addRow(tableId, nr, naam) {
+  const table = document.getElementById(tableId);
+  const tr = document.createElement("tr");
+
+  tr.innerHTML = `
+    <td>${nr}</td>
+    <td>${naam}</td>
+    <td><input type="checkbox"></td>
+  `;
+
+  table.appendChild(tr);
+}
+</script>
+
+<style>
+body {
+  margin: 0;
+  background: #0f5963;
+  font-family: Arial, sans-serif;
+}
+
+.dart-card {
+  width: 220px;
+  padding: 18px 12px;
+  color: white;
+}
+
+.plaats {
+  margin: 0 auto 8px;
+  width: 100px;
+  text-align: center;
+  background: #0b7fc3;
+  border: 2px solid #62b5ff;
+  font-size: 18px;
+}
+
+.datum,
+h3 {
+  text-align: center;
+  font-size: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+}
+
+td {
+  border: 1px solid white;
+  height: 18px;
+  font-size: 12px;
+}
+
+td:first-child {
+  width: 24px;
+  text-align: center;
+}
+
+td:nth-child(2) {
+  padding-left: 6px;
+  font-weight: bold;
+}
+
+td:last-child {
+  width: 28px;
+  text-align: center;
+}
+</style>
+Je sheet is gepubliceerd als Google Sheets HTML-pagina met tab “Deelnemers”. 
+
+
+verversen gegevens
+
+Gebruik hiervoor gewoon een interval met fetch() opnieuw laden.
+
+Vervang je script door deze versie:
+
+<script>
+const sheetUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
+
+loadSheet();
+
+setInterval(loadSheet, 30000); // iedere 30 seconden verversen
+
+function loadSheet() {
+
+  document.getElementById("deelnemers").innerHTML = "";
+  document.getElementById("reserve").innerHTML = "";
+
+  fetch(sheetUrl + "&t=" + new Date().getTime())
+    .then(r => r.text())
+    .then(csv => {
+
+      const rows = csv
+        .split(/\r?\n/)
+        .map(r =>
+          r.split(",").map(c =>
+            c.replace(/^"|"$/g, "").trim()
+          )
+        );
+
+      let mode = "deelnemers";
+
+      rows.forEach(row => {
+
+        const nummer = row[0];
+        const naam = row[1];
+
+        if (!nummer && !naam) return;
+
+        const text = row.join(" ").toLowerCase();
+
+        if (text.includes("reserve")) {
+          mode = "reserve";
+          return;
+        }
+
+        if (isNaN(Number(nummer))) return;
+
+        addRow(
+          mode === "reserve"
+            ? "reserve"
+            : "deelnemers",
+          nummer,
+          naam
+        );
+      });
+    });
+}
+
+function addRow(tableId, nr, naam) {
+
+  const table = document.getElementById(tableId);
+
+  const tr = document.createElement("tr");
+
+  tr.innerHTML = `
+    <td>${nr}</td>
+    <td>${naam}</td>
+    <td><input type="checkbox"></td>
+  `;
+
+  table.appendChild(tr);
+}
+</script>
+Deze versie:
+
+ververst automatisch
+
+haalt altijd nieuwste sheetgegevens op
+
+voorkomt browser cache met &t=timestamp
+
+wist eerst oude rijen
+
+bouwt daarna opnieuw op vanuit Google Sheets.
+
+
+hele code
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Darts deelnemers</title>
+
+<style>
+body {
+  margin: 0;
+  background: #0f5963;
+  font-family: Arial, sans-serif;
+}
+
+.dart-card {
+  width: 220px;
+  padding: 18px 12px;
+  color: white;
+}
+
+.logo {
+  display: block;
+  width: 95px;
+  margin: 0 auto 6px;
+}
+
+.plaats {
+  width: 95px;
+  margin: 0 auto 14px;
+  text-align: center;
+  background: #0b7fc3;
+  border: 2px solid #62b5ff;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+}
+
+.info th,
+.info td,
+.lijst td {
+  border: 1px solid white;
+  height: 18px;
+  font-size: 12px;
+}
+
+.info th,
+.info td {
+  text-align: center;
+  font-weight: bold;
+}
+
+.lijst td:first-child {
+  width: 24px;
+  text-align: center;
+}
+
+.lijst td:nth-child(2) {
+  padding-left: 6px;
+  font-weight: bold;
+}
+
+.lijst td:last-child {
+  width: 28px;
+  text-align: center;
+}
+
+input[type="checkbox"] {
+  width: 12px;
+  height: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="dart-card">
+
+  <img class="logo" src="darts-logo.png" alt="Darts">
+
+  <div class="plaats" id="plaats">Echteld</div>
+
+  <table class="info">
+    <tr><th>Deelnemers</th></tr>
+    <tr><td id="datum">13 juni 2026</td></tr>
+  </table>
+
+  <table class="lijst" id="deelnemers"></table>
+
+  <table class="info">
+    <tr><th>Reserve lijst</th></tr>
+  </table>
+
+  <table class="lijst" id="reserve"></table>
+
+</div>
+
+<script>
+const sheetUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
+
+loadSheet();
+setInterval(loadSheet, 30000);
+
+function loadSheet() {
+  fetch(sheetUrl + "&t=" + Date.now())
+    .then(response => response.text())
+    .then(csv => {
+      document.getElementById("deelnemers").innerHTML = "";
+      document.getElementById("reserve").innerHTML = "";
+
+      const rows = parseCSV(csv);
+      let mode = "deelnemers";
+
+      rows.forEach(row => {
+        const text = row.join(" ").toLowerCase();
+
+        if (text.includes("reserve")) {
+          mode = "reserve";
+          return;
+        }
+
+        if (text.includes("echteld")) {
+          document.getElementById("plaats").textContent = "Echteld";
+        }
+
+        const nummer = row[0];
+        const naam = row[1];
+
+        if (!nummer || isNaN(Number(nummer))) return;
+
+        addRow(mode, nummer, naam || "");
+      });
+    });
+}
+
+function addRow(tableId, nummer, naam) {
+  const table = document.getElementById(tableId);
+  const tr = document.createElement("tr");
+
+  tr.innerHTML = `
+    <td>${nummer}</td>
+    <td>${naam}</td>
+    <td><input type="checkbox"></td>
+  `;
+
+  table.appendChild(tr);
+}
+
+function parseCSV(csv) {
+  const rows = [];
+  let row = [];
+  let value = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < csv.length; i++) {
+    const char = csv[i];
+    const next = csv[i + 1];
+
+    if (char === '"' && inQuotes && next === '"') {
+      value += '"';
+      i++;
+    } else if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === "," && !inQuotes) {
+      row.push(value.trim());
+      value = "";
+    } else if ((char === "\n" || char === "\r") && !inQuotes) {
+      if (value || row.length) {
+        row.push(value.trim());
+        rows.push(row);
+      }
+      row = [];
+      value = "";
+      if (char === "\r" && next === "\n") i++;
+    } else {
+      value += char;
+    }
+  }
+
+  if (value || row.length) {
+    row.push(value.trim());
+    rows.push(row);
+  }
+
+  return rows;
+}
+</script>
+
+</body>
+</html>
+
+ik heb nu twee pagina en heb menu nodig
+
+Voeg dit menu bovenaan beide HTML-pagina’s toe:
+
+<nav class="menu">
+  <a href="index.html">Pagina 1</a>
+  <a href="pagina2.html">Pagina 2</a>
+</nav>
+En deze CSS in beide pagina’s:
+
+.menu {
+  width: 220px;
+  background: #083f47;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid white;
+  padding: 4px 8px;
+  background: #0b7fc3;
+}
+
+.menu a:hover {
+  background: #62b5ff;
+  color: #083f47;
+}
+Plaats het zo:
+
+<body>
+
+<nav class="menu">
+  <a href="index.html">Deelnemers</a>
+  <a href="reserve.html">Reserve</a>
+</nav>
+
+<div class="dart-card">
+  ...
+</div>
+
+</body>
+Pas index.html en reserve.html aan naar jouw echte bestandsnamen.
+
+
+menu is niet gecentreerd?
+
+Nee, omdat alleen de links gecentreerd worden — niet het menu zelf.
+
+Gebruik deze CSS:
+
+.menu {
+  width: 220px;
+  background: #083f47;
+  padding: 8px 12px;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+
+  margin: 0 auto;
+}
+En ook je hoofdcontainer centreren:
+
+.dart-card {
+  width: 220px;
+  padding: 18px 12px;
+  color: white;
+  margin: 0 auto;
+}
+Dan staan:
+
+menu gecentreerd
+
+kaart gecentreerd
+
+alles exact onder elkaar.
+
+
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Darts Echteld</title>
+
+<link rel="icon" type="image/png" href="logo.png">
+
+<style>
+
+:root{
+  --bg:#0f5660;
+  --line:#ffffff;
+  --text:#ffffff;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+  max-width:360px;
+  margin:auto;
+  padding:15px;
+}
+
+.logo-img{
+  display:block;
+  width:120px;
+  margin:0 auto 20px;
+}
+
+.pool{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:20px;
+}
+
+.pool th,
+.pool td{
+  border:1px solid var(--line);
+  padding:4px;
+  font-size:12px;
+  text-align:center;
+}
+
+.pool td:first-child{
+  text-align:left;
+}
+
+.melding{
+  text-align:center;
+  font-weight:bold;
+}
+
+.menu {
+  width: 220px;
+  background: #083f47;
+  padding: 8px 12px;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+
+  margin: 0 auto;
+}
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid white;
+  padding: 4px 8px;
+  background: #0b7fc3;
+}
+
+.menu a:hover {
+  background: #62b5ff;
+  color: #083f47;
+}
+  
+
+</style>
+</head>
+
+<body>
+
+<nav class="menu">
+  <a href="index.html">Poulestand</a>
+  <a href="Deelnemers.html">Deelnemers</a>
+</nav>
+
+  
+<div class="page">
+
+  <img src="logo.png" class="logo-img" alt="Darts Echteld">
+
+  <div id="poules">
+    <div class="melding">Laden...</div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script>
+
+const CSV_URL =
+'https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=1492837350&single=true&output=csv';
+
+const poules = [
+  { naam:'Poule A', start:12, eind:16 },
+  { naam:'Poule B', start:20, eind:24 },
+  { naam:'Poule C', start:28, eind:32 },
+  { naam:'Poule D', start:36, eind:40 },
+  { naam:'Poule E', start:44, eind:48 },
+  { naam:'Poule F', start:52, eind:56 },
+  { naam:'Poule G', start:60, eind:64 },
+  { naam:'Poule H', start:68, eind:72 }
+];
+
+function cel(data, rij, kolom){
+
+  if(!data[rij-1]){
+    return '';
+  }
+
+  return data[rij-1][kolom-1] || '';
+}
+
+function maakTabel(poule, data){
+
+  let html = '';
+
+  let aantalSpelers = 0;
+
+  html += '<table class="pool">';
+
+  html += '<tr>';
+  html += '<th colspan="5">' + poule.naam + '</th>';
+  html += '</tr>';
+
+  html += '<tr>';
+  html += '<th>Naam</th>';
+  html += '<th>HF</th>';
+  html += '<th>V</th>';
+  html += '<th>T</th>';
+  html += '<th>P</th>';
+  html += '</tr>';
+
+  for(let rij = poule.start; rij <= poule.eind; rij++){
+
+    const naam = cel(data, rij, 2);
+
+    if(naam.trim() === ''){
+      continue;
+    }
+
+    aantalSpelers++;
+
+    html += '<tr>';
+
+    html += '<td>' + naam + '</td>';
+    html += '<td>' + cel(data, rij, 3) + '</td>';
+    html += '<td>' + cel(data, rij, 4) + '</td>';
+    html += '<td>' + cel(data, rij, 5) + '</td>';
+    html += '<td>' + cel(data, rij, 6) + '</td>';
+
+    html += '</tr>';
+  }
+
+  html += '</table>';
+
+  if(aantalSpelers === 0){
+    return '';
+  }
+
+  return html;
+}
+
+function laadPoules(){
+
+  Papa.parse(CSV_URL + '&t=' + Date.now(), {
+
+    download:true,
+
+    complete:function(result){
+
+      const data = result.data;
+
+      let html = '';
+
+      poules.forEach(function(poule){
+
+        html += maakTabel(poule, data);
+
+      });
+
+      document.getElementById('poules').innerHTML = html;
+    },
+
+    error:function(error){
+
+      document.getElementById('poules').innerHTML =
+        '<div class="melding">Sheet laden mislukt</div>';
+
+      console.log(error);
+    }
+
+  });
+}
+
+laadPoules();
+
+setInterval(laadPoules, 30000);
+
+</script>
+
+</body>
+</html>     <!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Darts deelnemers</title>
+  
+<link rel="icon" type="image/png" href="logo.png">
+
+  <style>
+body {
+  margin: 0;
+  background: #0f5963;
+  font-family: Arial, sans-serif;
+}
+
+.dart-card {
+  width: 220px;
+  padding: 18px 12px;
+  color: white;
+  margin: 0 auto;
+}
+
+.logo-img{
+  display:block;
+  width:120px;
+  margin:0 auto 20px;
+}
+
+
+.plaats {
+  width: 95px;
+  margin: 0 auto 14px;
+  text-align: center;
+  background: #0b7fc3;
+  border: 2px solid #62b5ff;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+}
+
+.info th,
+.info td,
+.lijst td {
+  border: 1px solid white;
+  height: 18px;
+  font-size: 12px;
+}
+
+.info th,
+.info td {
+  text-align: center;
+  font-weight: bold;
+}
+
+.lijst td:first-child {
+  width: 24px;
+  text-align: center;
+}
+
+.lijst td:nth-child(2) {
+  padding-left: 6px;
+  font-weight: bold;
+}
+
+.lijst td:last-child {
+  width: 28px;
+  text-align: center;
+}
+
+input[type="checkbox"] {
+  width: 12px;
+  height: 12px;
+}
+
+.menu {
+  width: 220px;
+  background: #083f47;
+  padding: 8px 12px;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+
+  margin: 0 auto;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid white;
+  padding: 4px 8px;
+  background: #0b7fc3;
+}
+
+.menu a:hover {
+  background: #62b5ff;
+  color: #083f47;
+}
+    
+</style>
+</head>
+
+<body>
+
+<nav class="menu">
+  <a href="index.html">Poulestand</a>
+  <a href="Deelnemers.html">Deelnemers</a>
+</nav>
+  
+<div class="dart-card">
+
+  <img src="logo.png" class="logo-img" alt="Darts Echteld">
+
+  <div class="plaats" id="plaats">Echteld</div>
+
+  <table class="info">
+    <tr><th>Deelnemers</th></tr>
+    <tr><td id="datum">13 juni 2026</td></tr>
+  </table>
+
+  <table class="lijst" id="deelnemers"></table>
+
+  <table class="info">
+    <tr><th>Reserve lijst</th></tr>
+  </table>
+
+  <table class="lijst" id="reserve"></table>
+
+</div>
+
+<script>
+const sheetUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
+
+loadSheet();
+setInterval(loadSheet, 30000);
+
+function loadSheet() {
+  fetch(sheetUrl + "&t=" + Date.now())
+    .then(response => response.text())
+    .then(csv => {
+      document.getElementById("deelnemers").innerHTML = "";
+      document.getElementById("reserve").innerHTML = "";
+
+      const rows = parseCSV(csv);
+      let mode = "deelnemers";
+
+      rows.forEach(row => {
+        const text = row.join(" ").toLowerCase();
+
+        if (text.includes("reserve")) {
+          mode = "reserve";
+          return;
+        }
+
+        if (text.includes("echteld")) {
+          document.getElementById("plaats").textContent = "Echteld";
+        }
+
+        const nummer = row[0];
+        const naam = row[1];
+
+        if (!nummer || isNaN(Number(nummer))) return;
+
+        addRow(mode, nummer, naam || "");
+      });
+    });
+}
+
+function addRow(tableId, nummer, naam) {
+  const table = document.getElementById(tableId);
+  const tr = document.createElement("tr");
+
+  tr.innerHTML = 
+    <td>${nummer}</td>
+    <td>${naam}</td>
+    <td><input type="checkbox"></td>
+  ;
+
+  table.appendChild(tr);
+}
+
+function parseCSV(csv) {
+  const rows = [];
+  let row = [];
+  let value = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < csv.length; i++) {
+    const char = csv[i];
+    const next = csv[i + 1];
+
+    if (char === '"' && inQuotes && next === '"') {
+      value += '"';
+      i++;
+    } else if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === "," && !inQuotes) {
+      row.push(value.trim());
+      value = "";
+    } else if ((char === "\n" || char === "\r") && !inQuotes) {
+      if (value || row.length) {
+        row.push(value.trim());
+        rows.push(row);
+      }
+      row = [];
+      value = "";
+      if (char === "\r" && next === "\n") i++;
+    } else {
+      value += char;
+    }
+  }
+
+  if (value || row.length) {
+    row.push(value.trim());
+    rows.push(row);
+  }
+
+  return rows;
+}
+</script>
+
+</body>
+</html> maak deze qua kayout hetzelfde is het niet beter apart ccs te maken?
+
+Ja, apart CSS is hier beter: beide pagina’s krijgen dan exact dezelfde layout en je hoeft het menu/styling maar één keer aan te passen. Hieronder zet ik het netjes gesplitst in 3 bestanden.
+
+Maak dit:
+
+1. style.css
+:root{
+  --bg:#0f5660;
+  --menu:#083f47;
+  --blue:#0b7fc3;
+  --blue-hover:#62b5ff;
+  --line:#ffffff;
+  --text:#ffffff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+  max-width:360px;
+  margin:0 auto;
+  padding:15px;
+}
+
+.menu{
+  max-width:360px;
+  margin:0 auto;
+  padding:12px 15px 0;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+
+.menu a{
+  color:white;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:bold;
+  border:1px solid white;
+  padding:6px 10px;
+  background:var(--blue);
+}
+
+.menu a:hover,
+.menu a.active{
+  background:var(--blue-hover);
+  color:#083f47;
+}
+
+.logo-img{
+  display:block;
+  width:120px;
+  margin:0 auto 20px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:18px;
+}
+
+th,
+td{
+  border:1px solid var(--line);
+  padding:4px;
+  font-size:12px;
+}
+
+.pool th,
+.pool td{
+  text-align:center;
+}
+
+.pool td:first-child{
+  text-align:left;
+}
+
+.info th,
+.info td{
+  text-align:center;
+  font-weight:bold;
+}
+
+.lijst td:first-child{
+  width:24px;
+  text-align:center;
+}
+
+.lijst td:nth-child(2){
+  padding-left:6px;
+  font-weight:bold;
+}
+
+.lijst td:last-child{
+  width:28px;
+  text-align:center;
+}
+
+.plaats{
+  width:95px;
+  margin:0 auto 14px;
+  text-align:center;
+  background:var(--blue);
+  border:2px solid var(--blue-hover);
+  font-size:18px;
+  line-height:24px;
+}
+
+.melding{
+  text-align:center;
+  font-weight:bold;
+}
+
+input[type="checkbox"]{
+  width:12px;
+  height:12px;
+}
+2. In beide HTML-bestanden deze regel gebruiken
+In <head>:
+
+<link rel="stylesheet" href="style.css">
+Dan mag alle CSS uit beide HTML-bestanden weg.
+
+3. Menu in beide pagina’s hetzelfde
+Voor index.html:
+
+<nav class="menu">
+  <a class="active" href="index.html">Poulestand</a>
+  <a href="Deelnemers.html">Deelnemers</a>
+</nav>
+Voor Deelnemers.html:
+
+<nav class="menu">
+  <a href="index.html">Poulestand</a>
+  <a class="active" href="Deelnemers.html">Deelnemers</a>
+</nav>
+Belangrijk: je hebt nu twee volledige HTML-pagina’s achter elkaar geplakt. Die moeten echt als twee aparte bestanden worden opgeslagen:
+
+index.html
+Deelnemers.html
+style.css
+
+
+ik wil de navigatie onde r log hebben 
+
+Zet het menu gewoon binnen .page en direct onder het logo.
+
+Dus verander dit:
+
+<body>
+
+<nav class="menu">
+  ...
+</nav>
+
+<div class="page">
+
+  <img src="logo.png" class="logo-img" alt="Darts Echteld">
+naar dit:
+
+<body>
+
+<div class="page">
+
+  <img src="logo.png" class="logo-img" alt="Darts Echteld">
+
+  <nav class="menu">
+    <a class="active" href="index.html">Poulestand</a>
+    <a href="Deelnemers.html">Deelnemers</a>
+  </nav>
+En pas CSS aan:
+
+.menu{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin:0 auto 20px;
+}
+Deze regels mogen weg uit .menu:
+
+max-width:360px;
+padding:12px 15px 0;
+Dan krijg je:
+
+logo bovenaan gecentreerd
+
+menu direct eronder
+
+alles netjes gelijk uitgelijnd
+
+zelfde layout op beide pagina’s.
+
+
+de deelnemer strekken over de helelengte
+
+Pas alleen deze CSS aan:
+
+.page{
+  max-width:360px;
+  margin:0 auto;
+  padding:15px;
+}
+naar:
+
+.page{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+  padding:15px;
+}
+En voeg dit toe:
+
+.lijst{
+  width:100%;
+  table-layout:fixed;
+}
+En vervang:
+
+.lijst td:nth-child(2){
+  padding-left:6px;
+  font-weight:bold;
+}
+door:
+
+.lijst td:nth-child(2){
+  width:100%;
+  padding-left:6px;
+  font-weight:bold;
+  text-align:left;
+}
+Dan:
+
+vult de naam-kolom automatisch alle beschikbare breedte
+
+checkbox blijft rechts
+
+nummer blijft links klein
+
+tabel loopt netjes over volledige breedte.
+
+
+:root{
+  --bg:#0f5660;
+  --menu:#083f47;
+  --blue:#0b7fc3;
+  --blue-hover:#62b5ff;
+  --line:#ffffff;
+  --text:#ffffff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+  padding:15px;
+}
+.menu{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin:0 auto 20px;
+}
+
+.menu a{
+  color:white;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:bold;
+  border:1px solid white;
+  padding:6px 10px;
+  background:var(--blue);
+}
+
+.menu a:hover,
+.menu a.active{
+  background:var(--blue-hover);
+  color:#083f47;
+}
+
+.logo-img{
+  display:block;
+  width:120px;
+  margin:0 auto 20px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:18px;
+}
+
+th,
+td{
+  border:1px solid var(--line);
+  padding:4px;
+  font-size:12px;
+}
+
+.pool th,
+.pool td{
+  text-align:center;
+}
+
+.pool td:first-child{
+  text-align:left;
+}
+
+.info th,
+.info td{
+  text-align:center;
+  font-weight:bold;
+}
+
+.lijst td:first-child{
+  width:24px;
+  text-align:center;
+}
+
+.lijst td:nth-child(2){
+  padding-left:6px;
+  font-weight:bold;
+}
+
+.lijst td:last-child{
+  width:28px;
+  text-align:center;
+}
+
+.plaats{
+  width:95px;
+  margin:0 auto 14px;
+  text-align:center;
+  background:var(--blue);
+  border:2px solid var(--blue-hover);
+  font-size:18px;
+  line-height:24px;
+}
+
+.melding{
+  text-align:center;
+  font-weight:bold;
+}
+
+input[type="checkbox"]{
+  width:12px;
+  height:12px;
+}
+
+Voeg dit nog toe onder je bestaande .lijst CSS:
+
+.lijst{
+  width:100%;
+  table-layout:fixed;
+}
+
+.lijst td:nth-child(2){
+  width:100%;
+  padding-left:6px;
+  font-weight:bold;
+  text-align:left;
+}
+Dus deze oude mag eruit:
+
+.lijst td:nth-child(2){
+  padding-left:6px;
+  font-weight:bold;
+}
+Dan strekt de deelnemersnaam over de volle beschikbare breedte.
+
+
+geef hele code
+
+:root{
+  --bg:#0f5660;
+  --menu:#083f47;
+  --blue:#0b7fc3;
+  --blue-hover:#62b5ff;
+  --line:#ffffff;
+  --text:#ffffff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+/* PAGINA */
+
+.page{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+  padding:15px;
+}
+
+/* LOGO */
+
+.logo-img{
+  display:block;
+  width:120px;
+  margin:0 auto 20px;
+}
+
+/* MENU */
+
+.menu{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin:0 auto 20px;
+}
+
+.menu a{
+  color:white;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:bold;
+  border:1px solid white;
+  padding:6px 10px;
+  background:var(--blue);
+  transition:0.2s;
+}
+
+.menu a:hover,
+.menu a.active{
+  background:var(--blue-hover);
+  color:#083f47;
+}
+
+/* ALGEMENE TABELLEN */
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:18px;
+}
+
+th,
+td{
+  border:1px solid var(--line);
+  padding:4px;
+  font-size:12px;
+}
+
+/* POULE TABELLEN */
+
+.pool th,
+.pool td{
+  text-align:center;
+}
+
+.pool td:first-child{
+  text-align:left;
+}
+
+/* INFO BLOKKEN */
+
+.info th,
+.info td{
+  text-align:center;
+  font-weight:bold;
+}
+
+/* DEELNEMERSLIJST */
+
+.lijst{
+  width:100%;
+  table-layout:fixed;
+}
+
+.lijst td:first-child{
+  width:24px;
+  text-align:center;
+}
+
+.lijst td:nth-child(2){
+  width:100%;
+  padding-left:6px;
+  font-weight:bold;
+  text-align:left;
+}
+
+.lijst td:last-child{
+  width:28px;
+  text-align:center;
+}
+
+/* PLAATS */
+
+.plaats{
+  width:95px;
+  margin:0 auto 14px;
+  text-align:center;
+  background:var(--blue);
+  border:2px solid var(--blue-hover);
+  font-size:18px;
+  line-height:24px;
+}
+
+/* MELDING */
+
+.melding{
+  text-align:center;
+  font-weight:bold;
+}
+
+/* CHECKBOX */
+
+input[type="checkbox"]{
+  width:12px;
+  height:12px;
+}
+
+
+Je .page staat niet om alles heen, of je gebruikt nog ergens .dart-card.
+
+Gebruik op de deelnemerspagina deze structuur:
+
+<body>
+
+<div class="page">
+
+  <img src="logo.png" class="logo-img" alt="Darts Echteld">
+
+  <nav class="menu">
+    <a href="index.html">Poulestand</a>
+    <a class="active" href="Deelnemers.html">Deelnemers</a>
+  </nav>
+
+  <div class="plaats" id="plaats">Echteld</div>
+
+  <table class="info">
+    <tr><th>Deelnemers</th></tr>
+    <tr><td id="datum">13 juni 2026</td></tr>
+  </table>
+
+  <table class="lijst" id="deelnemers"></table>
+
+  <table class="info">
+    <tr><th>Reserve lijst</th></tr>
+  </table>
+
+  <table class="lijst" id="reserve"></table>
+
+</div>
+
+</body>
+En verwijder .dart-card uit je HTML.
+
+Dan worden de tabellen maximaal 360px breed in plaats van over het hele scherm.
+
+
+en ophalen gegevens?
+
+Gebruik deze volledige scriptcode voor het ophalen én automatisch verversen van de gegevens:
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script>
+
+const sheetUrl =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
+
+loadSheet();
+
+setInterval(loadSheet, 30000);
+
+function loadSheet(){
+
+  Papa.parse(sheetUrl + "&t=" + Date.now(), {
+
+    download:true,
+
+    complete:function(result){
+
+      document.getElementById("deelnemers").innerHTML = "";
+      document.getElementById("reserve").innerHTML = "";
+
+      const data = result.data;
+
+      let mode = "deelnemers";
+
+      data.forEach(function(row){
+
+        const nummer = row[0] || "";
+        const naam = row[1] || "";
+
+        const text =
+          row.join(" ").toLowerCase();
+
+        if(text.includes("reserve")){
+          mode = "reserve";
+          return;
+        }
+
+        if(
+          nummer.trim() === "" ||
+          isNaN(Number(nummer))
+        ){
+          return;
+        }
+
+        addRow(
+          mode,
+          nummer,
+          naam
+        );
+
+      });
+
+    },
+
+    error:function(error){
+
+      console.log(error);
+
+    }
+
+  });
+
+}
+
+function addRow(tableId, nummer, naam){
+
+  const table =
+    document.getElementById(tableId);
+
+  const tr =
+    document.createElement("tr");
+
+  tr.innerHTML = `
+    <td>${nummer}</td>
+    <td>${naam}</td>
+    <td>
+      <input type="checkbox">
+    </td>
+  `;
+
+  table.appendChild(tr);
+
+}
+
+</script>
+Belangrijk:
+
+tabel IDs moeten bestaan:
+
+<table class="lijst" id="deelnemers"></table>
+
+<table class="lijst" id="reserve"></table>
+Dan:
+
+leest hij live uit Google Sheets
+
+ververst elke 30 seconden
+
+deelnemers komen automatisch in de tabel
+
+reserve lijst ook automatisch.
+
+
+hele code deelneners
+
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Darts Deelnemers</title>
+
+<link rel="icon"
+type="image/png"
+href="logo.png">
+
+<link rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- LOGO -->
+
+  <img
+    src="logo.png"
+    class="logo-img"
+    alt="Darts Echteld"
+  >
+
+  <!-- MENU -->
+
+  <nav class="menu">
+
+    <a href="index.html">
+      Poulestand
+    </a>
+
+    <a
+      class="active"
+      href="Deelnemers.html"
+    >
+      Deelnemers
+    </a>
+
+  </nav>
+
+  <!-- PLAATS -->
+
+  <div
+    class="plaats"
+    id="plaats"
+  >
+    Echteld
+  </div>
+
+  <!-- DEELNEMERS -->
+
+  <table class="info">
+
+    <tr>
+      <th>
+        Deelnemers
+      </th>
+    </tr>
+
+    <tr>
+      <td id="datum">
+        13 juni 2026
+      </td>
+    </tr>
+
+  </table>
+
+  <table
+    class="lijst"
+    id="deelnemers"
+  ></table>
+
+  <!-- RESERVE -->
+
+  <table class="info">
+
+    <tr>
+      <th>
+        Reserve lijst
+      </th>
+    </tr>
+
+  </table>
+
+  <table
+    class="lijst"
+    id="reserve"
+  ></table>
+
+</div>
+
+<!-- PAPAPARSE -->
+
+<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
+</script>
+
+<script>
+
+/* GOOGLE SHEET CSV */
+
+const sheetUrl =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
+
+/* START */
+
+loadSheet();
+
+/* AUTO REFRESH */
+
+setInterval(
+  loadSheet,
+  30000
+);
+
+/* LOAD SHEET */
+
+function loadSheet(){
+
+  Papa.parse(
+    sheetUrl + "&t=" + Date.now(),
+
+    {
+
+      download:true,
+
+      complete:function(result){
+
+        document
+          .getElementById(
+            "deelnemers"
+          )
+          .innerHTML = "";
+
+        document
+          .getElementById(
+            "reserve"
+          )
+          .innerHTML = "";
+
+        const data =
+          result.data;
+
+        let mode =
+          "deelnemers";
+
+        data.forEach(
+          function(row){
+
+          const nummer =
+            row[0] || "";
+
+          const naam =
+            row[1] || "";
+
+          const text =
+            row.join(" ")
+            .toLowerCase();
+
+          /* RESERVE */
+
+          if(
+            text.includes(
+              "reserve"
+            )
+          ){
+            mode =
+              "reserve";
+
+            return;
+          }
+
+          /* ALLEEN NUMMERS */
+
+          if(
+            nummer.trim() === ""
+            ||
+            isNaN(
+              Number(nummer)
+            )
+          ){
+            return;
+          }
+
+          /* RIJ TOEVOEGEN */
+
+          addRow(
+            mode,
+            nummer,
+            naam
+          );
+
+        });
+
+      },
+
+      error:function(error){
+
+        console.log(error);
+
+      }
+
+    }
+
+  );
+
+}
+
+/* ADD ROW */
+
+function addRow(
+  tableId,
+  nummer,
+  naam
+){
+
+  const table =
+    document
+    .getElementById(
+      tableId
+    );
+
+  const tr =
+    document
+    .createElement("tr");
+
+  tr.innerHTML = `
+
+    <td>
+      ${nummer}
+    </td>
+
+    <td>
+      ${naam}
+    </td>
+
+    <td>
+      <input type="checkbox">
+    </td>
+
+  `;
+
+  table.appendChild(tr);
+
+}
+
+</script>
+
+</body>
+</html>
+
+gegevns beginnen in b staan de nummers B13 en namen in  c13 voor inschijvingen en de reserve nummers in b47 en c47 begin mamen
+
+Klopt. Je script keek naar kolom A/B.
+Voor jouw sheet moet het zijn:
+
+Inschrijvingen: B13 t/m B44 nummers, C13 t/m C44 namen
+
+Reserve: B47 t/m B78 nummers, C47 t/m C78 namen
+
+Vervang alleen je JavaScript door dit:
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script>
+const sheetUrl =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
+
+loadSheet();
+setInterval(loadSheet, 30000);
+
+function loadSheet(){
+
+  Papa.parse(sheetUrl + "&t=" + Date.now(), {
+    download:true,
+
+    complete:function(result){
+
+      const data = result.data;
+
+      document.getElementById("deelnemers").innerHTML = "";
+      document.getElementById("reserve").innerHTML = "";
+
+      // Deelnemers B13:C44
+      for(let i = 12; i <= 43; i++){
+        const nummer = data[i]?.[1] || "";
+        const naam   = data[i]?.[2] || "";
+
+        if(nummer.trim() !== "" || naam.trim() !== ""){
+          addRow("deelnemers", nummer, naam);
+        }
+      }
+
+      // Reserve B47:C78
+      for(let i = 46; i <= 77; i++){
+        const nummer = data[i]?.[1] || "";
+        const naam   = data[i]?.[2] || "";
+
+        if(nummer.trim() !== "" || naam.trim() !== ""){
+          addRow("reserve", nummer, naam);
+        }
+      }
+    },
+
+    error:function(error){
+      console.log(error);
+    }
+  });
+}
+
+function addRow(tableId, nummer, naam){
+
+  const table = document.getElementById(tableId);
+  const tr = document.createElement("tr");
+
+  tr.innerHTML = `
+    <td>${nummer}</td>
+    <td>${naam}</td>
+    <td><input type="checkbox"></td>
+  `;
+
+  table.appendChild(tr);
+}
+</script>
+
+de check boxen hoeven niet
+
+Verwijder in JavaScript dit stuk:
+
+<td><input type="checkbox"></td>
+Dus verander:
+
+tr.innerHTML = `
+  <td>${nummer}</td>
+  <td>${naam}</td>
+  <td><input type="checkbox"></td>
+`;
+naar:
+
+tr.innerHTML = `
+  <td>${nummer}</td>
+  <td>${naam}</td>
+`;
+En verwijder deze CSS:
+
+.lijst td:last-child{
+  width:28px;
+  text-align:center;
+}
+
+input[type="checkbox"]{
+  width:12px;
+  height:12px;
+}
+Dan krijg je:
+
+alleen nummer + naam
+
+naam gebruikt volledige breedte
+
+strakkere layout zoals je screenshot.
+
+
+perfect nu een iets modernere look?
+
+Ja. Vervang je style.css door deze modernere versie:
+
+:root{
+  --bg:#0f5660;
+  --card:#124f58;
+  --card-light:#176773;
+  --blue:#1689d6;
+  --blue-hover:#6ec6ff;
+  --line:rgba(255,255,255,0.35);
+  --text:#ffffff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top, #19727d 0%, #0f5660 45%, #093f47 100%);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+  width:100%;
+  max-width:380px;
+  margin:0 auto;
+  padding:20px 15px;
+}
+
+.logo-img{
+  display:block;
+  width:130px;
+  margin:0 auto 20px;
+  border-radius:14px;
+  box-shadow:0 8px 22px rgba(0,0,0,0.25);
+}
+
+.menu{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:0 auto 22px;
+}
+
+.menu a{
+  color:white;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:bold;
+  border:1px solid rgba(255,255,255,0.35);
+  border-radius:999px;
+  padding:8px 14px;
+  background:rgba(255,255,255,0.08);
+}
+
+.menu a:hover,
+.menu a.active{
+  background:var(--blue);
+  border-color:var(--blue-hover);
+  box-shadow:0 4px 14px rgba(0,0,0,0.25);
+}
+
+.plaats{
+  width:110px;
+  margin:0 auto 16px;
+  text-align:center;
+  background:var(--blue);
+  border-radius:999px;
+  border:1px solid var(--blue-hover);
+  font-size:17px;
+  font-weight:bold;
+  line-height:30px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+}
+
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  margin-bottom:18px;
+  overflow:hidden;
+  border-radius:10px;
+  background:rgba(255,255,255,0.06);
+  box-shadow:0 6px 18px rgba(0,0,0,0.18);
+}
+
+th,
+td{
+  border-bottom:1px solid var(--line);
+  padding:7px 8px;
+  font-size:12px;
+}
+
+tr:last-child td{
+  border-bottom:none;
+}
+
+.info th,
+.info td{
+  text-align:center;
+  font-weight:bold;
+}
+
+.info th{
+  background:rgba(255,255,255,0.12);
+}
+
+.lijst{
+  table-layout:fixed;
+}
+
+.lijst td:first-child{
+  width:34px;
+  text-align:center;
+  font-weight:bold;
+  color:#bfeeff;
+}
+
+.lijst td:nth-child(2){
+  width:100%;
+  text-align:left;
+  font-weight:bold;
+}
+
+.pool th,
+.pool td{
+  text-align:center;
+}
+
+.pool td:first-child{
+  text-align:left;
+  font-weight:bold;
+}
+
+.pool th{
+  background:rgba(255,255,255,0.12);
+}
+
+.melding{
+  text-align:center;
+  font-weight:bold;
+}
+
+:root{
+  --bg:#0f5660;
+  --menu:#083f47;
+  --blue:#0b7fc3;
+  --blue-hover:#62b5ff;
+  --line:#ffffff;
+  --text:#ffffff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+/* PAGINA */
+
+.page{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+  padding:15px;
+}
+
+/* LOGO */
+
+.logo-img{
+  display:block;
+  width:120px;
+  margin:0 auto 20px;
+}
+
+/* MENU */
+
+.menu{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin:0 auto 20px;
+}
+
+.menu a{
+  color:white;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:bold;
+  border:1px solid white;
+  padding:6px 10px;
+  background:var(--blue);
+  transition:0.2s;
+}
+
+.menu a:hover,
+.menu a.active{
+  background:var(--blue-hover);
+  color:#083f47;
+}
+
+/* ALGEMENE TABELLEN */
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:18px;
+}
+
+th,
+td{
+  border:1px solid var(--line);
+  padding:4px;
+  font-size:12px;
+}
+
+/* POULE TABELLEN */
+
+.pool th,
+.pool td{
+  text-align:center;
+}
+
+.pool td:first-child{
+  text-align:left;
+}
+
+/* INFO BLOKKEN */
+
+.info th,
+.info td{
+  text-align:center;
+  font-weight:bold;
+}
+
+/* DEELNEMERSLIJST */
+
+.lijst{
+  width:100%;
+  table-layout:fixed;
+}
+
+.lijst td:first-child{
+  width:24px;
+  text-align:center;
+}
+
+.lijst td:nth-child(2){
+  width:100%;
+  padding-left:6px;
+  font-weight:bold;
+  text-align:left;
+}
+
+
+/* MELDING */
+
+.melding{
+  text-align:center;
+  font-weight:bold;
+} dit is de oude vervang door moderner
+
+Vervang je hele style.css door deze:
+
+:root{
+  --bg:#0f5660;
+  --bg-dark:#083f47;
+  --card:#124f58;
+  --blue:#1689d6;
+  --blue-hover:#6ec6ff;
+  --line:rgba(255,255,255,0.28);
+  --text:#ffffff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top, #19727d 0%, #0f5660 45%, #083f47 100%);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+  width:100%;
+  max-width:380px;
+  margin:0 auto;
+  padding:20px 15px;
+}
+
+.logo-img{
+  display:block;
+  width:130px;
+  margin:0 auto 20px;
+  border-radius:14px;
+  box-shadow:0 8px 22px rgba(0,0,0,0.28);
+}
+
+.menu{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:0 auto 22px;
+}
+
+.menu a{
+  color:white;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:bold;
+  border:1px solid rgba(255,255,255,0.35);
+  border-radius:999px;
+  padding:8px 14px;
+  background:rgba(255,255,255,0.08);
+  transition:0.2s;
+}
+
+.menu a:hover,
+.menu a.active{
+  background:var(--blue);
+  border-color:var(--blue-hover);
+  color:white;
+  box-shadow:0 4px 14px rgba(0,0,0,0.25);
+}
+
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  margin-bottom:18px;
+  overflow:hidden;
+  border-radius:10px;
+  background:rgba(255,255,255,0.06);
+  box-shadow:0 6px 18px rgba(0,0,0,0.18);
+}
+
+th,
+td{
+  border-bottom:1px solid var(--line);
+  padding:7px 8px;
+  font-size:12px;
+}
+
+tr:last-child td{
+  border-bottom:none;
+}
+
+.info th,
+.info td{
+  text-align:center;
+  font-weight:bold;
+}
+
+.info th{
+  background:rgba(255,255,255,0.12);
+}
+
+.pool th,
+.pool td{
+  text-align:center;
+}
+
+.pool th{
+  background:rgba(255,255,255,0.12);
+}
+
+.pool td:first-child{
+  text-align:left;
+  font-weight:bold;
+}
+
+.lijst{
+  width:100%;
+  table-layout:fixed;
+}
+
+.lijst td:first-child{
+  width:34px;
+  text-align:center;
+  font-weight:bold;
+  color:#bfeeff;
+}
+
+.lijst td:nth-child(2){
+  width:100%;
+  padding-left:8px;
+  font-weight:bold;
+  text-align:left;
+}
+
+.melding{
+  text-align:center;
+  font-weight:bold;
+}
+
+noemn je dit modern?
+
+Nee — dit is meer “strakke hobby/toernooi-site”.
+Modern anno nu is meer:
+
+grotere spacing
+
+minder borders
+
+cards
+
+zachte schaduwen
+
+transparantie / glass effect
+
+subtiele hover animaties
+
+typografie groter/rustiger
+
+minder “Excel tabel” uitstraling
+
+Gebruik deze stijl als je echt moderne UI wilt:
+
+:root{
+  --bg:#071d22;
+  --card:rgba(255,255,255,0.06);
+  --card-border:rgba(255,255,255,0.08);
+  --accent:#00b4ff;
+  --accent-hover:#52cbff;
+  --text:#ffffff;
+  --muted:#9ec7d3;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+
+  background:
+    radial-gradient(circle at top,
+    #0e3b45 0%,
+    #071d22 65%);
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
+}
+
+.page{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+}
+
+/* LOGO */
+
+.logo-img{
+  display:block;
+  width:140px;
+  margin:0 auto 24px;
+
+  border-radius:18px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* MENU */
+
+.menu{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:26px;
+}
+
+.menu a{
+  padding:10px 16px;
+
+  border-radius:14px;
+
+  text-decoration:none;
+
+  font-size:13px;
+  font-weight:600;
+
+  color:white;
+
+  background:var(--card);
+
+  border:1px solid
+    var(--card-border);
+
+  backdrop-filter:blur(12px);
+
+  transition:0.2s;
+}
+
+.menu a:hover,
+.menu a.active{
+
+  background:var(--accent);
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 6px 20px rgba(0,180,255,0.35);
+}
+
+/* INFO */
+
+.info{
+  margin-bottom:18px;
+}
+
+.info th{
+  padding:14px;
+
+  font-size:15px;
+
+  background:var(--card);
+
+  border:none;
+
+  border-radius:
+    18px 18px 0 0;
+}
+
+.info td{
+  padding:10px;
+
+  color:var(--muted);
+
+  background:rgba(255,255,255,0.03);
+
+  border:none;
+
+  text-align:center;
+
+  border-radius:
+    0 0 18px 18px;
+}
+
+/* LIJST */
+
+.lijst{
+  width:100%;
+
+  border-collapse:separate;
+
+  border-spacing:0 8px;
+
+  margin-bottom:28px;
+}
+
+.lijst tr{
+
+  background:var(--card);
+
+  backdrop-filter:blur(10px);
+
+  transition:0.2s;
+}
+
+.lijst tr:hover{
+
+  transform:scale(1.01);
+
+  background:
+    rgba(255,255,255,0.09);
+}
+
+.lijst td{
+
+  border:none;
+
+  padding:14px 12px;
+
+  font-size:14px;
+}
+
+.lijst td:first-child{
+
+  width:46px;
+
+  text-align:center;
+
+  color:var(--accent);
+
+  font-weight:700;
+
+  border-radius:
+    14px 0 0 14px;
+}
+
+.lijst td:last-child{
+
+  border-radius:
+    0 14px 14px 0;
+
+  font-weight:600;
+}
+
+/* POULES */
+
+.pool{
+
+  border-collapse:separate;
+
+  border-spacing:0 10px;
+}
+
+.pool tr{
+
+  background:var(--card);
+}
+
+.pool th{
+
+  background:transparent;
+
+  border:none;
+
+  padding:14px;
+
+  font-size:15px;
+}
+
+.pool td{
+
+  border:none;
+
+  padding:12px;
+}
+
+.pool td:first-child{
+  font-weight:600;
+}
+
+/* STATUS */
+
+.melding{
+  text-align:center;
+  color:var(--muted);
+  padding:30px 0;
+}
+Dat geeft:
+
+mobiele app look
+
+moderne dart-toernooi vibe
+
+geen spreadsheet-uitstraling meer
+
+veel rustiger design
+
+veel professioneler uiterlijk.
+
+
+ pouls stand is niet in centermet mekaar?
+
+Dat komt omdat iedere rij nu een losse tr card is met eigen breedte.
+De inhoud centreert niet exact omdat de kolommen automatisch schalen.
+
+Voeg dit toe aan je .pool CSS:
+
+.pool{
+  width:100%;
+  table-layout:fixed;
+}
+En vervang deze:
+
+.pool td:first-child{
+  font-weight:600;
+}
+door:
+
+.pool td:first-child{
+  width:55%;
+  text-align:left;
+  font-weight:600;
+}
+
+.pool td:not(:first-child){
+  width:11.25%;
+  text-align:center;
+}
+Dan:
+
+alle kolommen krijgen vaste breedtes
+
+alles staat exact onder elkaar
+
+HF / V / T / P lijnen perfect uit
+
+veel strakkere professionele look.
+
+
+.pool tr{
+
+  background:var(--card);
+}
+
+.pool th{
+
+  background:transparent;
+
+  border:none;
+
+  padding:14px;
+
+  font-size:15px;
+}
+
+.pool td{
+
+  border:none;
+
+  padding:12px;
+}
+
+.pool td:first-child{
+  font-weight:600;
+}   ?
+
+Ja, vervang dat hele stuk door dit:
+
+.pool{
+  width:100%;
+  table-layout:fixed;
+}
+
+.pool tr{
+  background:var(--card);
+}
+
+.pool th{
+  background:transparent;
+  border:none;
+  padding:14px;
+  font-size:15px;
+  text-align:center;
+}
+
+.pool td{
+  border:none;
+  padding:12px;
+}
+
+.pool td:first-child{
+  width:55%;
+  text-align:left;
+  font-weight:600;
+}
+
+.pool td:not(:first-child){
+  width:11.25%;
+  text-align:center;
+}
+Dan staan:
+
+Naam
+
+HF
+
+V
+
+T
+
+P
+
+allemaal exact gecentreerd onder elkaar in iedere rij.
+
+
+ ik bedoel het plaatje menu en pool staan niet in een center lijn
+
+Ja, duidelijk. De .page is wel gecentreerd, maar je .pool tabellen hebben door de moderne styling een andere effectieve breedte/positie.
+
+Zet dit in je CSS:
+
+.logo-img,
+.menu,
+.pool,
+.info,
+.lijst{
+  margin-left:auto;
+  margin-right:auto;
+}
+En pas .pool aan naar:
+
+.pool{
+  width:100%;
+  max-width:360px;
+  table-layout:fixed;
+  margin:0 auto 24px;
+}
+Voor het menu:
+
+.menu{
+  width:100%;
+  max-width:360px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:0 auto 26px;
+}
+Dan staan logo, menu en poules allemaal op dezelfde middenlijn.
+
+
+nog steeds niet
+
+De oorzaak is waarschijnlijk dat je .pool een andere breedte heeft dan je logo/menu én dat de tabelrijen als losse blokken ogen.
+
+Zet dit onderaan je style.css zodat het alles overschrijft:
+
+.page{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.logo-img{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.menu{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
+
+#poules{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+}
+
+.pool{
+  width:100%;
+  max-width:360px;
+  margin:0 auto 24px;
+  table-layout:fixed;
+}
+Belangrijk: je HTML moet zo zijn:
+
+<div class="page">
+
+  <img src="logo.png" class="logo-img" alt="Darts Echteld">
+
+  <nav class="menu">
+    <a class="active" href="index.html">Poulestand</a>
+    <a href="Deelnemers.html">Deelnemers</a>
+  </nav>
+
+  <div id="poules">
+    <div class="melding">Laden...</div>
+  </div>
+
+</div>
+Niet het menu buiten .page zetten.
+
+
+:root{
+  --bg:#071d22;
+  --card:rgba(255,255,255,0.06);
+  --card-border:rgba(255,255,255,0.08);
+  --accent:#00b4ff;
+  --accent-hover:#52cbff;
+  --text:#ffffff;
+  --muted:#9ec7d3;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+
+  background:
+    radial-gradient(circle at top,
+    #0e3b45 0%,
+    #071d22 65%);
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
+}
+
+.page{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+}
+
+/* LOGO */
+
+.logo-img{
+  display:block;
+  width:140px;
+  margin:0 auto 24px;
+
+  border-radius:18px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* MENU */
+
+.menu{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:26px;
+}
+
+.menu a{
+  padding:10px 16px;
+
+  border-radius:14px;
+
+  text-decoration:none;
+
+  font-size:13px;
+  font-weight:600;
+
+  color:white;
+
+  background:var(--card);
+
+  border:1px solid
+    var(--card-border);
+
+  backdrop-filter:blur(12px);
+
+  transition:0.2s;
+}
+
+.menu a:hover,
+.menu a.active{
+
+  background:var(--accent);
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 6px 20px rgba(0,180,255,0.35);
+}
+
+/* INFO */
+
+.info{
+  margin-bottom:18px;
+}
+
+.info th{
+  padding:14px;
+
+  font-size:15px;
+
+  background:var(--card);
+
+  border:none;
+
+  border-radius:
+    18px 18px 0 0;
+}
+
+.info td{
+  padding:10px;
+
+  color:var(--muted);
+
+  background:rgba(255,255,255,0.03);
+
+  border:none;
+
+  text-align:center;
+
+  border-radius:
+    0 0 18px 18px;
+}
+
+/* LIJST */
+
+.lijst{
+  width:100%;
+
+  border-collapse:separate;
+
+  border-spacing:0 8px;
+
+  margin-bottom:28px;
+}
+
+.lijst tr{
+
+  background:var(--card);
+
+  backdrop-filter:blur(10px);
+
+  transition:0.2s;
+}
+
+.lijst tr:hover{
+
+  transform:scale(1.01);
+
+  background:
+    rgba(255,255,255,0.09);
+}
+
+.lijst td{
+
+  border:none;
+
+  padding:14px 12px;
+
+  font-size:14px;
+}
+
+.lijst td:first-child{
+
+  width:46px;
+
+  text-align:center;
+
+  color:var(--accent);
+
+  font-weight:700;
+
+  border-radius:
+    14px 0 0 14px;
+}
+
+.lijst td:last-child{
+
+  border-radius:
+    0 14px 14px 0;
+
+  font-weight:600;
+}
+
+/* POULES */
+
+.pool{
+  width:100%;
+  table-layout:fixed;
+}
+
+.pool tr{
+  background:var(--card);
+}
+
+.pool th{
+  background:transparent;
+  border:none;
+  padding:14px;
+  font-size:15px;
+  text-align:center;
+}
+
+.pool td{
+  border:none;
+  padding:12px;
+}
+
+.pool td:first-child{
+  width:55%;
+  text-align:left;
+  font-weight:600;
+}
+
+.pool td:not(:first-child){
+  width:11.25%;
+  text-align:center;
+}
+
+/* STATUS */
+
+.melding{
+  text-align:center;
+  color:var(--muted);
+  padding:30px 0;
+}
+
+Vervang je .page, .menu en .pool stukken hiermee:
+
+.page{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.menu{
+  width:100%;
+  max-width:360px;
+
+  display:flex;
+  justify-content:center;
+  gap:10px;
+
+  margin:0 auto 26px;
+}
+
+#poules{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+}
+
+.pool{
+  width:100%;
+  max-width:360px;
+  table-layout:fixed;
+  margin:0 auto 24px;
+}
+En laat de rest van je .pool td, .pool th, .pool tr gewoon staan.
+
+Hierdoor krijgen logo, menu en poules exact dezelfde middenlijn.
+
+
+:root{
+  --bg:#071d22;
+  --card:rgba(255,255,255,0.06);
+  --card-border:rgba(255,255,255,0.08);
+  --accent:#00b4ff;
+  --accent-hover:#52cbff;
+  --text:#ffffff;
+  --muted:#9ec7d3;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+
+  background:
+    radial-gradient(circle at top,
+    #0e3b45 0%,
+    #071d22 65%);
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
+}
+
+.page{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* LOGO */
+
+.logo-img{
+  display:block;
+  width:140px;
+  margin:0 auto 24px;
+
+  border-radius:18px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* MENU */
+
+.menu{
+  width:100%;
+  max-width:360px;
+
+  display:flex;
+  justify-content:center;
+  gap:10px;
+
+  margin:0 auto 26px;
+}
+
+.menu a{
+  padding:10px 16px;
+
+  border-radius:14px;
+
+  text-decoration:none;
+
+  font-size:13px;
+  font-weight:600;
+
+  color:white;
+
+  background:var(--card);
+
+  border:1px solid
+    var(--card-border);
+
+  backdrop-filter:blur(12px);
+
+  transition:0.2s;
+}
+
+.menu a:hover,
+.menu a.active{
+
+  background:var(--accent);
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 6px 20px rgba(0,180,255,0.35);
+}
+
+/* INFO */
+
+.info{
+  margin-bottom:18px;
+}
+
+.info th{
+  padding:14px;
+
+  font-size:15px;
+
+  background:var(--card);
+
+  border:none;
+
+  border-radius:
+    18px 18px 0 0;
+}
+
+.info td{
+  padding:10px;
+
+  color:var(--muted);
+
+  background:rgba(255,255,255,0.03);
+
+  border:none;
+
+  text-align:center;
+
+  border-radius:
+    0 0 18px 18px;
+}
+
+/* LIJST */
+
+.lijst{
+  width:100%;
+
+  border-collapse:separate;
+
+  border-spacing:0 8px;
+
+  margin-bottom:28px;
+}
+
+.lijst tr{
+
+  background:var(--card);
+
+  backdrop-filter:blur(10px);
+
+  transition:0.2s;
+}
+
+.lijst tr:hover{
+
+  transform:scale(1.01);
+
+  background:
+    rgba(255,255,255,0.09);
+}
+
+.lijst td{
+
+  border:none;
+
+  padding:14px 12px;
+
+  font-size:14px;
+}
+
+.lijst td:first-child{
+
+  width:46px;
+
+  text-align:center;
+
+  color:var(--accent);
+
+  font-weight:700;
+
+  border-radius:
+    14px 0 0 14px;
+}
+
+.lijst td:last-child{
+
+  border-radius:
+    0 14px 14px 0;
+
+  font-weight:600;
+}
+
+/* POULES */
+
+#poules{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+}
+
+.pool{
+  width:100%;
+  max-width:360px;
+  table-layout:fixed;
+  margin:0 auto 24px;
+}
+
+.pool tr{
+  background:var(--card);
+}
+
+.pool th{
+  background:transparent;
+  border:none;
+  padding:14px;
+  font-size:15px;
+  text-align:center;
+}
+
+.pool td{
+  border:none;
+  padding:12px;
+}
+
+.pool td:first-child{
+  width:55%;
+  text-align:left;
+  font-weight:600;
+}
+
+.pool td:not(:first-child){
+  width:11.25%;
+  text-align:center;
+}
+
+/* STATUS */
+
+.melding{
+  text-align:center;
+  color:var(--muted);
+  padding:30px 0;
+}
+
+Je CSS is nu goed.
+Het probleem zit waarschijnlijk nog in je HTML-structuur.
+
+Je moet dit hebben:
+
+<body>
+
+<div class="page">
+
+  <img src="logo.png"
+       class="logo-img"
+       alt="Darts">
+
+  <nav class="menu">
+
+    <a class="active"
+       href="index.html">
+       Poulestand
+    </a>
+
+    <a href="Deelnemers.html">
+       Deelnemers
+    </a>
+
+  </nav>
+
+  <div id="poules">
+
+    <div class="melding">
+      Laden...
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+Belangrijk:
+
+#poules moet BINNEN .page
+
+menu moet BINNEN .page
+
+geen extra <div> eromheen
+
+geen oude .dart-card meer gebruiken
+
+Dan klopt de middenlijn exact.
+
+
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Darts Deelnemers</title>
+
+<link rel="icon"
+type="image/png"
+href="logo.png">
+
+<link rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- LOGO -->
+
+  <img
+    src="logo.png"
+    class="logo-img"
+    alt="Darts Echteld"
+  >
+
+  <!-- MENU -->
+
+  <nav class="menu">
+
+    <a href="index.html">
+      Poulestand
+    </a>
+
+    <a
+      class="active"
+      href="Deelnemers.html"
+    >
+      Deelnemers
+    </a>
+
+  </nav>
+
+  <!-- DEELNEMERS -->
+
+  <table class="info">
+
+    <tr>
+      <th>
+        Deelnemers
+      </th>
+    </tr>
+
+    <tr>
+      <td id="datum">
+        13 juni 2026
+      </td>
+    </tr>
+
+  </table>
+
+  <table
+    class="lijst"
+    id="deelnemers"
+  ></table>
+
+  <!-- RESERVE -->
+
+  <table class="info">
+
+    <tr>
+      <th>
+        Reserve lijst
+      </th>
+    </tr>
+
+  </table>
+
+  <table
+    class="lijst"
+    id="reserve"
+  ></table>
+
+</div>
+
+<!-- PAPAPARSE -->
+
+<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script>
+const sheetUrl =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
+
+loadSheet();
+setInterval(loadSheet, 30000);
+
+function loadSheet(){
+
+  Papa.parse(sheetUrl + "&t=" + Date.now(), {
+    download:true,
+
+    complete:function(result){
+
+      const data = result.data;
+
+      document.getElementById("deelnemers").innerHTML = "";
+      document.getElementById("reserve").innerHTML = "";
+
+      // Deelnemers B13:C44
+      for(let i = 12; i <= 43; i++){
+        const nummer = data[i]?.[1] || "";
+        const naam   = data[i]?.[2] || "";
+
+        if(nummer.trim() !== "" || naam.trim() !== ""){
+          addRow("deelnemers", nummer, naam);
+        }
+      }
+
+      // Reserve B47:C78
+      for(let i = 46; i <= 77; i++){
+        const nummer = data[i]?.[1] || "";
+        const naam   = data[i]?.[2] || "";
+
+        if(nummer.trim() !== "" || naam.trim() !== ""){
+          addRow("reserve", nummer, naam);
+        }
+      }
+    },
+
+    error:function(error){
+      console.log(error);
+    }
+  });
+}
+
+function addRow(tableId, nummer, naam){
+
+  const table = document.getElementById(tableId);
+  const tr = document.createElement("tr");
+
+  tr.innerHTML = 
+    <td>${nummer}</td>
+    <td>${naam}</td>
+    ;
+
+  table.appendChild(tr);
+}
+</script>
+
+</body>
+</html>
+
+Je deelnemerspagina is bijna goed. Haal alleen de dubbele PapaParse regel weg.
+
+Gebruik dit stuk maar één keer:
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+Dus verwijder deze dubbele:
+
+<!-- PAPAPARSE -->
+
+<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
+</script>
+Voor dezelfde breedte als poules voeg in style.css nog toe:
+
+.info,
+.lijst{
+  width:100%;
+  max-width:360px;
+  margin-left:auto;
+  margin-right:auto;
+}
+Dan staan logo, menu, deelnemers en reserve netjes op dezelfde middenlijn.
+
+
+:root{
+  --bg:#071d22;
+  --card:rgba(255,255,255,0.06);
+  --card-border:rgba(255,255,255,0.08);
+  --accent:#00b4ff;
+  --accent-hover:#52cbff;
+  --text:#ffffff;
+  --muted:#9ec7d3;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+
+  background:
+    radial-gradient(circle at top,
+    #0e3b45 0%,
+    #071d22 65%);
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
+}
+
+.page{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* LOGO */
+
+.logo-img{
+  display:block;
+  width:140px;
+  margin:0 auto 24px;
+
+  border-radius:18px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* MENU */
+
+.menu{
+  width:100%;
+  max-width:360px;
+
+  display:flex;
+  justify-content:center;
+  gap:10px;
+
+  margin:0 auto 26px;
+}
+
+.menu a{
+  padding:10px 16px;
+
+  border-radius:14px;
+
+  text-decoration:none;
+
+  font-size:13px;
+  font-weight:600;
+
+  color:white;
+
+  background:var(--card);
+
+  border:1px solid
+    var(--card-border);
+
+  backdrop-filter:blur(12px);
+
+  transition:0.2s;
+}
+
+.menu a:hover,
+.menu a.active{
+
+  background:var(--accent);
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 6px 20px rgba(0,180,255,0.35);
+}
+
+/* INFO */
+
+.info{
+  margin-bottom:18px;
+}
+
+.info th{
+  padding:14px;
+
+  font-size:15px;
+
+  background:var(--card);
+
+  border:none;
+
+  border-radius:
+    18px 18px 0 0;
+}
+
+.info td{
+  padding:10px;
+
+  color:var(--muted);
+
+  background:rgba(255,255,255,0.03);
+
+  border:none;
+
+  text-align:center;
+
+  border-radius:
+    0 0 18px 18px;
+}
+
+/* LIJST */
+
+.lijst{
+  width:100%;
+
+  border-collapse:separate;
+
+  border-spacing:0 8px;
+
+  margin-bottom:28px;
+}
+
+.lijst tr{
+
+  background:var(--card);
+
+  backdrop-filter:blur(10px);
+
+  transition:0.2s;
+}
+
+.lijst tr:hover{
+
+  transform:scale(1.01);
+
+  background:
+    rgba(255,255,255,0.09);
+}
+
+.lijst td{
+
+  border:none;
+
+  padding:14px 12px;
+
+  font-size:14px;
+}
+
+.lijst td:first-child{
+
+  width:46px;
+
+  text-align:center;
+
+  color:var(--accent);
+
+  font-weight:700;
+
+  border-radius:
+    14px 0 0 14px;
+}
+
+.lijst td:last-child{
+
+  border-radius:
+    0 14px 14px 0;
+
+  font-weight:600;
+}
+
+/* POULES */
+
+#poules{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+}
+
+.pool{
+  width:100%;
+  max-width:360px;
+  table-layout:fixed;
+  margin:0 auto 24px;
+}
+
+.pool tr{
+  background:var(--card);
+}
+
+.pool th{
+  background:transparent;
+  border:none;
+  padding:14px;
+  font-size:15px;
+  text-align:center;
+}
+
+.pool td{
+  border:none;
+  padding:12px;
+}
+
+.pool td:first-child{
+  width:55%;
+  text-align:left;
+  font-weight:600;
+}
+
+.pool td:not(:first-child){
+  width:11.25%;
+  text-align:center;
+}
+
+/* STATUS */
+
+.melding{
+  text-align:center;
+  color:var(--muted);
+  padding:30px 0;
+}
+
+Voeg dit onderaan je style.css toe:
+
+.info,
+.lijst{
+  width:100%;
+  max-width:360px;
+  margin-left:auto;
+  margin-right:auto;
+}
+En voor de deelnemerslijst zonder checkbox is dit beter:
+
+.lijst td:first-child{
+  width:46px;
+  text-align:center;
+  color:var(--accent);
+  font-weight:700;
+  border-radius:14px 0 0 14px;
+}
+
+.lijst td:nth-child(2){
+  width:100%;
+  text-align:left;
+  font-weight:600;
+  border-radius:0 14px 14px 0;
+}
+Verwijder deze oude regel:
+
+.lijst td:last-child{
+  border-radius:0 14px 14px 0;
+  font-weight:600;
+}
+
+geef hele css terug
+
+:root{
+  --bg:#071d22;
+  --card:rgba(255,255,255,0.06);
+  --card-border:rgba(255,255,255,0.08);
+  --accent:#00b4ff;
+  --accent-hover:#52cbff;
+  --text:#ffffff;
+  --muted:#9ec7d3;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #0e3b45 0%,
+      #071d22 65%
+    );
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
+}
+
+/* PAGINA */
+
+.page{
+  width:100%;
+  max-width:420px;
+
+  margin:0 auto;
+
+  padding:24px 16px 40px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* LOGO */
+
+.logo-img{
+  display:block;
+
+  width:140px;
+
+  margin:0 auto 24px;
+
+  border-radius:18px;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,0.35);
+}
+
+/* MENU */
+
+.menu{
+  width:100%;
+  max-width:360px;
+
+  display:flex;
+  justify-content:center;
+
+  gap:10px;
+
+  margin:0 auto 26px;
+}
+
+.menu a{
+
+  padding:10px 16px;
+
+  border-radius:14px;
+
+  text-decoration:none;
+
+  font-size:13px;
+  font-weight:600;
+
+  color:white;
+
+  background:var(--card);
+
+  border:1px solid
+    var(--card-border);
+
+  backdrop-filter:blur(12px);
+
+  transition:0.2s;
+}
+
+.menu a:hover,
+.menu a.active{
+
+  background:var(--accent);
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 6px 20px
+    rgba(0,180,255,0.35);
+}
+
+/* INFO BLOKKEN */
+
+.info{
+  width:100%;
+  max-width:360px;
+
+  margin:0 auto 18px;
+}
+
+.info th{
+
+  padding:14px;
+
+  font-size:15px;
+
+  background:var(--card);
+
+  border:none;
+
+  border-radius:
+    18px 18px 0 0;
+}
+
+.info td{
+
+  padding:10px;
+
+  color:var(--muted);
+
+  background:
+    rgba(255,255,255,0.03);
+
+  border:none;
+
+  text-align:center;
+
+  border-radius:
+    0 0 18px 18px;
+}
+
+/* DEELNEMERSLIJST */
+
+.lijst{
+  width:100%;
+  max-width:360px;
+
+  border-collapse:separate;
+
+  border-spacing:0 8px;
+
+  margin:0 auto 28px;
+}
+
+.lijst tr{
+
+  background:var(--card);
+
+  backdrop-filter:blur(10px);
+
+  transition:0.2s;
+}
+
+.lijst tr:hover{
+
+  transform:scale(1.01);
+
+  background:
+    rgba(255,255,255,0.09);
+}
+
+.lijst td{
+
+  border:none;
+
+  padding:14px 12px;
+
+  font-size:14px;
+}
+
+.lijst td:first-child{
+
+  width:46px;
+
+  text-align:center;
+
+  color:var(--accent);
+
+  font-weight:700;
+
+  border-radius:
+    14px 0 0 14px;
+}
+
+.lijst td:nth-child(2){
+
+  width:100%;
+
+  text-align:left;
+
+  font-weight:600;
+
+  border-radius:
+    0 14px 14px 0;
+}
+
+/* POULES */
+
+#poules{
+  width:100%;
+  max-width:360px;
+
+  margin:0 auto;
+}
+
+.pool{
+  width:100%;
+  max-width:360px;
+
+  table-layout:fixed;
+
+  margin:0 auto 24px;
+}
+
+.pool tr{
+  background:var(--card);
+}
+
+.pool th{
+
+  background:transparent;
+
+  border:none;
+
+  padding:14px;
+
+  font-size:15px;
+
+  text-align:center;
+}
+
+.pool td{
+
+  border:none;
+
+  padding:12px;
+}
+
+.pool td:first-child{
+
+  width:55%;
+
+  text-align:left;
+
+  font-weight:600;
+}
+
+.pool td:not(:first-child){
+
+  width:11.25%;
+
+  text-align:center;
+}
+
+/* STATUS */
+
+.melding{
+
+  text-align:center;
+
+  color:var(--muted);
+
+  padding:30px 0;
+}
+
+  die pouls is wel een beetje rechthoekig kan dat niet hetzlefde als die knoppen iets rondere hoeken
+
+
+Afbeelding gemaakt
+•
+Toernooi poulestand interface
+
+ik bedoe de html  natuurlijk
+
+Ja 😄
+Je poules hebben nu nog harde tabelhoeken. Maak ze dezelfde “pill/card” stijl als de menu knoppen.
+
+Vervang je hele .pool gedeelte door dit:
+
+/* POULES */
+
+#poules{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+}
+
+.pool{
+  width:100%;
+  max-width:360px;
+
+  border-collapse:separate;
+  border-spacing:0 10px;
+
+  table-layout:fixed;
+
+  margin:0 auto 26px;
+}
+
+.pool tr{
+  background:var(--card);
+
+  backdrop-filter:blur(10px);
+
+  transition:0.2s;
+}
+
+.pool tr:hover{
+  transform:scale(1.01);
+
+  background:
+    rgba(255,255,255,0.09);
+}
+
+.pool th{
+  background:transparent;
+
+  border:none;
+
+  padding:14px;
+
+  font-size:15px;
+
+  text-align:center;
+}
+
+.pool td{
+  border:none;
+
+  padding:14px 12px;
+
+  font-size:14px;
+}
+
+/* eerste kolom */
+
+.pool td:first-child{
+  width:55%;
+
+  text-align:left;
+
+  font-weight:600;
+
+  border-radius:
+    14px 0 0 14px;
+}
+
+/* overige kolommen */
+
+.pool td:not(:first-child){
+  width:11.25%;
+
+  text-align:center;
+}
+
+/* laatste kolom */
+
+.pool td:last-child{
+  border-radius:
+    0 14px 14px 0;
+}
+
+/* titelrij */
+
+.pool tr:first-child th:first-child{
+  border-radius:18px;
+}
+Dan krijg je:
+
+afgeronde poule cards
+
+dezelfde moderne stijl als menu buttons
+
+zwevend/glass effect
+
+veel minder “Excel look”
+
+strakkere mobile-app uitstraling.
+
+
+
+Toernooi poulestand interface
+
+Gegenereerde afbeelding: Toernooi poulestand interface
+
+
+Bewerken
+
+
+image.png
+ de header met naam is nog rechthoekig?
+
+Voeg dit toe aan je CSS:
+
+.pool tr:nth-child(2) th:first-child{
+  border-radius:14px 0 0 14px;
+}
+
+.pool tr:nth-child(2) th:last-child{
+  border-radius:0 14px 14px 0;
+}
+En zorg dat je .pool th dit heeft:
+
+.pool th{
+  background:var(--card);
+  border:none;
+  padding:14px;
+  font-size:15px;
+  text-align:center;
+}
+Dan wordt ook de headerregel Naam HF V T P afgerond zoals de andere rijen.
+
+
+ik wil nu in dezelfde style nog een pagina invoegen genaad affiche
+
+Ja. Maak een derde bestand:
+
+Affiche.html
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Darts Affiche</title>
+
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="page">
+
+  <img src="logo.png" class="logo-img" alt="Darts Echteld">
+
+  <nav class="menu">
+    <a href="index.html">Poulestand</a>
+    <a href="Deelnemers.html">Deelnemers</a>
+    <a class="active" href="Affiche.html">Affiche</a>
+  </nav>
+
+  <div class="affiche-card">
+    <h1>Darts Echteld</h1>
+    <h2>13 juni 2026</h2>
+
+    <p>Gezellige dartavond met poules, deelnemers en live standen.</p>
+
+    <div class="affiche-info">
+      <span>Locatie</span>
+      <strong>Echteld</strong>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
+Voeg dit toe onderaan style.css:
+
+.affiche-card{
+  width:100%;
+  max-width:360px;
+  padding:26px 22px;
+  text-align:center;
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:22px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.25);
+}
+
+.affiche-card h1{
+  margin:0 0 10px;
+  font-size:28px;
+}
+
+.affiche-card h2{
+  margin:0 0 22px;
+  color:var(--accent);
+  font-size:20px;
+}
+
+.affiche-card p{
+  margin:0 0 22px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+.affiche-info{
+  padding:14px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.06);
+}
+
+.affiche-info span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+.affiche-info strong{
+  font-size:18px;
+}
+En pas het menu in je andere pagina’s ook aan:
+
+<nav class="menu">
+  <a href="index.html">Poulestand</a>
+  <a href="Deelnemers.html">Deelnemers</a>
+  <a href="Affiche.html">Affiche</a>
+</nav>
+
+kun je dan niet beter menu apart zetten?
+
+Ja, absoluut.
+Nu moet je het menu op elke pagina aanpassen. Beter is:
+
+menu.html
+
+apart laden met JavaScript
+
+Dan beheer je menu maar op één plek.
+
+1. Maak menu.html
+<nav class="menu">
+
+  <a href="index.html">
+    Poulestand
+  </a>
+
+  <a href="Deelnemers.html">
+    Deelnemers
+  </a>
+
+  <a href="Affiche.html">
+    Affiche
+  </a>
+
+</nav>
+2. Zet in iedere pagina dit
+Vervang:
+
+<nav class="menu">
+...
+</nav>
+door:
+
+<div id="menu"></div>
+3. Voeg onderaan toe
+Vlak boven </body>:
+
 <script>
 fetch("menu.html")
   .then(r => r.text())
@@ -164,6 +4781,204 @@ fetch("menu.html")
     });
   });
 </script>
+Dan:
+
+menu overal identiek
+
+actieve pagina automatisch highlight
+
+veel netter onderhoud
+
+nieuwe pagina = alleen link toevoegen in menu.html.
+
+
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Darts Deelnemers</title>
+
+<link rel="icon"
+type="image/png"
+href="logo.png">
+
+<link rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- LOGO -->
+
+  <img
+    src="logo.png"
+    class="logo-img"
+    alt="Darts Echteld"
+  >
+
+  <!-- MENU -->
+
+<div id="menu"></div>
+
+  <!-- DEELNEMERS -->
+
+  <table class="info">
+
+    <tr>
+      <th>
+        Deelnemers
+      </th>
+    </tr>
+
+    <tr>
+      <td id="datum">
+        13 juni 2026
+      </td>
+    </tr>
+
+  </table>
+
+  <table
+    class="lijst"
+    id="deelnemers"
+  ></table>
+
+  <!-- RESERVE -->
+
+  <table class="info">
+
+    <tr>
+      <th>
+        Reserve lijst
+      </th>
+    </tr>
+
+  </table>
+
+  <table
+    class="lijst"
+    id="reserve"
+  ></table>
+
+</div>
+
+<!-- PAPAPARSE -->
+
+<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
+</script>
+
+<script>
+const sheetUrl =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
+
+loadSheet();
+setInterval(loadSheet, 30000);
+
+function loadSheet(){
+
+  Papa.parse(sheetUrl + "&t=" + Date.now(), {
+    download:true,
+
+    complete:function(result){
+
+      const data = result.data;
+
+      document.getElementById("deelnemers").innerHTML = "";
+      document.getElementById("reserve").innerHTML = "";
+
+      // Deelnemers B13:C44
+      for(let i = 12; i <= 43; i++){
+        const nummer = data[i]?.[1] || "";
+        const naam   = data[i]?.[2] || "";
+
+        if(nummer.trim() !== "" || naam.trim() !== ""){
+          addRow("deelnemers", nummer, naam);
+        }
+      }
+
+      // Reserve B47:C78
+      for(let i = 46; i <= 77; i++){
+        const nummer = data[i]?.[1] || "";
+        const naam   = data[i]?.[2] || "";
+
+        if(nummer.trim() !== "" || naam.trim() !== ""){
+          addRow("reserve", nummer, naam);
+        }
+      }
+    },
+
+    error:function(error){
+      console.log(error);
+    }
+  });
+}
+
+function addRow(tableId, nummer, naam){
+
+  const table = document.getElementById(tableId);
+  const tr = document.createElement("tr");
+
+  tr.innerHTML = 
+    <td>${nummer}</td>
+    <td>${naam}</td>
+    ;
+
+  table.appendChild(tr);
+}
+</script>
+  
+<script>
+fetch("menu.html")
+  .then(r => r.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+
+    const links =
+      document.querySelectorAll(".menu a");
+
+    links.forEach(link => {
+
+      if(
+        link.href === window.location.href
+      ){
+        link.classList.add("active");
+      }
+
+    });
+  });
+</script>
+  
+</body>
+</html>
+
+Deze is goed. Alleen netter is om het menu-script apart te maken.
+
+Maak bestand menu.js:
+
+fetch("menu.html")
+  .then(r => r.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+
+    document.querySelectorAll(".menu a").forEach(link => {
+      if(link.href === window.location.href){
+        link.classList.add("active");
+      }
+    });
+  });
+En vervang onderaan je HTML dit hele menu-script door:
+
+<script src="menu.js"></script>
   
 
 </body>
