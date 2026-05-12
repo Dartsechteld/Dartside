@@ -218,10 +218,11 @@ body{
 
 /* POULES */
 
+/* POULES */
+
 #poules{
   width:100%;
   max-width:360px;
-
   margin:0 auto;
 }
 
@@ -229,17 +230,30 @@ body{
   width:100%;
   max-width:360px;
 
+  border-collapse:separate;
+  border-spacing:0 10px;
+
   table-layout:fixed;
 
-  margin:0 auto 24px;
+  margin:0 auto 26px;
 }
 
 .pool tr{
   background:var(--card);
+
+  backdrop-filter:blur(10px);
+
+  transition:0.2s;
+}
+
+.pool tr:hover{
+  transform:scale(1.01);
+
+  background:
+    rgba(255,255,255,0.09);
 }
 
 .pool th{
-
   background:transparent;
 
   border:none;
@@ -252,28 +266,46 @@ body{
 }
 
 .pool td{
-
   border:none;
 
-  padding:12px;
+  padding:14px 12px;
+
+  font-size:14px;
 }
 
-.pool td:first-child{
+/* eerste kolom */
 
+.pool td:first-child{
   width:55%;
 
   text-align:left;
 
   font-weight:600;
+
+  border-radius:
+    14px 0 0 14px;
 }
 
-.pool td:not(:first-child){
+/* overige kolommen */
 
+.pool td:not(:first-child){
   width:11.25%;
 
   text-align:center;
 }
 
+/* laatste kolom */
+
+.pool td:last-child{
+  border-radius:
+    0 14px 14px 0;
+}
+
+/* titelrij */
+
+.pool tr:first-child th:first-child{
+  border-radius:18px;
+}
 /* STATUS */
 
 .melding{
