@@ -1,0 +1,119 @@
+:root{
+  --bg:#0f5660;
+  --menu:#083f47;
+  --blue:#0b7fc3;
+  --blue-hover:#62b5ff;
+  --line:#ffffff;
+  --text:#ffffff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+  max-width:360px;
+  margin:0 auto;
+  padding:15px;
+}
+
+.menu{
+  max-width:360px;
+  margin:0 auto;
+  padding:12px 15px 0;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+
+.menu a{
+  color:white;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:bold;
+  border:1px solid white;
+  padding:6px 10px;
+  background:var(--blue);
+}
+
+.menu a:hover,
+.menu a.active{
+  background:var(--blue-hover);
+  color:#083f47;
+}
+
+.logo-img{
+  display:block;
+  width:120px;
+  margin:0 auto 20px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:18px;
+}
+
+th,
+td{
+  border:1px solid var(--line);
+  padding:4px;
+  font-size:12px;
+}
+
+.pool th,
+.pool td{
+  text-align:center;
+}
+
+.pool td:first-child{
+  text-align:left;
+}
+
+.info th,
+.info td{
+  text-align:center;
+  font-weight:bold;
+}
+
+.lijst td:first-child{
+  width:24px;
+  text-align:center;
+}
+
+.lijst td:nth-child(2){
+  padding-left:6px;
+  font-weight:bold;
+}
+
+.lijst td:last-child{
+  width:28px;
+  text-align:center;
+}
+
+.plaats{
+  width:95px;
+  margin:0 auto 14px;
+  text-align:center;
+  background:var(--blue);
+  border:2px solid var(--blue-hover);
+  font-size:18px;
+  line-height:24px;
+}
+
+.melding{
+  text-align:center;
+  font-weight:bold;
+}
+
+input[type="checkbox"]{
+  width:12px;
+  height:12px;
+}
