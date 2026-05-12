@@ -17,9 +17,11 @@ body{
   min-height:100vh;
 
   background:
-    radial-gradient(circle at top,
-    #0e3b45 0%,
-    #071d22 65%);
+    radial-gradient(
+      circle at top,
+      #0e3b45 0%,
+      #071d22 65%
+    );
 
   color:var(--text);
 
@@ -29,10 +31,14 @@ body{
     sans-serif;
 }
 
+/* PAGINA */
+
 .page{
   width:100%;
   max-width:420px;
+
   margin:0 auto;
+
   padding:24px 16px 40px;
 
   display:flex;
@@ -44,13 +50,16 @@ body{
 
 .logo-img{
   display:block;
+
   width:140px;
+
   margin:0 auto 24px;
 
   border-radius:18px;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.35);
+    0 10px 30px
+    rgba(0,0,0,0.35);
 }
 
 /* MENU */
@@ -61,12 +70,14 @@ body{
 
   display:flex;
   justify-content:center;
+
   gap:10px;
 
   margin:0 auto 26px;
 }
 
 .menu a{
+
   padding:10px 16px;
 
   border-radius:14px;
@@ -96,16 +107,21 @@ body{
   transform:translateY(-2px);
 
   box-shadow:
-    0 6px 20px rgba(0,180,255,0.35);
+    0 6px 20px
+    rgba(0,180,255,0.35);
 }
 
-/* INFO */
+/* INFO BLOKKEN */
 
 .info{
-  margin-bottom:18px;
+  width:100%;
+  max-width:360px;
+
+  margin:0 auto 18px;
 }
 
 .info th{
+
   padding:14px;
 
   font-size:15px;
@@ -119,11 +135,13 @@ body{
 }
 
 .info td{
+
   padding:10px;
 
   color:var(--muted);
 
-  background:rgba(255,255,255,0.03);
+  background:
+    rgba(255,255,255,0.03);
 
   border:none;
 
@@ -133,16 +151,17 @@ body{
     0 0 18px 18px;
 }
 
-/* LIJST */
+/* DEELNEMERSLIJST */
 
 .lijst{
   width:100%;
+  max-width:360px;
 
   border-collapse:separate;
 
   border-spacing:0 8px;
 
-  margin-bottom:28px;
+  margin:0 auto 28px;
 }
 
 .lijst tr{
@@ -185,12 +204,16 @@ body{
     14px 0 0 14px;
 }
 
-.lijst td:last-child{
+.lijst td:nth-child(2){
+
+  width:100%;
+
+  text-align:left;
+
+  font-weight:600;
 
   border-radius:
     0 14px 14px 0;
-
-  font-weight:600;
 }
 
 /* POULES */
@@ -198,13 +221,16 @@ body{
 #poules{
   width:100%;
   max-width:360px;
+
   margin:0 auto;
 }
 
 .pool{
   width:100%;
   max-width:360px;
+
   table-layout:fixed;
+
   margin:0 auto 24px;
 }
 
@@ -213,33 +239,48 @@ body{
 }
 
 .pool th{
+
   background:transparent;
+
   border:none;
+
   padding:14px;
+
   font-size:15px;
+
   text-align:center;
 }
 
 .pool td{
+
   border:none;
+
   padding:12px;
 }
 
 .pool td:first-child{
+
   width:55%;
+
   text-align:left;
+
   font-weight:600;
 }
 
 .pool td:not(:first-child){
+
   width:11.25%;
+
   text-align:center;
 }
 
 /* STATUS */
 
 .melding{
+
   text-align:center;
+
   color:var(--muted);
+
   padding:30px 0;
 }
