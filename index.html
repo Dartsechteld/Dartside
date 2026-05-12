@@ -90,12 +90,14 @@ body{
 
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
 <script>
 
 const CSV_URL =
 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=1492837350&single=true&output=csv';
 
-const poolen = [
+const poules = [
   { naam:'Poule A', start:11, eind:16 },
   { naam:'Poule B', start:19, eind:24 },
   { naam:'Poule C', start:27, eind:32 },
@@ -106,23 +108,76 @@ const poolen = [
   { naam:'Poule H', start:67, eind:72 }
 ];
 
-function parseCSV(csv){
+function cel(data, rij, kolom){
 
-  const rows = csv.split(/\r?\n/);
+  if(!data[rij-1]) return '';
 
-  return rows.map(row => {
+  return data[rij-1][kolom-1] || '';
+}
 
-    const result = [];
-    let current = '';
-    let insideQuotes = false;
+function maakTabel(poule, data){
 
-    for(let i=0;i<row.length;i++){
+  let html = '';
 
-      const char = row[i];
-      const next = row[i+1];
+  html += '<table class="pool">';
 
-      if(char === '"' && next === '"'){
-        current += '"';
-        i++;
+  html += '<tr>';
+  html += '<th colspan="5">' + poule.naam + '</th>';
+  html += '</tr>';
 
+  html += '<tr>';
+  html += '<th>Naam</th>';
+  html += '<th>HF</th>';
+  html += '<th>V</th>';
+  html += '<th>T</th>';
+  html += '<th>P</th>';
+  html += '</tr>';
 
+  for(let rij = poule.start; rij <= poule.eind; rij++){
+
+    html += '<tr>';
+
+    html += '<td>' + cel(data, rij, 2) + '</td>';
+    html += '<td>' + cel(data, rij, 3) + '</td>';
+    html += '<td>' + cel(data, rij, 4) + '</td>';
+    html += '<td>' + cel(data, rij, 5) + '</td>';
+    html += '<td>' + cel(data, rij, 6) + '</td>';
+
+    html += '</tr>';
+  }
+
+  html += '</table>';
+
+  return html;
+}
+
+Papa.parse(CSV_URL, {
+
+  download:true,
+
+  complete:function(result){
+
+    const data = result.data;
+
+    let html = '';
+
+    poules.forEach(function(poule){
+
+      html += maakTabel(poule, data);
+
+    });
+
+    document.getElementById('poules').innerHTML = html;
+  },
+
+  error:function(error){
+
+    document.getElementById('poules').innerHTML =
+      '<div class="melding">Sheet laden mislukt</div>';
+
+    console.log(error);
+  }
+
+});
+
+</script>
