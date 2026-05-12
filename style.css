@@ -1,11 +1,11 @@
 :root{
-  --bg:#0f5660;
-  --bg-dark:#083f47;
-  --card:#124f58;
-  --blue:#1689d6;
-  --blue-hover:#6ec6ff;
-  --line:rgba(255,255,255,0.28);
+  --bg:#071d22;
+  --card:rgba(255,255,255,0.06);
+  --card-border:rgba(255,255,255,0.08);
+  --accent:#00b4ff;
+  --accent-hover:#52cbff;
   --text:#ffffff;
+  --muted:#9ec7d3;
 }
 
 *{
@@ -15,120 +15,216 @@
 body{
   margin:0;
   min-height:100vh;
+
   background:
-    radial-gradient(circle at top, #19727d 0%, #0f5660 45%, #083f47 100%);
+    radial-gradient(circle at top,
+    #0e3b45 0%,
+    #071d22 65%);
+
   color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
+
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
 }
 
 .page{
   width:100%;
-  max-width:380px;
+  max-width:420px;
   margin:0 auto;
-  padding:20px 15px;
+  padding:24px 16px 40px;
 }
+
+/* LOGO */
 
 .logo-img{
   display:block;
-  width:130px;
-  margin:0 auto 20px;
-  border-radius:14px;
-  box-shadow:0 8px 22px rgba(0,0,0,0.28);
+  width:140px;
+  margin:0 auto 24px;
+
+  border-radius:18px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
 }
+
+/* MENU */
 
 .menu{
   display:flex;
   justify-content:center;
   gap:10px;
-  margin:0 auto 22px;
+  margin-bottom:26px;
 }
 
 .menu a{
-  color:white;
+  padding:10px 16px;
+
+  border-radius:14px;
+
   text-decoration:none;
-  font-size:12px;
-  font-weight:bold;
-  border:1px solid rgba(255,255,255,0.35);
-  border-radius:999px;
-  padding:8px 14px;
-  background:rgba(255,255,255,0.08);
+
+  font-size:13px;
+  font-weight:600;
+
+  color:white;
+
+  background:var(--card);
+
+  border:1px solid
+    var(--card-border);
+
+  backdrop-filter:blur(12px);
+
   transition:0.2s;
 }
 
 .menu a:hover,
 .menu a.active{
-  background:var(--blue);
-  border-color:var(--blue-hover);
-  color:white;
-  box-shadow:0 4px 14px rgba(0,0,0,0.25);
+
+  background:var(--accent);
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 6px 20px rgba(0,180,255,0.35);
 }
 
-table{
-  width:100%;
-  border-collapse:separate;
-  border-spacing:0;
+/* INFO */
+
+.info{
   margin-bottom:18px;
-  overflow:hidden;
-  border-radius:10px;
-  background:rgba(255,255,255,0.06);
-  box-shadow:0 6px 18px rgba(0,0,0,0.18);
-}
-
-th,
-td{
-  border-bottom:1px solid var(--line);
-  padding:7px 8px;
-  font-size:12px;
-}
-
-tr:last-child td{
-  border-bottom:none;
-}
-
-.info th,
-.info td{
-  text-align:center;
-  font-weight:bold;
 }
 
 .info th{
-  background:rgba(255,255,255,0.12);
+  padding:14px;
+
+  font-size:15px;
+
+  background:var(--card);
+
+  border:none;
+
+  border-radius:
+    18px 18px 0 0;
 }
 
-.pool th,
-.pool td{
+.info td{
+  padding:10px;
+
+  color:var(--muted);
+
+  background:rgba(255,255,255,0.03);
+
+  border:none;
+
   text-align:center;
+
+  border-radius:
+    0 0 18px 18px;
 }
 
-.pool th{
-  background:rgba(255,255,255,0.12);
-}
-
-.pool td:first-child{
-  text-align:left;
-  font-weight:bold;
-}
+/* LIJST */
 
 .lijst{
   width:100%;
-  table-layout:fixed;
+
+  border-collapse:separate;
+
+  border-spacing:0 8px;
+
+  margin-bottom:28px;
+}
+
+.lijst tr{
+
+  background:var(--card);
+
+  backdrop-filter:blur(10px);
+
+  transition:0.2s;
+}
+
+.lijst tr:hover{
+
+  transform:scale(1.01);
+
+  background:
+    rgba(255,255,255,0.09);
+}
+
+.lijst td{
+
+  border:none;
+
+  padding:14px 12px;
+
+  font-size:14px;
 }
 
 .lijst td:first-child{
-  width:34px;
+
+  width:46px;
+
   text-align:center;
-  font-weight:bold;
-  color:#bfeeff;
+
+  color:var(--accent);
+
+  font-weight:700;
+
+  border-radius:
+    14px 0 0 14px;
 }
 
-.lijst td:nth-child(2){
-  width:100%;
-  padding-left:8px;
-  font-weight:bold;
-  text-align:left;
+.lijst td:last-child{
+
+  border-radius:
+    0 14px 14px 0;
+
+  font-weight:600;
 }
+
+/* POULES */
+
+.pool{
+
+  border-collapse:separate;
+
+  border-spacing:0 10px;
+}
+
+.pool tr{
+
+  background:var(--card);
+}
+
+.pool th{
+
+  background:transparent;
+
+  border:none;
+
+  padding:14px;
+
+  font-size:15px;
+}
+
+.pool td{
+
+  border:none;
+
+  padding:12px;
+}
+
+.pool td:first-child{
+  font-weight:600;
+}
+
+/* STATUS */
 
 .melding{
   text-align:center;
-  font-weight:bold;
+  color:var(--muted);
+  padding:30px 0;
 }
