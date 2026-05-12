@@ -96,155 +96,67 @@ href="style.css">
 "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
 <script>
-
-/* GOOGLE SHEET CSV */
-
 const sheetUrl =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
 
-/* START */
-
 loadSheet();
-
-/* AUTO REFRESH */
-
-setInterval(
-  loadSheet,
-  30000
-);
-
-/* LOAD SHEET */
+setInterval(loadSheet, 30000);
 
 function loadSheet(){
 
-  Papa.parse(
-    sheetUrl + "&t=" + Date.now(),
+  Papa.parse(sheetUrl + "&t=" + Date.now(), {
+    download:true,
 
-    {
+    complete:function(result){
 
-      download:true,
+      const data = result.data;
 
-      complete:function(result){
+      document.getElementById("deelnemers").innerHTML = "";
+      document.getElementById("reserve").innerHTML = "";
 
-        document
-          .getElementById(
-            "deelnemers"
-          )
-          .innerHTML = "";
+      // Deelnemers B13:C44
+      for(let i = 12; i <= 43; i++){
+        const nummer = data[i]?.[1] || "";
+        const naam   = data[i]?.[2] || "";
 
-        document
-          .getElementById(
-            "reserve"
-          )
-          .innerHTML = "";
-
-        const data =
-          result.data;
-
-        let mode =
-          "deelnemers";
-
-        data.forEach(
-          function(row){
-
-          const nummer =
-            row[0] || "";
-
-          const naam =
-            row[1] || "";
-
-          const text =
-            row.join(" ")
-            .toLowerCase();
-
-          /* RESERVE */
-
-          if(
-            text.includes(
-              "reserve"
-            )
-          ){
-            mode =
-              "reserve";
-
-            return;
-          }
-
-          /* ALLEEN NUMMERS */
-
-          if(
-            nummer.trim() === ""
-            ||
-            isNaN(
-              Number(nummer)
-            )
-          ){
-            return;
-          }
-
-          /* RIJ TOEVOEGEN */
-
-          addRow(
-            mode,
-            nummer,
-            naam
-          );
-
-        });
-
-      },
-
-      error:function(error){
-
-        console.log(error);
-
+        if(nummer.trim() !== "" || naam.trim() !== ""){
+          addRow("deelnemers", nummer, naam);
+        }
       }
 
+      // Reserve B47:C78
+      for(let i = 46; i <= 77; i++){
+        const nummer = data[i]?.[1] || "";
+        const naam   = data[i]?.[2] || "";
+
+        if(nummer.trim() !== "" || naam.trim() !== ""){
+          addRow("reserve", nummer, naam);
+        }
+      }
+    },
+
+    error:function(error){
+      console.log(error);
     }
-
-  );
-
+  });
 }
 
-/* ADD ROW */
+function addRow(tableId, nummer, naam){
 
-function addRow(
-  tableId,
-  nummer,
-  naam
-){
-
-  const table =
-    document
-    .getElementById(
-      tableId
-    );
-
-  const tr =
-    document
-    .createElement("tr");
+  const table = document.getElementById(tableId);
+  const tr = document.createElement("tr");
 
   tr.innerHTML = `
-
-    <td>
-      ${nummer}
-    </td>
-
-    <td>
-      ${naam}
-    </td>
-
-    <td>
-      <input type="checkbox">
-    </td>
-
+    <td>${nummer}</td>
+    <td>${naam}</td>
+    <td><input type="checkbox"></td>
   `;
 
   table.appendChild(tr);
-
 }
-
 </script>
 
 </body>
