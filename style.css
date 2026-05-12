@@ -52,10 +52,12 @@ body{
 /* MENU */
 
 .menu{
+  width:100%;
+  max-width:360px;
   display:flex;
   justify-content:center;
   gap:10px;
-  margin-bottom:26px;
+  margin:0 auto 26px;
 }
 
 .menu a{
@@ -189,7 +191,9 @@ body{
 
 .pool{
   width:100%;
+  max-width:360px;
   table-layout:fixed;
+  margin:0 auto 24px;
 }
 
 .pool tr{
