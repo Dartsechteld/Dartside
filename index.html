@@ -143,5 +143,28 @@ setInterval(laadPoules, 30000);
 
 </script>
 
+    
+<script>
+fetch("menu.html")
+  .then(r => r.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+
+    const links =
+      document.querySelectorAll(".menu a");
+
+    links.forEach(link => {
+
+      if(
+        link.href === window.location.href
+      ){
+        link.classList.add("active");
+      }
+
+    });
+  });
+</script>
+  
+
 </body>
 </html>
