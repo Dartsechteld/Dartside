@@ -254,14 +254,10 @@ body{
 }
 
 .pool th{
-  background:transparent;
-
+  background:var(--card);
   border:none;
-
   padding:14px;
-
   font-size:15px;
-
   text-align:center;
 }
 
@@ -306,6 +302,17 @@ body{
 .pool tr:first-child th:first-child{
   border-radius:18px;
 }
+
+.pool tr:nth-child(2) th:first-child{
+  border-radius:14px 0 0 14px;
+}
+
+.pool tr:nth-child(2) th:last-child{
+  border-radius:0 14px 14px 0;
+}
+
+
+
 /* STATUS */
 
 .melding{
