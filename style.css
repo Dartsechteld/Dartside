@@ -114,12 +114,6 @@ td{
   text-align:left;
 }
 
-.lijst td:last-child{
-  width:28px;
-  text-align:center;
-}
-
-
 
 /* MELDING */
 
@@ -128,9 +122,3 @@ td{
   font-weight:bold;
 }
 
-/* CHECKBOX */
-
-input[type="checkbox"]{
-  width:12px;
-  height:12px;
-}
