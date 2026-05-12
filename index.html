@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Darts Echteld</title>
+
 <link rel="icon" type="image/png" href="logo.png">
+
 <style>
+
 :root{
   --bg:#0f5660;
   --line:#ffffff;
@@ -53,6 +58,7 @@ body{
   text-align:center;
   font-weight:bold;
 }
+
 </style>
 </head>
 
@@ -60,7 +66,7 @@ body{
 
 <div class="page">
 
-<img src="logo.png" class="logo-img" alt="Darts Echteld">
+  <img src="logo.png" class="logo-img" alt="Darts Echteld">
 
   <div id="poules">
     <div class="melding">Laden...</div>
@@ -88,7 +94,9 @@ const poules = [
 
 function cel(data, rij, kolom){
 
-  if(!data[rij-1]) return '';
+  if(!data[rij-1]){
+    return '';
+  }
 
   return data[rij-1][kolom-1] || '';
 }
@@ -96,6 +104,8 @@ function cel(data, rij, kolom){
 function maakTabel(poule, data){
 
   let html = '';
+
+  let aantalSpelers = 0;
 
   html += '<table class="pool">';
 
@@ -111,63 +121,73 @@ function maakTabel(poule, data){
   html += '<th>P</th>';
   html += '</tr>';
 
-let aantalSpelers = 0;
+  for(let rij = poule.start; rij <= poule.eind; rij++){
 
-for(let rij = poule.start; rij <= poule.eind; rij++){
+    const naam = cel(data, rij, 2);
 
-  const naam = cel(data, rij, 2);
+    if(naam.trim() === ''){
+      continue;
+    }
 
-  if(naam.trim() === ''){
-    continue;
+    aantalSpelers++;
+
+    html += '<tr>';
+
+    html += '<td>' + naam + '</td>';
+    html += '<td>' + cel(data, rij, 3) + '</td>';
+    html += '<td>' + cel(data, rij, 4) + '</td>';
+    html += '<td>' + cel(data, rij, 5) + '</td>';
+    html += '<td>' + cel(data, rij, 6) + '</td>';
+
+    html += '</tr>';
   }
 
-  aantalSpelers++;
-
-  html += '<tr>';
-  html += '<td>' + naam + '</td>';
-  html += '<td>' + cel(data, rij, 3) + '</td>';
-  html += '<td>' + cel(data, rij, 4) + '</td>';
-  html += '<td>' + cel(data, rij, 5) + '</td>';
-  html += '<td>' + cel(data, rij, 6) + '</td>';
-  html += '</tr>';
-}
-
-if(aantalSpelers === 0){
-  return '';
-}
-
   html += '</table>';
+
+  if(aantalSpelers === 0){
+    return '';
+  }
 
   return html;
 }
 
-Papa.parse(CSV_URL, {
+function laadPoules(){
 
-  download:true,
+  Papa.parse(CSV_URL + '&t=' + Date.now(), {
 
-  complete:function(result){
+    download:true,
 
-    const data = result.data;
+    complete:function(result){
 
-    let html = '';
+      const data = result.data;
 
-    poules.forEach(function(poule){
+      let html = '';
 
-      html += maakTabel(poule, data);
+      poules.forEach(function(poule){
 
-    });
+        html += maakTabel(poule, data);
 
-    document.getElementById('poules').innerHTML = html;
-  },
+      });
 
-  error:function(error){
+      document.getElementById('poules').innerHTML = html;
+    },
 
-    document.getElementById('poules').innerHTML =
-      '<div class="melding">Sheet laden mislukt</div>';
+    error:function(error){
 
-    console.log(error);
-  }
+      document.getElementById('poules').innerHTML =
+        '<div class="melding">Sheet laden mislukt</div>';
 
-});
+      console.log(error);
+    }
+
+  });
+}
+
+laadPoules();
+
+setInterval(laadPoules, 30000);
 
 </script>
+
+</body>
+</html>
