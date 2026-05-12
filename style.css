@@ -1,9 +1,10 @@
 :root{
   --bg:#0f5660;
-  --menu:#083f47;
-  --blue:#0b7fc3;
-  --blue-hover:#62b5ff;
-  --line:#ffffff;
+  --bg-dark:#083f47;
+  --card:#124f58;
+  --blue:#1689d6;
+  --blue-hover:#6ec6ff;
+  --line:rgba(255,255,255,0.28);
   --text:#ffffff;
 }
 
@@ -13,35 +14,33 @@
 
 body{
   margin:0;
-  background:var(--bg);
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top, #19727d 0%, #0f5660 45%, #083f47 100%);
   color:var(--text);
   font-family:Arial,Helvetica,sans-serif;
 }
 
-/* PAGINA */
-
 .page{
   width:100%;
-  max-width:360px;
+  max-width:380px;
   margin:0 auto;
-  padding:15px;
+  padding:20px 15px;
 }
-
-/* LOGO */
 
 .logo-img{
   display:block;
-  width:120px;
+  width:130px;
   margin:0 auto 20px;
+  border-radius:14px;
+  box-shadow:0 8px 22px rgba(0,0,0,0.28);
 }
-
-/* MENU */
 
 .menu{
   display:flex;
   justify-content:center;
-  gap:8px;
-  margin:0 auto 20px;
+  gap:10px;
+  margin:0 auto 22px;
 }
 
 .menu a{
@@ -49,45 +48,42 @@ body{
   text-decoration:none;
   font-size:12px;
   font-weight:bold;
-  border:1px solid white;
-  padding:6px 10px;
-  background:var(--blue);
+  border:1px solid rgba(255,255,255,0.35);
+  border-radius:999px;
+  padding:8px 14px;
+  background:rgba(255,255,255,0.08);
   transition:0.2s;
 }
 
 .menu a:hover,
 .menu a.active{
-  background:var(--blue-hover);
-  color:#083f47;
+  background:var(--blue);
+  border-color:var(--blue-hover);
+  color:white;
+  box-shadow:0 4px 14px rgba(0,0,0,0.25);
 }
-
-/* ALGEMENE TABELLEN */
 
 table{
   width:100%;
-  border-collapse:collapse;
+  border-collapse:separate;
+  border-spacing:0;
   margin-bottom:18px;
+  overflow:hidden;
+  border-radius:10px;
+  background:rgba(255,255,255,0.06);
+  box-shadow:0 6px 18px rgba(0,0,0,0.18);
 }
 
 th,
 td{
-  border:1px solid var(--line);
-  padding:4px;
+  border-bottom:1px solid var(--line);
+  padding:7px 8px;
   font-size:12px;
 }
 
-/* POULE TABELLEN */
-
-.pool th,
-.pool td{
-  text-align:center;
+tr:last-child td{
+  border-bottom:none;
 }
-
-.pool td:first-child{
-  text-align:left;
-}
-
-/* INFO BLOKKEN */
 
 .info th,
 .info td{
@@ -95,7 +91,23 @@ td{
   font-weight:bold;
 }
 
-/* DEELNEMERSLIJST */
+.info th{
+  background:rgba(255,255,255,0.12);
+}
+
+.pool th,
+.pool td{
+  text-align:center;
+}
+
+.pool th{
+  background:rgba(255,255,255,0.12);
+}
+
+.pool td:first-child{
+  text-align:left;
+  font-weight:bold;
+}
 
 .lijst{
   width:100%;
@@ -103,22 +115,20 @@ td{
 }
 
 .lijst td:first-child{
-  width:24px;
+  width:34px;
   text-align:center;
+  font-weight:bold;
+  color:#bfeeff;
 }
 
 .lijst td:nth-child(2){
   width:100%;
-  padding-left:6px;
+  padding-left:8px;
   font-weight:bold;
   text-align:left;
 }
-
-
-/* MELDING */
 
 .melding{
   text-align:center;
   font-weight:bold;
 }
-
