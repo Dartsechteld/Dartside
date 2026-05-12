@@ -39,11 +39,11 @@ href="style.css">
 
   <div class="affiche-container">
 
-    <img
-      src="affiche.jpg"
-      class="affiche-img"
-      alt="Affiche"
-    >
+<img
+  src="affiche.png"
+  class="affiche-img"
+  alt="Affiche"
+>
 
   </div>
 
