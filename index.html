@@ -4,106 +4,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<link rel="stylesheet" href="style.css">
+  
 <title>Darts Echteld</title>
 
 <link rel="icon" type="image/png" href="logo.png">
 
-<style>
 
-:root{
-  --bg:#0f5660;
-  --line:#ffffff;
-  --text:#ffffff;
-}
-
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-}
-
-.page{
-  max-width:360px;
-  margin:auto;
-  padding:15px;
-}
-
-.logo-img{
-  display:block;
-  width:120px;
-  margin:0 auto 20px;
-}
-
-.pool{
-  width:100%;
-  border-collapse:collapse;
-  margin-bottom:20px;
-}
-
-.pool th,
-.pool td{
-  border:1px solid var(--line);
-  padding:4px;
-  font-size:12px;
-  text-align:center;
-}
-
-.pool td:first-child{
-  text-align:left;
-}
-
-.melding{
-  text-align:center;
-  font-weight:bold;
-}
-
-.menu {
-  width: 220px;
-  background: #083f47;
-  padding: 8px 12px;
-  box-sizing: border-box;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-
-  margin: 0 auto;
-}
-.menu a {
-  color: white;
-  text-decoration: none;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  border: 1px solid white;
-  padding: 4px 8px;
-  background: #0b7fc3;
-}
-
-.menu a:hover {
-  background: #62b5ff;
-  color: #083f47;
-}
-  
-
-</style>
 </head>
 
 <body>
 
-<nav class="menu">
-  <a href="index.html">Poulestand</a>
-  <a href="Deelnemers.html">Deelnemers</a>
-</nav>
-
-  
+ 
 <div class="page">
 
   <img src="logo.png" class="logo-img" alt="Darts Echteld">
-
+  
+<nav class="menu">
+  <a class="active" href="index.html">Poulestand</a>
+  <a href="Deelnemers.html">Deelnemers</a>
+</nav>
+  
   <div id="poules">
     <div class="melding">Laden...</div>
   </div>
