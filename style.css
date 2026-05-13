@@ -71,14 +71,12 @@ body::before{
     rgba(0,0,0,0.35);
 }
 
-/* MENU */
-
 .menu{
   width:100%;
-  max-width:360px;
+  max-width:540px;
 
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(3, 1fr);
   gap:10px;
 
   margin:0 auto 26px;
@@ -119,6 +117,17 @@ body::before{
   box-shadow:
     0 6px 20px
     rgba(0,180,255,0.35);
+}
+
+/* SMALLER SCHERM: 2 KNOPPEN NAAST ELKAAR */
+
+@media(max-width:420px){
+
+  .menu{
+    max-width:360px;
+    grid-template-columns:repeat(2, 1fr);
+  }
+
 }
 
 /* INFO BLOKKEN */
