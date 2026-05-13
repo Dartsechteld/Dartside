@@ -428,3 +428,15 @@ body::before{
 
   border-radius:14px;
 }
+
+.info .datum-img{
+  width:220px;
+  max-width:100%;
+  height:auto;
+  max-height:90px;
+  object-fit:contain;
+}
+
+.info td{
+  overflow:hidden;
+}
