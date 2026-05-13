@@ -441,97 +441,64 @@ body::before{
   overflow:hidden;
 }
 
-/* UITSLAGEN COMPACT */
+/* UITSLAGEN - COMPACT OVERRIDE */
 
-.table-wrap{
-  width:100%;
-  max-width:360px;
-  overflow-x:hidden;
+#uitslagenTable{
+  width:100% !important;
+  border-collapse:separate !important;
+  border-spacing:0 6px !important;
+  table-layout:fixed !important;
+  margin-top:14px !important;
 }
 
-.uitslagen{
-  width:100%;
-
-  border-collapse:separate;
-  border-spacing:0 8px;
-
-  table-layout:fixed;
-
-  margin:16px auto 22px;
+#uitslagenTable th,
+#uitslagenTable td{
+  background:rgba(255,255,255,0.07) !important;
+  border:none !important;
+  padding:8px 3px !important;
+  font-size:10px !important;
+  font-weight:700 !important;
+  color:white !important;
+  text-align:center !important;
+  white-space:nowrap !important;
 }
 
-.uitslagen th,
-.uitslagen td{
-  background:var(--card);
-  border:none;
-
-  padding:9px 4px;
-
-  color:white;
-
-  font-size:11px;
-  font-weight:700;
-
-  text-align:center;
-  white-space:nowrap;
+#uitslagenTable th{
+  background:rgba(255,255,255,0.10) !important;
 }
 
-.uitslagen th{
-  background:rgba(255,255,255,0.10);
+#uitslagenTable th:first-child,
+#uitslagenTable td:first-child{
+  width:8% !important;
+  border-radius:10px 0 0 10px !important;
 }
 
-.uitslagen td{
-  background:rgba(255,255,255,0.07);
+#uitslagenTable th:nth-child(2),
+#uitslagenTable td:nth-child(2){
+  width:24% !important;
+  text-align:left !important;
+  padding-left:6px !important;
 }
 
-.uitslagen tbody tr:hover td{
-  background:rgba(255,255,255,0.12);
+#uitslagenTable th:nth-child(3),
+#uitslagenTable td:nth-child(3){
+  width:24% !important;
+  text-align:left !important;
+  padding-left:6px !important;
 }
 
-/* ronde hoeken */
-
-.uitslagen th:first-child,
-.uitslagen td:first-child{
-  border-radius:12px 0 0 12px;
+#uitslagenTable th:nth-child(4),
+#uitslagenTable td:nth-child(4){
+  width:16% !important;
 }
 
-.uitslagen th:last-child,
-.uitslagen td:last-child{
-  border-radius:0 12px 12px 0;
+#uitslagenTable th:nth-child(5),
+#uitslagenTable td:nth-child(5){
+  width:14% !important;
 }
 
-/* kolombreedtes */
-
-.uitslagen th:nth-child(1),
-.uitslagen td:nth-child(1){
-  width:8%;
-}
-
-.uitslagen th:nth-child(2),
-.uitslagen td:nth-child(2){
-  width:25%;
-  text-align:left;
-  padding-left:8px;
-}
-
-.uitslagen th:nth-child(3),
-.uitslagen td:nth-child(3){
-  width:25%;
-  text-align:left;
-  padding-left:8px;
-}
-
-.uitslagen th:nth-child(4),
-.uitslagen td:nth-child(4){
-  width:16%;
-}
-
-.uitslagen th:nth-child(5),
-.uitslagen td:nth-child(5){
-  width:13%;
-}
-
-.uitslagen th:nth-child(6),
-.uitslagen td:nth-child(6){
-  width:13%;
+#uitslagenTable th:nth-child(6),
+#uitslagenTable td:nth-child(6){
+  width:14% !important;
+  border-radius:0 10px 10px 0 !important;
 }
