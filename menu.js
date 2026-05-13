@@ -9,7 +9,7 @@ const menuItems = [
   },
   {
     naam: "Poulefase",
-    link: "uitslagen.html"
+    link: "uitslagpoule.html"
   },
   {
     naam: "Poulestand",
@@ -21,7 +21,7 @@ const menuItems = [
   },
   {
     naam: "Knock-out B",
-    link: "knockoutB.html"
+    link: "knockoutb.html"
   }
 ];
 
