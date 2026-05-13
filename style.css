@@ -416,3 +416,14 @@ body::before{
   color:var(--accent);
   font-size:18px;
 }
+
+.datum-img{
+  width:100%;
+  max-width:220px;
+
+  display:block;
+
+  margin:0 auto;
+
+  border-radius:14px;
+}
