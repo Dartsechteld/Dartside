@@ -451,14 +451,14 @@ body::before{
 
 .uitslagen{
   width:100%;
-  min-width:420px;
+  min-width:480px;
 
   border-collapse:separate;
-  border-spacing:0 8px;
+  border-spacing:0 10px;
 
   table-layout:fixed;
 
-  margin:0 auto 20px;
+  margin-top:20px;
 }
 
 .uitslagen th,
@@ -467,9 +467,9 @@ body::before{
 
   border:none;
 
-  padding:10px 6px;
+  padding:12px 6px;
 
-  font-size:12px;
+  font-size:13px;
 
   text-align:center;
 
@@ -484,40 +484,65 @@ body::before{
   font-weight:600;
 }
 
+/* afgeronde hoeken */
+
 .uitslagen th:first-child,
 .uitslagen td:first-child{
-  border-radius:12px 0 0 12px;
+  border-radius:14px 0 0 14px;
 }
 
 .uitslagen th:last-child,
 .uitslagen td:last-child{
-  border-radius:0 12px 12px 0;
+  border-radius:0 14px 14px 0;
 }
 
-.uitslagen td:nth-child(2),
-.uitslagen td:nth-child(3){
-  text-align:left;
+/* hover */
+
+.uitslagen tbody tr:hover td{
+  background:rgba(255,255,255,0.10);
 }
+
+/* nr */
 
 .uitslagen th:nth-child(1),
 .uitslagen td:nth-child(1){
-  width:35px;
+  width:40px;
 }
 
+/* speler 1 */
+
 .uitslagen th:nth-child(2),
-.uitslagen td:nth-child(2),
+.uitslagen td:nth-child(2){
+  width:120px;
+  text-align:left;
+  padding-left:14px;
+}
+
+/* speler 2 */
+
 .uitslagen th:nth-child(3),
 .uitslagen td:nth-child(3){
-  width:110px;
+  width:120px;
+  text-align:left;
+  padding-left:14px;
 }
+
+/* uitslag */
 
 .uitslagen th:nth-child(4),
 .uitslagen td:nth-child(4){
   width:55px;
 }
 
+/* score 1 */
+
 .uitslagen th:nth-child(5),
-.uitslagen td:nth-child(5),
+.uitslagen td:nth-child(5){
+  width:35px;
+}
+
+/* score 2 */
+
 .uitslagen th:nth-child(6),
 .uitslagen td:nth-child(6){
   width:35px;
