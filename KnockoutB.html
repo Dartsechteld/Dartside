@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Darts Knock-out B</title>
+
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="page">
+
+  <img src="logo.png" class="logo-img" alt="Darts">
+
+  <div id="menu"></div>
+
+  <div id="knockout">
+    <div class="melding">Laden...</div>
+  </div>
+
+</div>
+
+<script src="menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script>
+
+const sheetUrl =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=641160592&single=true&output=csv";
+
+window.addEventListener("load", function(){
+
+  loadKnockout();
+
+  setInterval(loadKnockout, 10000);
+
+});
+
+function cel(data, rij, kolom){
+  return data[rij]?.[kolom] || "";
+}
+
+function titel(text){
+  return `
+    <div class="ronde-titel">
+      ${text}
+    </div>
+  `;
+}
+
+function match(speler1, score1, speler2, score2){
+  return `
+    <div class="match">
+
+      <div class="player">
+        <span>${speler1}</span>
+        <strong>${score1}</strong>
+      </div>
+
+      <div class="player">
+        <span>${speler2}</span>
+        <strong>${score2}</strong>
+      </div>
+
+    </div>
+  `;
+}
+
+function loadKnockout(){
+
+  Papa.parse(sheetUrl + "&t=" + Date.now(), {
+
+    download: true,
+
+    complete: function(result){
+
+      const data = result.data;
+
+      let html = "";
+
+      html += titel("Knock-out B");
+
+      html += titel("Achtste finale");
+
+      // Google Sheet D38:D53 / E38:E53
+      for(let i = 37; i <= 51; i += 2){
+
+        html += match(
+          cel(data, i, 3),
+          cel(data, i, 4),
+          cel(data, i + 1, 3),
+          cel(data, i + 1, 4)
+        );
+
+      }
+
+      html += titel("Kwartfinale");
+
+      // Google Sheet D54:D61 / E54:E61
+      for(let i = 53; i <= 59; i += 2){
+
+        html += match(
+          cel(data, i, 3),
+          cel(data, i, 4),
+          cel(data, i + 1, 3),
+          cel(data, i + 1, 4)
+        );
+
+      }
+
+      html += titel("Halve finale");
+
+      // Google Sheet D62:D65 / E62:E65
+      for(let i = 61; i <= 63; i += 2){
+
+        html += match(
+          cel(data, i, 3),
+          cel(data, i, 4),
+          cel(data, i + 1, 3),
+          cel(data, i + 1, 4)
+        );
+
+      }
+
+      html += titel("Finale");
+
+      // Google Sheet D66:D67 / E66:E67
+      html += match(
+        cel(data, 65, 3),
+        cel(data, 65, 4),
+        cel(data, 66, 3),
+        cel(data, 66, 4)
+      );
+
+      document.getElementById("knockout").innerHTML = html;
+
+    },
+
+    error: function(error){
+
+      console.log(error);
+
+      document.getElementById("knockout").innerHTML =
+        '<div class="melding">Sheet laden mislukt</div>';
+
+    }
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
