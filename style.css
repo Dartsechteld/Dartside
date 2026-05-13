@@ -533,3 +533,8 @@ body::before{
   width:15% !important;
   border-radius:0 10px 10px 0 !important;
 }
+
+#uitslagenTable th,
+#uitslagenTable td{
+  text-align:center !important;
+}
