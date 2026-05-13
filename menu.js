@@ -22,7 +22,7 @@ const menuItems = [
   {
     naam: "Knock-out B",
     link: "knockoutb.html"
-  }
+  },
   
   {
   naam: "Invoer",
