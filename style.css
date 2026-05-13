@@ -355,3 +355,61 @@ body::before{
 
   object-fit:cover;
 }
+
+#knockout{
+  width:100%;
+  max-width:360px;
+}
+
+.ronde-titel{
+  margin:28px 0 14px;
+
+  padding:14px;
+
+  text-align:center;
+
+  font-size:18px;
+  font-weight:700;
+
+  border-radius:18px;
+
+  background:var(--card);
+}
+
+.match{
+  margin-bottom:14px;
+
+  border-radius:18px;
+
+  overflow:hidden;
+
+  background:var(--card);
+
+  backdrop-filter:blur(10px);
+}
+
+.player{
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:14px 16px;
+
+  border-bottom:1px solid
+    rgba(255,255,255,0.06);
+}
+
+.player:last-child{
+  border-bottom:none;
+}
+
+.player span{
+  font-weight:600;
+}
+
+.player strong{
+  color:var(--accent);
+  font-size:18px;
+}
