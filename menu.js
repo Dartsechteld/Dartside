@@ -32,26 +32,21 @@ if(menu){
   menu.className = "menu";
 
   const huidigePagina =
-    window.location.pathname.split("/").pop() || "index.html";
+    window.location.pathname.split("/").pop().toLowerCase() || "index.html";
 
   let html = "";
 
   menuItems.forEach(function(item){
 
     const actief =
-      huidigePagina === item.link ? "active" : "";
+      huidigePagina === item.link.toLowerCase() ? "active" : "";
 
-    html += `
-      <a href="${item.link}" class="${actief}">
-        ${item.naam}
-      </a>
-    `;
+    html +=
+      '<a href="' + item.link + '" class="' + actief + '">' +
+      item.naam +
+      '</a>';
 
   });
-
-  menu.innerHTML = html;
-
-}
 
   menu.innerHTML = html;
 
