@@ -418,8 +418,9 @@ body::before{
 }
 
 .datum-img{
-  width:100%;
+  width:auto;
   max-width:220px;
+  max-height:90px;
 
   display:block;
 
