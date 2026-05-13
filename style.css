@@ -443,62 +443,93 @@ body::before{
 
 /* UITSLAGEN - COMPACT OVERRIDE */
 
+.table-wrap{
+  width:100% !important;
+  max-width:360px !important;
+  overflow-x:hidden !important;
+  margin:0 auto !important;
+}
+
 #uitslagenTable{
   width:100% !important;
+  max-width:360px !important;
+
   border-collapse:separate !important;
   border-spacing:0 6px !important;
+
   table-layout:fixed !important;
-  margin-top:14px !important;
+
+  margin:14px auto 0 !important;
 }
 
 #uitslagenTable th,
 #uitslagenTable td{
   background:rgba(255,255,255,0.07) !important;
+
   border:none !important;
+
   padding:8px 3px !important;
+
   font-size:12px !important;
   font-weight:700 !important;
+
   color:white !important;
+
   text-align:center !important;
+
   white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
 }
 
 #uitslagenTable th{
   background:rgba(255,255,255,0.10) !important;
 }
 
+/* nr */
+
 #uitslagenTable th:first-child,
 #uitslagenTable td:first-child{
-  width:8% !important;
+  width:9% !important;
   border-radius:10px 0 0 10px !important;
 }
 
+/* speler 1 */
+
 #uitslagenTable th:nth-child(2),
 #uitslagenTable td:nth-child(2){
-  width:24% !important;
+  width:25% !important;
   text-align:left !important;
-  padding-left:6px !important;
+  padding-left:7px !important;
 }
+
+/* speler 2 */
 
 #uitslagenTable th:nth-child(3),
 #uitslagenTable td:nth-child(3){
-  width:24% !important;
+  width:25% !important;
   text-align:left !important;
-  padding-left:6px !important;
+  padding-left:7px !important;
 }
+
+/* s1 */
 
 #uitslagenTable th:nth-child(4),
 #uitslagenTable td:nth-child(4){
-  width:16% !important;
+  width:10% !important;
 }
+
+/* uitslag */
 
 #uitslagenTable th:nth-child(5),
 #uitslagenTable td:nth-child(5){
-  width:14% !important;
+  width:16% !important;
 }
+
+/* s2 */
 
 #uitslagenTable th:nth-child(6),
 #uitslagenTable td:nth-child(6){
-  width:14% !important;
+  width:15% !important;
   border-radius:0 10px 10px 0 !important;
 }
