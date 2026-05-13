@@ -15,7 +15,7 @@ type="image/png"
 href="logo.png">
 
 <link rel="stylesheet"
-href="style.css">
+href="style.css?v=1">
 
 </head>
 
@@ -23,19 +23,13 @@ href="style.css">
 
 <div class="page">
 
-  <!-- LOGO -->
-
   <img
     src="logo.png"
     class="logo-img"
     alt="Darts Echteld"
   >
 
-  <!-- MENU -->
-
   <div id="menu"></div>
-
-  <!-- POULES -->
 
   <div id="poules">
 
@@ -47,9 +41,11 @@ href="style.css">
 
 </div>
 
-<!-- PAPAPARSE -->
+<script src="menu.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script src="autorefresh.js?v=1"></script>
 
 <script>
 
@@ -73,6 +69,17 @@ const poules = [
 
 ];
 
+/* START */
+
+window.addEventListener("load", function(){
+
+  startAutoRefresh(
+    laadPoules,
+    10000
+  );
+
+});
+
 /* CEL UITLEZEN */
 
 function cel(data, rij, kolom){
@@ -95,8 +102,6 @@ function maakTabel(poule, data){
 
   html += '<table class="pool">';
 
-  /* TITEL */
-
   html += '<tr>';
 
   html += `
@@ -107,8 +112,6 @@ function maakTabel(poule, data){
 
   html += '</tr>';
 
-  /* HEADER */
-
   html += '<tr>';
 
   html += '<th>Naam</th>';
@@ -118,8 +121,6 @@ function maakTabel(poule, data){
   html += '<th>P</th>';
 
   html += '</tr>';
-
-  /* SPELERS */
 
   for(
     let rij = poule.start;
@@ -178,74 +179,67 @@ function maakTabel(poule, data){
 
 function laadPoules(){
 
-  Papa.parse(
-    CSV_URL + '&t=' + Date.now(),
+  return new Promise(function(resolve){
 
-    {
+    Papa.parse(
+      CSV_URL + '&t=' + Date.now(),
 
-      download:true,
+      {
 
-      complete:function(result){
+        download:true,
 
-        const data =
-          result.data;
+        complete:function(result){
 
-        let html = '';
+          const data =
+            result.data;
 
-        poules.forEach(function(poule){
+          let html = '';
 
-          html +=
-            maakTabel(
-              poule,
-              data
-            );
+          poules.forEach(function(poule){
 
-        });
+            html +=
+              maakTabel(
+                poule,
+                data
+              );
 
-        document
-          .getElementById(
-            'poules'
-          )
-          .innerHTML = html;
+          });
 
-      },
+          document
+            .getElementById(
+              'poules'
+            )
+            .innerHTML = html;
 
-      error:function(error){
+          resolve();
 
-        document
-          .getElementById(
-            'poules'
-          )
-          .innerHTML =
+        },
 
-          '<div class="melding">Sheet laden mislukt</div>';
+        error:function(error){
 
-        console.log(error);
+          document
+            .getElementById(
+              'poules'
+            )
+            .innerHTML =
+
+            '<div class="melding">Sheet laden mislukt</div>';
+
+          console.log(error);
+
+          resolve();
+
+        }
 
       }
 
-    }
+    );
 
-  );
+  });
 
 }
 
-/* START */
-
-laadPoules();
-
-/* AUTO REFRESH */
-
-setInterval(
-  laadPoules,
-  10000
-);
-
 </script>
-
-<!-- MENU -->
-
-<script src="menu.js"></script>
 
 </body>
 
