@@ -442,66 +442,94 @@ body::before{
 }
 
 /* UITSLAGEN */
-/* UITSLAGEN - zelfde stijl als poules */
+/* UITSLAGEN */
 
 .table-wrap{
   width:100%;
-  max-width:360px;
   overflow-x:auto;
 }
 
 .uitslagen{
   width:100%;
   min-width:520px;
+
   border-collapse:separate;
-  border-spacing:0 10px;
-  table-layout:fixed;
-  margin:0 auto 26px;
+  border-spacing:0 12px;
+
+  margin-top:20px;
 }
 
 .uitslagen th{
-  background:var(--card);
-  border:none;
   padding:14px 8px;
-  font-size:14px;
-  text-align:center;
-}
 
-.uitslagen td{
-  border:none;
-  padding:14px 8px;
-  font-size:14px;
-  background:var(--card);
+  font-size:15px;
+  font-weight:700;
+
   text-align:center;
+
+  background:rgba(255,255,255,0.10);
+
+  color:#fff;
+
+  border:none;
+
   white-space:nowrap;
 }
 
+.uitslagen td{
+  padding:16px 8px;
+
+  font-size:15px;
+  font-weight:600;
+
+  text-align:center;
+
+  background:rgba(255,255,255,0.07);
+
+  color:#fff;
+
+  border:none;
+
+  white-space:nowrap;
+}
+
+/* afgeronde hoeken */
+
 .uitslagen th:first-child,
 .uitslagen td:first-child{
-  border-radius:14px 0 0 14px;
+  border-radius:16px 0 0 16px;
 }
 
 .uitslagen th:last-child,
 .uitslagen td:last-child{
-  border-radius:0 14px 14px 0;
+  border-radius:0 16px 16px 0;
 }
 
-.uitslagen td:nth-child(2),
-.uitslagen td:nth-child(3){
-  text-align:left;
-  font-weight:600;
+/* hover */
+
+.uitslagen tbody tr:hover td{
+  background:rgba(255,255,255,0.12);
 }
+
+/* breedtes */
 
 .uitslagen th:nth-child(1),
 .uitslagen td:nth-child(1){
-  width:45px;
+  width:50px;
 }
 
 .uitslagen th:nth-child(2),
-.uitslagen td:nth-child(2),
+.uitslagen td:nth-child(2){
+  width:140px;
+  text-align:left;
+  padding-left:18px;
+}
+
 .uitslagen th:nth-child(3),
 .uitslagen td:nth-child(3){
   width:140px;
+  text-align:left;
+  padding-left:18px;
 }
 
 .uitslagen th:nth-child(4),
@@ -513,5 +541,5 @@ body::before{
 .uitslagen td:nth-child(5),
 .uitslagen th:nth-child(6),
 .uitslagen td:nth-child(6){
-  width:50px;
+  width:45px;
 }
