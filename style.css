@@ -71,6 +71,8 @@ body::before{
     rgba(0,0,0,0.35);
 }
 
+/* MENU */
+
 .menu{
   width:100%;
   max-width:540px;
@@ -89,7 +91,7 @@ body::before{
   align-items:center;
   justify-content:center;
 
-  padding:10px 12px;
+  padding:10px 10px;
 
   border-radius:14px;
 
@@ -119,9 +121,9 @@ body::before{
     rgba(0,180,255,0.35);
 }
 
-/* SMALLER SCHERM: 2 KNOPPEN NAAST ELKAAR */
+/* HEEL SMAL SCHERM: 2 NAAST ELKAAR */
 
-@media(max-width:420px){
+@media(max-width:360px){
 
   .menu{
     max-width:360px;
