@@ -89,11 +89,13 @@ body::before{
 
   padding:8px;
 
-  background:rgba(7,29,34,0.85);
+  background:#071d22;
   border:1px solid var(--card-border);
   border-radius:18px;
 
-  backdrop-filter:blur(14px);
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,0.45);
 }
 
 .menu a{
@@ -115,7 +117,7 @@ body::before{
 
   color:white;
 
-  background:var(--card);
+  background:rgba(255,255,255,0.08);
 
   border:1px solid var(--card-border);
 
