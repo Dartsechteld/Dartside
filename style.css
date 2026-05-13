@@ -440,3 +440,65 @@ body::before{
 .info td{
   overflow:hidden;
 }
+
+/* UITSLAGEN */
+
+.table-wrap{
+  width:100%;
+  max-width:540px;
+  overflow-x:auto;
+}
+
+.uitslagen{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0 14px;
+  table-layout:fixed;
+  margin-top:20px;
+}
+
+.uitslagen th{
+  padding:18px 12px;
+  font-size:22px;
+  font-weight:800;
+  text-align:center;
+  background:rgba(255,255,255,0.10);
+  color:#ffffff;
+  border:none;
+}
+
+.uitslagen td{
+  padding:20px 12px;
+  font-size:21px;
+  font-weight:700;
+  text-align:center;
+  background:rgba(255,255,255,0.07);
+  color:#ffffff;
+  border:none;
+}
+
+.uitslagen th:first-child,
+.uitslagen td:first-child{
+  text-align:left;
+  padding-left:24px;
+  border-radius:18px 0 0 18px;
+}
+
+.uitslagen th:last-child,
+.uitslagen td:last-child{
+  border-radius:0 18px 18px 0;
+}
+
+.uitslagen tbody tr:hover td{
+  background:rgba(255,255,255,0.12);
+}
+
+.uitslagen th:first-child,
+.uitslagen td:first-child{
+  width:34%;
+}
+
+.uitslagen th:not(:first-child),
+.uitslagen td:not(:first-child){
+  width:13.2%;
+}
