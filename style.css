@@ -451,20 +451,28 @@ body::before{
 
 .uitslagen{
   width:100%;
-  min-width:520px;
+  min-width:420px;
+
   border-collapse:separate;
-  border-spacing:0 10px;
+  border-spacing:0 8px;
+
   table-layout:fixed;
-  margin:0 auto 26px;
+
+  margin:0 auto 20px;
 }
 
 .uitslagen th,
 .uitslagen td{
   background:var(--card);
+
   border:none;
-  padding:14px 8px;
-  font-size:14px;
+
+  padding:10px 6px;
+
+  font-size:12px;
+
   text-align:center;
+
   white-space:nowrap;
 }
 
@@ -478,12 +486,12 @@ body::before{
 
 .uitslagen th:first-child,
 .uitslagen td:first-child{
-  border-radius:14px 0 0 14px;
+  border-radius:12px 0 0 12px;
 }
 
 .uitslagen th:last-child,
 .uitslagen td:last-child{
-  border-radius:0 14px 14px 0;
+  border-radius:0 12px 12px 0;
 }
 
 .uitslagen td:nth-child(2),
@@ -493,24 +501,24 @@ body::before{
 
 .uitslagen th:nth-child(1),
 .uitslagen td:nth-child(1){
-  width:45px;
+  width:35px;
 }
 
 .uitslagen th:nth-child(2),
 .uitslagen td:nth-child(2),
 .uitslagen th:nth-child(3),
 .uitslagen td:nth-child(3){
-  width:140px;
+  width:110px;
 }
 
 .uitslagen th:nth-child(4),
 .uitslagen td:nth-child(4){
-  width:70px;
+  width:55px;
 }
 
 .uitslagen th:nth-child(5),
 .uitslagen td:nth-child(5),
 .uitslagen th:nth-child(6),
 .uitslagen td:nth-child(6){
-  width:50px;
+  width:35px;
 }
