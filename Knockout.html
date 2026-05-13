@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Darts Knock-out</title>
+
+<link rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<div class="page">
+
+  <img
+    src="logo.png"
+    class="logo-img"
+    alt="Darts"
+  >
+
+  <div id="menu"></div>
+
+  <div id="knockout"></div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script src="menu.js"></script>
+
+<script>
+
+const sheetUrl =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=JOUW_GID&single=true&output=csv";
+
+loadKnockout();
+
+setInterval(loadKnockout, 30000);
+
+function cel(data, rij, kolom){
+
+  return data[rij]?.[kolom] || "";
+
+}
+
+function wedstrijd(naam1, score1, naam2, score2){
+
+  return `
+    <div class="match">
+
+      <div class="player">
+        <span>${naam1}</span>
+        <strong>${score1}</strong>
+      </div>
+
+      <div class="player">
+        <span>${naam2}</span>
+        <strong>${score2}</strong>
+      </div>
+
+    </div>
+  `;
+}
+
+function rondeTitel(titel){
+
+  return `
+    <div class="ronde-titel">
+      ${titel}
+    </div>
+  `;
+}
+
+function loadKnockout(){
+
+  Papa.parse(
+    sheetUrl + "&t=" + Date.now(),
+
+    {
+
+      download:true,
+
+      complete:function(result){
+
+        const data = result.data;
+
+        let html = "";
+
+        /* ACHTSTE FINALE */
+
+        html += rondeTitel(
+          "Achtste finale"
+        );
+
+        html += wedstrijd(
+          cel(data,3,3),
+          cel(data,3,4),
+          cel(data,4,3),
+          cel(data,4,4)
+        );
+
+        html += wedstrijd(
+          cel(data,5,3),
+          cel(data,5,4),
+          cel(data,6,3),
+          cel(data,6,4)
+        );
+
+        /* KWART */
+
+        html += rondeTitel(
+          "Kwartfinale"
+        );
+
+        /* HERHALEN */
+
+        document
+          .getElementById(
+            "knockout"
+          )
+          .innerHTML = html;
+
+      }
+
+    }
+
+  );
+
+}
+
+</script>
+
+</body>
+
+</html>
