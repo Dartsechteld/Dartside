@@ -8,7 +8,7 @@ const menuItems = [
     link: "deelnemers.html"
   },
   {
-    naam: "poulefase",
+    naam: "Poulefase",
     link: "uitslagen.html"
   },
   {
@@ -31,18 +31,12 @@ if(menu){
 
   menu.className = "menu";
 
-  const huidigePagina =
-    window.location.pathname.split("/").pop() || "index.html";
-
   let html = "";
 
   menuItems.forEach(function(item){
 
-    const actief =
-      huidigePagina === item.link ? "active" : "";
-
     html += `
-      <a href="${item.link}" class="${actief}">
+      <a href="${item.link}">
         ${item.naam}
       </a>
     `;
