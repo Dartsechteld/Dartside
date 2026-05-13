@@ -441,109 +441,97 @@ body::before{
   overflow:hidden;
 }
 
-/* UITSLAGEN */
+/* UITSLAGEN COMPACT */
 
 .table-wrap{
   width:100%;
-  max-width:100%;
-  overflow-x:auto;
+  max-width:360px;
+  overflow-x:hidden;
 }
 
 .uitslagen{
   width:100%;
-  min-width:480px;
 
   border-collapse:separate;
-  border-spacing:0 10px;
+  border-spacing:0 8px;
 
   table-layout:fixed;
 
-  margin-top:20px;
+  margin:16px auto 22px;
 }
 
 .uitslagen th,
 .uitslagen td{
   background:var(--card);
-
   border:none;
 
-  padding:12px 6px;
+  padding:9px 4px;
 
-  font-size:13px;
+  color:white;
+
+  font-size:11px;
+  font-weight:700;
 
   text-align:center;
-
   white-space:nowrap;
 }
 
 .uitslagen th{
-  font-weight:700;
+  background:rgba(255,255,255,0.10);
 }
 
 .uitslagen td{
-  font-weight:600;
+  background:rgba(255,255,255,0.07);
 }
 
-/* afgeronde hoeken */
+.uitslagen tbody tr:hover td{
+  background:rgba(255,255,255,0.12);
+}
+
+/* ronde hoeken */
 
 .uitslagen th:first-child,
 .uitslagen td:first-child{
-  border-radius:14px 0 0 14px;
+  border-radius:12px 0 0 12px;
 }
 
 .uitslagen th:last-child,
 .uitslagen td:last-child{
-  border-radius:0 14px 14px 0;
+  border-radius:0 12px 12px 0;
 }
 
-/* hover */
-
-.uitslagen tbody tr:hover td{
-  background:rgba(255,255,255,0.10);
-}
-
-/* nr */
+/* kolombreedtes */
 
 .uitslagen th:nth-child(1),
 .uitslagen td:nth-child(1){
-  width:40px;
+  width:8%;
 }
-
-/* speler 1 */
 
 .uitslagen th:nth-child(2),
 .uitslagen td:nth-child(2){
-  width:120px;
+  width:25%;
   text-align:left;
-  padding-left:14px;
+  padding-left:8px;
 }
-
-/* speler 2 */
 
 .uitslagen th:nth-child(3),
 .uitslagen td:nth-child(3){
-  width:120px;
+  width:25%;
   text-align:left;
-  padding-left:14px;
+  padding-left:8px;
 }
-
-/* uitslag */
 
 .uitslagen th:nth-child(4),
 .uitslagen td:nth-child(4){
-  width:55px;
+  width:16%;
 }
-
-/* score 1 */
 
 .uitslagen th:nth-child(5),
 .uitslagen td:nth-child(5){
-  width:35px;
+  width:13%;
 }
-
-/* score 2 */
 
 .uitslagen th:nth-child(6),
 .uitslagen td:nth-child(6){
-  width:35px;
+  width:13%;
 }
