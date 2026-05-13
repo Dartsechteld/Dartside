@@ -71,18 +71,18 @@ body::before{
     rgba(0,0,0,0.35);
 }
 
-/* MENU FIXED BOVENIN */
+/* MENU FIXED BOVENIN - ALTIJD 2 KNOPPEN */
 
 .menu{
   width:calc(100% - 32px);
-  max-width:540px;
+  max-width:360px;
 
   position:sticky;
   top:10px;
   z-index:1000;
 
   display:grid;
-  grid-template-columns:repeat(3, 1fr);
+  grid-template-columns:1fr 1fr;
   gap:8px;
 
   margin:0 auto 26px;
