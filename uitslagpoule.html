@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Uitslagen Poulefase</title>
+
+<link rel="icon"
+type="image/png"
+href="logo.png">
+
+<link rel="stylesheet"
+href="style.css">
+
+<style>
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+}
+
+th, td{
+  border:1px solid #444;
+  padding:10px;
+  text-align:center;
+}
+
+th{
+  background:#222;
+  color:white;
+}
+
+tr:nth-child(even){
+  background:#f3f3f3;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+  <img
+    src="logo.png"
+    class="logo-img"
+    alt="Darts"
+  >
+
+  <div id="menu"></div>
+
+  <div class="table-wrap">
+
+    <table id="uitslagenTable">
+
+      <thead></thead>
+
+      <tbody></tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<script src="menu.js"></script>
+
+<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
+</script>
+
+<script>
+
+const sheetUrl =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=641160592&single=true&output=csv";
+
+/* KOLOMMEN:
+   B = 1
+   D = 3
+   E = 4
+   G = 6
+   H = 7
+   I = 8
+*/
+
+const kolommen = [1, 3, 4, 6, 7, 8];
+
+window.addEventListener("load", function(){
+
+  loadUitslagen();
+
+  setInterval(
+    loadUitslagen,
+    10000
+  );
+
+});
+
+function loadUitslagen(){
+
+  Papa.parse(
+
+    sheetUrl + "&t=" + Date.now(),
+
+    {
+
+      download:true,
+
+      complete:function(result){
+
+        const data = result.data;
+
+        let thead = "";
+        let tbody = "";
+
+        /* HEADER RIJ 3 = index 2 */
+
+        thead += "<tr>";
+
+        kolommen.forEach(function(kolom){
+
+          thead += `
+            <th>
+              ${data[2][kolom] || ""}
+            </th>
+          `;
+
+        });
+
+        thead += "</tr>";
+
+        /* DATA VANAF RIJ 4 = index 3 */
+
+        for(let r = 3; r < data.length; r++){
+
+          const row = data[r];
+
+          /* lege regels overslaan */
+
+          if(!row[1]) continue;
+
+          tbody += "<tr>";
+
+          kolommen.forEach(function(kolom){
+
+            tbody += `
+              <td>
+                ${row[kolom] || ""}
+              </td>
+            `;
+
+          });
+
+          tbody += "</tr>";
+
+        }
+
+        document.querySelector(
+          "#uitslagenTable thead"
+        ).innerHTML = thead;
+
+        document.querySelector(
+          "#uitslagenTable tbody"
+        ).innerHTML = tbody;
+
+      },
+
+      error:function(error){
+
+        console.log(error);
+
+      }
+
+    }
+
+  );
+
+}
+
+</script>
+
+</body>
+
+</html>
