@@ -1,1 +1,427 @@
+<!DOCTYPE html>
+<html lang="nl">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Darts Uitslag Invoer</title>
+
+<link rel="icon"
+type="image/png"
+href="logo.png">
+
+<link rel="stylesheet"
+href="style.css?v=4">
+
+<style>
+
+.invoer-box{
+  width:100%;
+  max-width:360px;
+
+  padding:18px;
+
+  background:var(--card);
+
+  border:1px solid var(--card-border);
+  border-radius:18px;
+
+  margin:0 auto 24px;
+}
+
+.invoer-box h2{
+  margin:0 0 16px;
+
+  text-align:center;
+
+  font-size:18px;
+}
+
+.invoer-box label{
+  display:block;
+
+  margin:12px 0 6px;
+
+  color:var(--muted);
+
+  font-size:13px;
+  font-weight:600;
+}
+
+.invoer-box input{
+  width:100%;
+
+  padding:12px;
+
+  border:none;
+  border-radius:12px;
+
+  font-size:16px;
+  font-weight:700;
+
+  text-align:center;
+}
+
+.wedstrijd-info{
+  margin:18px 0;
+
+  padding:14px;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,0.05);
+}
+
+.wedstrijd-info div{
+  display:flex;
+  justify-content:space-between;
+
+  padding:8px 0;
+
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.wedstrijd-info div:last-child{
+  border-bottom:none;
+}
+
+.wedstrijd-info strong{
+  color:var(--accent);
+}
+
+.score-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.invoer-box button{
+  width:100%;
+
+  margin-top:16px;
+
+  padding:12px;
+
+  border:none;
+  border-radius:14px;
+
+  background:var(--accent);
+
+  color:white;
+
+  font-size:15px;
+  font-weight:800;
+
+  cursor:pointer;
+}
+
+.invoer-box button:disabled{
+  opacity:0.45;
+  cursor:not-allowed;
+}
+
+.status{
+  margin-top:14px;
+
+  text-align:center;
+
+  color:var(--muted);
+
+  font-size:13px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+  <img
+    src="logo.png"
+    class="logo-img"
+    alt="Darts Echteld"
+  >
+
+  <div id="menu"></div>
+
+  <div class="invoer-box">
+
+    <h2>Uitslag invoeren</h2>
+
+    <label for="wedstrijdnummer">
+      Wedstrijdnummer
+    </label>
+
+    <input
+      type="number"
+      id="wedstrijdnummer"
+      placeholder="Bijv. 12"
+      oninput="zoekWedstrijd()"
+    >
+
+    <div class="wedstrijd-info">
+
+      <div>
+        <span>Speler 1</span>
+        <strong id="speler1Naam">-</strong>
+      </div>
+
+      <div>
+        <span>Speler 2</span>
+        <strong id="speler2Naam">-</strong>
+      </div>
+
+    </div>
+
+    <div class="score-grid">
+
+      <div>
+        <label for="score1">
+          Score speler 1
+        </label>
+
+        <input
+          type="number"
+          id="score1"
+          min="0"
+          placeholder="0"
+        >
+      </div>
+
+      <div>
+        <label for="score2">
+          Score speler 2
+        </label>
+
+        <input
+          type="number"
+          id="score2"
+          min="0"
+          placeholder="0"
+        >
+      </div>
+
+    </div>
+
+    <button
+      id="opslaanKnop"
+      onclick="opslaanUitslag()"
+      disabled
+    >
+      Opslaan
+    </button>
+
+    <div
+      id="status"
+      class="status"
+    >
+      Wedstrijdnummer invullen
+    </div>
+
+  </div>
+
+</div>
+
+<script src="menu.js?v=4"></script>
+
+<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
+</script>
+
+<script>
+
+const sheetUrl =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=878988781&single=true&output=csv";
+
+/*
+  Later hier je Google Apps Script URL invullen.
+  Zonder deze URL kan de pagina wel zoeken,
+  maar nog niet opslaan.
+*/
+
+const scriptUrl = "";
+
+let sheetData = [];
+let gekozenWedstrijd = null;
+
+window.addEventListener("load", function(){
+
+  laadWedstrijden();
+
+});
+
+function laadWedstrijden(){
+
+  Papa.parse(sheetUrl + "&t=" + Date.now(), {
+
+    download:true,
+
+    complete:function(result){
+
+      sheetData = result.data;
+
+      document.getElementById("status").innerText =
+        "Wedstrijdnummer invullen";
+
+    },
+
+    error:function(error){
+
+      console.log(error);
+
+      document.getElementById("status").innerText =
+        "Wedstrijden laden mislukt";
+
+    }
+
+  });
+
+}
+
+function zoekWedstrijd(){
+
+  const wedstrijdnummer =
+    document.getElementById("wedstrijdnummer").value.trim();
+
+  const speler1Naam =
+    document.getElementById("speler1Naam");
+
+  const speler2Naam =
+    document.getElementById("speler2Naam");
+
+  const status =
+    document.getElementById("status");
+
+  const opslaanKnop =
+    document.getElementById("opslaanKnop");
+
+  speler1Naam.innerText = "-";
+  speler2Naam.innerText = "-";
+  status.innerText = "";
+  opslaanKnop.disabled = true;
+  gekozenWedstrijd = null;
+
+  if(wedstrijdnummer === ""){
+
+    status.innerText =
+      "Wedstrijdnummer invullen";
+
+    return;
+
+  }
+
+  const gevondenRij =
+    sheetData.find(function(row){
+
+      return String(row[1]).trim() === wedstrijdnummer;
+
+    });
+
+  if(!gevondenRij){
+
+    status.innerText =
+      "Wedstrijd niet gevonden";
+
+    return;
+
+  }
+
+  gekozenWedstrijd = {
+    nummer: gevondenRij[1],
+    speler1: gevondenRij[3],
+    speler2: gevondenRij[4]
+  };
+
+  speler1Naam.innerText =
+    gekozenWedstrijd.speler1 || "-";
+
+  speler2Naam.innerText =
+    gekozenWedstrijd.speler2 || "-";
+
+  status.innerText =
+    "Wedstrijd gevonden";
+
+  opslaanKnop.disabled = false;
+
+}
+
+function opslaanUitslag(){
+
+  if(!gekozenWedstrijd){
+    return;
+  }
+
+  const score1 =
+    document.getElementById("score1").value.trim();
+
+  const score2 =
+    document.getElementById("score2").value.trim();
+
+  const status =
+    document.getElementById("status");
+
+  if(score1 === "" || score2 === ""){
+
+    status.innerText =
+      "Vul beide scores in";
+
+    return;
+
+  }
+
+  if(scriptUrl === ""){
+
+    status.innerText =
+      "Opslaan nog niet actief: Apps Script URL ontbreekt";
+
+    return;
+
+  }
+
+  fetch(scriptUrl, {
+
+    method:"POST",
+
+    body:JSON.stringify({
+      wedstrijdnummer: gekozenWedstrijd.nummer,
+      speler1: gekozenWedstrijd.speler1,
+      speler2: gekozenWedstrijd.speler2,
+      score1: score1,
+      score2: score2
+    })
+
+  })
+  .then(function(response){
+    return response.text();
+  })
+  .then(function(text){
+
+    status.innerText =
+      "Uitslag opgeslagen";
+
+    document.getElementById("score1").value = "";
+    document.getElementById("score2").value = "";
+
+  })
+  .catch(function(error){
+
+    console.log(error);
+
+    status.innerText =
+      "Opslaan mislukt";
+
+  });
+
+}
+
+</script>
+
+</body>
+
+</html>
