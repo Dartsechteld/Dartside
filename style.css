@@ -21,6 +21,16 @@ body{
 }
 
 body{
+  color:var(--text);
+  font-family:Inter, Arial, sans-serif;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
 
   background:
     radial-gradient(
@@ -28,15 +38,6 @@ body{
       #0e3b45 0%,
       #071d22 65%
     );
-
-  color:var(--text);
-
-  font-family:
-    Inter,
-    Arial,
-    sans-serif;
-
-  overflow-x:hidden;
 }
 
 /* PAGINA */
