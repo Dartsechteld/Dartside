@@ -1,7 +1,7 @@
 const menuItems = [
   {
     naam: "Datum",
-    link: "index.html"
+    link: "affiche.html"
   },
   {
     naam: "Deelnemers",
@@ -9,11 +9,11 @@ const menuItems = [
   },
   {
     naam: "Poulefase",
-    link: "uitslagpoule.html"
+    link: "index.html"
   },
   {
     naam: "Poulestand",
-    link: "poulestand.html"
+    link: "uitslagpoule.html"
   },
   {
     naam: "Knock-out A",
