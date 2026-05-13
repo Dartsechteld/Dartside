@@ -15,7 +15,7 @@ type="image/png"
 href="logo.png">
 
 <link rel="stylesheet"
-href="style.css">
+href="style.css?v=1">
 
 </head>
 
@@ -23,76 +23,49 @@ href="style.css">
 
 <div class="page">
 
-  <!-- LOGO -->
-
   <img
     src="logo.png"
     class="logo-img"
     alt="Darts"
   >
 
-  <!-- MENU -->
-
   <div id="menu"></div>
 
-  <!-- KNOCKOUT -->
-
   <div id="knockout">
-
     <div class="melding">
       Laden...
     </div>
-
   </div>
 
 </div>
 
-<!-- MENU -->
-
 <script src="menu.js"></script>
-
-<!-- PAPAPARSE -->
 
 <script src=
 "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
 </script>
 
-<script>
+<script src="autorefresh.js?v=1"></script>
 
-/* SHEET URL */
+<script>
 
 const sheetUrl =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=641160592&single=true&output=csv";
 
-/* START */
+window.addEventListener("load", function(){
 
-window.addEventListener(
-  "load",
-  function(){
+  startAutoRefresh(
+    loadKnockout,
+    10000
+  );
 
-    loadKnockout();
+});
 
-    setInterval(
-      loadKnockout,
-      10000
-    );
-
-  }
-);
-
-/* CEL */
-
-function cel(
-  data,
-  rij,
-  kolom
-){
+function cel(data, rij, kolom){
 
   return data[rij]?.[kolom] || "";
 
 }
-
-/* TITEL */
 
 function titel(text){
 
@@ -108,14 +81,7 @@ function titel(text){
 
 }
 
-/* MATCH */
-
-function match(
-  speler1,
-  score1,
-  speler2,
-  score2
-){
+function match(speler1, score1, speler2, score2){
 
   return `
 
@@ -151,138 +117,136 @@ function match(
 
 }
 
-/* LOAD */
-
 function loadKnockout(){
 
-  Papa.parse(
+  return new Promise(function(resolve){
 
-    sheetUrl + "&t=" + Date.now(),
+    Papa.parse(
 
-    {
+      sheetUrl + "&t=" + Date.now(),
 
-      download:true,
+      {
 
-      complete:function(result){
+        download:true,
 
-        const data =
-          result.data;
+        complete:function(result){
 
-        let html = "";
+          const data =
+            result.data;
 
-        /* ACHTSTE */
+          let html = "";
 
-        html += titel(
-          "Achtste finale"
-        );
+          html += titel(
+            "Achtste finale"
+          );
 
-        for(
-          let i = 3;
-          i <= 17;
-          i += 2
-        ){
+          for(
+            let i = 3;
+            i <= 17;
+            i += 2
+          ){
+
+            html += match(
+
+              cel(data, i, 3),
+              cel(data, i, 4),
+
+              cel(data, i + 1, 3),
+              cel(data, i + 1, 4)
+
+            );
+
+          }
+
+          html += titel(
+            "Kwartfinale"
+          );
+
+          for(
+            let i = 19;
+            i <= 25;
+            i += 2
+          ){
+
+            html += match(
+
+              cel(data, i, 3),
+              cel(data, i, 4),
+
+              cel(data, i + 1, 3),
+              cel(data, i + 1, 4)
+
+            );
+
+          }
+
+          html += titel(
+            "Halve finale"
+          );
+
+          for(
+            let i = 27;
+            i <= 29;
+            i += 2
+          ){
+
+            html += match(
+
+              cel(data, i, 3),
+              cel(data, i, 4),
+
+              cel(data, i + 1, 3),
+              cel(data, i + 1, 4)
+
+            );
+
+          }
+
+          html += titel(
+            "Finale"
+          );
 
           html += match(
 
-            cel(data, i, 3),
-            cel(data, i, 4),
+            cel(data, 31, 3),
+            cel(data, 31, 4),
 
-            cel(data, i + 1, 3),
-            cel(data, i + 1, 4)
-
-          );
-
-        }
-
-        /* KWART */
-
-        html += titel(
-          "Kwartfinale"
-        );
-
-        for(
-          let i = 19;
-          i <= 25;
-          i += 2
-        ){
-
-          html += match(
-
-            cel(data, i, 3),
-            cel(data, i, 4),
-
-            cel(data, i + 1, 3),
-            cel(data, i + 1, 4)
+            cel(data, 32, 3),
+            cel(data, 32, 4)
 
           );
 
+          document
+            .getElementById(
+              "knockout"
+            )
+            .innerHTML = html;
+
+          resolve();
+
+        },
+
+        error:function(error){
+
+          console.log(error);
+
+          document
+            .getElementById(
+              "knockout"
+            )
+            .innerHTML =
+
+            '<div class="melding">Sheet laden mislukt</div>';
+
+          resolve();
+
         }
-
-        /* HALVE */
-
-        html += titel(
-          "Halve finale"
-        );
-
-        for(
-          let i = 27;
-          i <= 29;
-          i += 2
-        ){
-
-          html += match(
-
-            cel(data, i, 3),
-            cel(data, i, 4),
-
-            cel(data, i + 1, 3),
-            cel(data, i + 1, 4)
-
-          );
-
-        }
-
-        /* FINALE */
-
-        html += titel(
-          "Finale"
-        );
-
-        html += match(
-
-          cel(data, 31, 3),
-          cel(data, 31, 4),
-
-          cel(data, 32, 3),
-          cel(data, 32, 4)
-
-        );
-
-        document
-          .getElementById(
-            "knockout"
-          )
-          .innerHTML = html;
-
-      },
-
-      error:function(error){
-
-        console.log(error);
-
-        document
-          .getElementById(
-            "knockout"
-          )
-          .innerHTML =
-
-          '<div class="melding">Sheet laden mislukt</div>';
 
       }
 
-    }
+    );
 
-  );
+  });
 
 }
 
