@@ -15,7 +15,7 @@ type="image/png"
 href="logo.png">
 
 <link rel="stylesheet"
-href="style.css">
+href="style.css?v=1">
 
 </head>
 
@@ -23,19 +23,13 @@ href="style.css">
 
 <div class="page">
 
-  <!-- LOGO -->
-
   <img
     src="logo.png"
     class="logo-img"
     alt="Darts Echteld"
   >
 
-  <!-- MENU -->
-
-<div id="menu"></div>
-
-  <!-- DEELNEMERS -->
+  <div id="menu"></div>
 
   <table class="info">
 
@@ -45,17 +39,15 @@ href="style.css">
       </th>
     </tr>
 
-<tr>
-  <td>
-
-    <img
-      src="datum.png"
-      class="datum-img"
-      alt="Datum"
-    >
-
-  </td>
-</tr>
+    <tr>
+      <td>
+        <img
+          src="datum.png"
+          class="datum-img"
+          alt="Datum"
+        >
+      </td>
+    </tr>
 
   </table>
 
@@ -63,8 +55,6 @@ href="style.css">
     class="lijst"
     id="deelnemers"
   ></table>
-
-  <!-- RESERVE -->
 
   <table class="info">
 
@@ -83,56 +73,83 @@ href="style.css">
 
 </div>
 
-<!-- PAPAPARSE -->
+<script src="menu.js"></script>
 
 <script src=
 "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
 </script>
 
+<script src="autorefresh.js?v=1"></script>
+
 <script>
+
 const sheetUrl =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=74050298&single=true&output=csv";
 
-loadSheet();
-setInterval(loadSheet, 10000);
+window.addEventListener("load", function(){
+
+  startAutoRefresh(
+    loadSheet,
+    10000
+  );
+
+});
 
 function loadSheet(){
 
-  Papa.parse(sheetUrl + "&t=" + Date.now(), {
-    download:true,
+  return new Promise(function(resolve){
 
-    complete:function(result){
+    Papa.parse(sheetUrl + "&t=" + Date.now(), {
 
-      const data = result.data;
+      download:true,
 
-      document.getElementById("deelnemers").innerHTML = "";
-      document.getElementById("reserve").innerHTML = "";
+      complete:function(result){
 
-      // Deelnemers B13:C44
-      for(let i = 12; i <= 43; i++){
-        const nummer = data[i]?.[1] || "";
-        const naam   = data[i]?.[2] || "";
+        const data = result.data;
 
-        if(nummer.trim() !== "" || naam.trim() !== ""){
-          addRow("deelnemers", nummer, naam);
+        document.getElementById("deelnemers").innerHTML = "";
+        document.getElementById("reserve").innerHTML = "";
+
+        // Deelnemers B13:C44
+        for(let i = 12; i <= 43; i++){
+
+          const nummer = data[i]?.[1] || "";
+          const naam   = data[i]?.[2] || "";
+
+          if(nummer.trim() !== "" || naam.trim() !== ""){
+            addRow("deelnemers", nummer, naam);
+          }
+
         }
+
+        // Reserve B47:C78
+        for(let i = 46; i <= 77; i++){
+
+          const nummer = data[i]?.[1] || "";
+          const naam   = data[i]?.[2] || "";
+
+          if(nummer.trim() !== "" || naam.trim() !== ""){
+            addRow("reserve", nummer, naam);
+          }
+
+        }
+
+        resolve();
+
+      },
+
+      error:function(error){
+
+        console.log(error);
+
+        resolve();
+
       }
 
-      // Reserve B47:C78
-      for(let i = 46; i <= 77; i++){
-        const nummer = data[i]?.[1] || "";
-        const naam   = data[i]?.[2] || "";
+    });
 
-        if(nummer.trim() !== "" || naam.trim() !== ""){
-          addRow("reserve", nummer, naam);
-        }
-      }
-    },
-
-    error:function(error){
-      console.log(error);
-    }
   });
+
 }
 
 function addRow(tableId, nummer, naam){
@@ -143,13 +160,13 @@ function addRow(tableId, nummer, naam){
   tr.innerHTML = `
     <td>${nummer}</td>
     <td>${naam}</td>
-    `;
+  `;
 
   table.appendChild(tr);
+
 }
+
 </script>
-  
-<script src="menu.js"></script>
-  
+
 </body>
 </html>
