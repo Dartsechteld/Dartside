@@ -31,17 +31,27 @@ if(menu){
 
   menu.className = "menu";
 
+  const huidigePagina =
+    window.location.pathname.split("/").pop() || "index.html";
+
   let html = "";
 
   menuItems.forEach(function(item){
 
+    const actief =
+      huidigePagina === item.link ? "active" : "";
+
     html += `
-      <a href="${item.link}">
+      <a href="${item.link}" class="${actief}">
         ${item.naam}
       </a>
     `;
 
   });
+
+  menu.innerHTML = html;
+
+}
 
   menu.innerHTML = html;
 
