@@ -1,11 +1,54 @@
-fetch("menu.html")
-  .then(r => r.text())
-  .then(data => {
-    document.getElementById("menu").innerHTML = data;
+const menuItems = [
+  {
+    naam: "Datum",
+    link: "index.html"
+  },
+  {
+    naam: "Deelnemers",
+    link: "deelnemers.html"
+  },
+  {
+    naam: "poulefase",
+    link: "uitslagen.html"
+  },
+  {
+    naam: "Poulestand",
+    link: "poulestand.html"
+  },
+  {
+    naam: "Knock-out A",
+    link: "knockout.html"
+  },
+  {
+    naam: "Knock-out B",
+    link: "knockout-b.html"
+  }
+];
 
-    document.querySelectorAll(".menu a").forEach(link => {
-      if(link.href === window.location.href){
-        link.classList.add("active");
-      }
-    });
+const menu = document.getElementById("menu");
+
+if(menu){
+
+  menu.className = "menu";
+
+  const huidigePagina =
+    window.location.pathname.split("/").pop() || "index.html";
+
+  let html = "";
+
+  menuItems.forEach(function(item){
+
+    const actief =
+      huidigePagina === item.link ? "active" : "";
+
+    html += `
+      <a href="${item.link}" class="${actief}">
+        ${item.naam}
+      </a>
+    `;
+
   });
+
+  menu.innerHTML = html;
+
+}
