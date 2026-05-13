@@ -13,7 +13,7 @@ content="width=device-width, initial-scale=1.0">
 <link rel="icon"
 type="image/png"
 href="logo.png">
-  
+
 <link rel="stylesheet"
 href="style.css">
 
@@ -23,19 +23,35 @@ href="style.css">
 
 <div class="page">
 
+  <!-- LOGO -->
+
   <img
     src="logo.png"
     class="logo-img"
     alt="Darts"
   >
 
+  <!-- MENU -->
+
   <div id="menu"></div>
 
-  <div id="knockout"></div>
+  <!-- KNOCKOUT -->
+
+  <div id="knockout">
+
+    <div class="melding">
+      Laden...
+    </div>
+
+  </div>
 
 </div>
 
+<!-- MENU -->
+
 <script src="menu.js"></script>
+
+<!-- PAPAPARSE -->
 
 <script src=
 "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
@@ -43,32 +59,56 @@ href="style.css">
 
 <script>
 
+/* SHEET URL */
+
 const sheetUrl =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=641160592&single=true&output=csv";
 
-loadKnockout();
+/* START */
 
-setInterval(
-  loadKnockout,
-  30000
+window.addEventListener(
+  "load",
+  function(){
+
+    loadKnockout();
+
+    setInterval(
+      loadKnockout,
+      30000
+    );
+
+  }
 );
+
+/* CEL */
 
 function cel(
   data,
   rij,
   kolom
 ){
+
   return data[rij]?.[kolom] || "";
+
 }
+
+/* TITEL */
 
 function titel(text){
 
   return `
+
     <div class="ronde-titel">
+
       ${text}
+
     </div>
+
   `;
+
 }
+
+/* MATCH */
 
 function match(
   speler1,
@@ -108,11 +148,15 @@ function match(
     </div>
 
   `;
+
 }
+
+/* LOAD */
 
 function loadKnockout(){
 
   Papa.parse(
+
     sheetUrl + "&t=" + Date.now(),
 
     {
@@ -220,6 +264,20 @@ function loadKnockout(){
           )
           .innerHTML = html;
 
+      },
+
+      error:function(error){
+
+        console.log(error);
+
+        document
+          .getElementById(
+            "knockout"
+          )
+          .innerHTML =
+
+          '<div class="melding">Sheet laden mislukt</div>';
+
       }
 
     }
@@ -231,4 +289,5 @@ function loadKnockout(){
 </script>
 
 </body>
+
 </html>
