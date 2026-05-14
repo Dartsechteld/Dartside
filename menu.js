@@ -12,7 +12,7 @@ const menuItems = [
     link: "index.html"
   },
   {
-    naam: "Uitslagen poul",
+    naam: "Uitslagen poule",
     link: "uitslagpoule.html"
   },
   {
