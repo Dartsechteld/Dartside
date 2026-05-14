@@ -15,7 +15,7 @@ type="image/png"
 href="logo.png">
 
 <link rel="stylesheet"
-href="style.css?v=11">
+href="style.css?v=12">
 
 </head>
 
@@ -145,28 +145,20 @@ href="style.css?v=11">
       id="status"
       class="status"
     >
-      Wedstrijdnummer invullen
+      Wedstrijden laden...
     </div>
 
   </div>
 
 </div>
 
-<script src=
-"https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
-</script>
-
 <script>
-
-const sheetUrl =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=878988781&single=true&output=csv";
 
 const scriptUrl =
 "https://script.google.com/macros/s/AKfycbzNakwhd97tdksDD3ZN7jE-Qke_eeXmH-6GZwAyingUrmgwg4VN506UMgf8EmEuqmFq2w/exec";
 
-let sheetData = [];
+let wedstrijden = [];
 let gekozenWedstrijd = null;
-let netOpgeslagen = false;
 
 window.addEventListener("load", function(){
 
@@ -176,35 +168,31 @@ window.addEventListener("load", function(){
 
 function laadWedstrijden(){
 
-  sheetData = [];
+  wedstrijden = [];
 
-  Papa.parse(sheetUrl + "&t=" + Date.now(), {
+  document.getElementById("status").innerText =
+    "Wedstrijden laden...";
 
-    download:true,
+  fetch(scriptUrl + "?t=" + Date.now())
+    .then(function(response){
+      return response.json();
+    })
+    .then(function(data){
 
-    complete:function(result){
+      wedstrijden = data;
 
-      sheetData = result.data;
+      document.getElementById("status").innerText =
+        "Wedstrijdnummer invullen";
 
-      if(!netOpgeslagen){
-
-        document.getElementById("status").innerText =
-          "Wedstrijdnummer invullen";
-
-      }
-
-    },
-
-    error:function(error){
+    })
+    .catch(function(error){
 
       console.log(error);
 
       document.getElementById("status").innerText =
         "Wedstrijden laden mislukt";
 
-    }
-
-  });
+    });
 
 }
 
@@ -238,9 +226,6 @@ function zoekWedstrijd(){
 
   resetVelden();
 
-  status.innerText = "";
-  netOpgeslagen = false;
-
   if(wedstrijdnummer === ""){
 
     status.innerText =
@@ -250,7 +235,7 @@ function zoekWedstrijd(){
 
   }
 
-  if(sheetData.length === 0){
+  if(wedstrijden.length === 0){
 
     status.innerText =
       "Wedstrijden worden geladen";
@@ -259,14 +244,14 @@ function zoekWedstrijd(){
 
   }
 
-  const gevondenRij =
-    sheetData.find(function(row){
+  const gevonden =
+    wedstrijden.find(function(wedstrijd){
 
-      return String(row[1]).trim() === wedstrijdnummer;
+      return String(wedstrijd.nummer).trim() === wedstrijdnummer;
 
     });
 
-  if(!gevondenRij){
+  if(!gevonden){
 
     status.innerText =
       "Wedstrijd niet gevonden";
@@ -275,11 +260,7 @@ function zoekWedstrijd(){
 
   }
 
-  gekozenWedstrijd = {
-    nummer: gevondenRij[1],
-    speler1: gevondenRij[3],
-    speler2: gevondenRij[4]
-  };
+  gekozenWedstrijd = gevonden;
 
   document.getElementById("speler1Naam").innerText =
     gekozenWedstrijd.speler1 || "-";
@@ -287,33 +268,23 @@ function zoekWedstrijd(){
   document.getElementById("speler2Naam").innerText =
     gekozenWedstrijd.speler2 || "-";
 
-  /*
-    Bestaande waardes uit de sheet:
-    G = score speler 1 = index 6
-    I = score speler 2 = index 8
-    J = HF speler 1    = index 9
-    K = HF speler 2    = index 10
-    L = 180 speler 1   = index 11
-    M = 180 speler 2   = index 12
-  */
-
   document.getElementById("score1").value =
-    gevondenRij[6] || "";
+    gekozenWedstrijd.score1 || "";
 
   document.getElementById("score2").value =
-    gevondenRij[8] || "";
+    gekozenWedstrijd.score2 || "";
 
   document.getElementById("hf1").value =
-    gevondenRij[9] || "";
+    gekozenWedstrijd.hf1 || "";
 
   document.getElementById("hf2").value =
-    gevondenRij[10] || "";
+    gekozenWedstrijd.hf2 || "";
 
   document.getElementById("max180_1").value =
-    gevondenRij[11] || "";
+    gekozenWedstrijd.max180_1 || "";
 
   document.getElementById("max180_2").value =
-    gevondenRij[12] || "";
+    gekozenWedstrijd.max180_2 || "";
 
   status.innerText =
     "Wedstrijd gevonden";
@@ -430,24 +401,11 @@ function opslaanUitslag(){
     status.innerText =
       "Uitslag opgeslagen";
 
-    netOpgeslagen = true;
-
     document.getElementById("wedstrijdnummer").value = "";
 
     resetVelden();
 
-    sheetData = [];
-
-    setTimeout(function(){
-
-      laadWedstrijden();
-
-      status.innerText =
-        "Wedstrijdnummer invullen";
-
-      netOpgeslagen = false;
-
-    }, 2000);
+    laadWedstrijden();
 
   })
   .catch(function(error){
