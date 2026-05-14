@@ -15,7 +15,7 @@ type="image/png"
 href="logo.png">
 
 <link rel="stylesheet"
-href="style.css?v=10">
+href="style.css?v=11">
 
 </head>
 
@@ -85,23 +85,20 @@ href="style.css?v=10">
         </div>
 
         <input
-          type="number"
+          type="text"
           id="score1"
-     
           placeholder="0"
         >
 
         <input
-          type="number"
+          type="text"
           id="hf1"
-
           placeholder="0"
         >
 
         <input
-          type="number"
+          type="text"
           id="max180_1"
-     
           placeholder="0"
         >
 
@@ -115,23 +112,20 @@ href="style.css?v=10">
         </div>
 
         <input
-          type="number"
+          type="text"
           id="score2"
-
           placeholder="0"
         >
 
         <input
-          type="number"
+          type="text"
           id="hf2"
-
           placeholder="0"
         >
 
         <input
-          type="number"
+          type="text"
           id="max180_2"
-     
           placeholder="0"
         >
 
@@ -293,6 +287,16 @@ function zoekWedstrijd(){
   document.getElementById("speler2Naam").innerText =
     gekozenWedstrijd.speler2 || "-";
 
+  /*
+    Bestaande waardes uit de sheet:
+    G = score speler 1 = index 6
+    I = score speler 2 = index 8
+    J = HF speler 1    = index 9
+    K = HF speler 2    = index 10
+    L = 180 speler 1   = index 11
+    M = 180 speler 2   = index 12
+  */
+
   document.getElementById("score1").value =
     gevondenRij[6] || "";
 
@@ -364,6 +368,19 @@ function opslaanUitslag(){
 
     status.innerText =
       "Vul beide scores in";
+
+    return;
+
+  }
+
+  const geldigeScore =
+    /^(\d+|-)$/.test(score1) &&
+    /^(\d+|-)$/.test(score2);
+
+  if(!geldigeScore){
+
+    status.innerText =
+      "Score mag alleen een getal of - zijn";
 
     return;
 
