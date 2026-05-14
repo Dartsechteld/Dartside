@@ -992,3 +992,54 @@ body::before{
   background:var(--accent-hover);
 }
 
+/* FOOTER */
+
+.site-footer{
+  width:100%;
+  max-width:360px;
+
+  margin:24px auto 0;
+  padding:16px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:18px;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,0.25);
+}
+
+.footer-img{
+  width:70px;
+  height:auto;
+
+  display:block;
+
+  border-radius:12px;
+}
+
+.footer-text{
+  color:var(--muted);
+
+  font-size:13px;
+  font-weight:700;
+
+  text-align:center;
+}
+
+.footer-text a{
+  color:var(--accent);
+
+  text-decoration:none;
+  font-weight:800;
+}
+
+.footer-text a:hover{
+  color:var(--accent-hover);
+}
