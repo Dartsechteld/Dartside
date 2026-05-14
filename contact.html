@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Darts Contact</title>
+
+<link rel="icon"
+type="image/png"
+href="logo.png">
+
+<link rel="stylesheet"
+href="style.css?v=13">
+
+</head>
+
+<body>
+
+<div class="page">
+
+  <img
+    src="logo.png"
+    class="logo-img"
+    alt="Darts Echteld"
+  >
+
+  <div id="menu"></div>
+
+  <div class="contact-box">
+
+    <h2>
+      Contact
+    </h2>
+
+    <label for="naam">
+      Naam
+    </label>
+
+    <input
+      type="text"
+      id="naam"
+      placeholder="Je naam"
+    >
+
+    <label for="email">
+      E-mail
+    </label>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Je e-mailadres"
+    >
+
+    <label for="bericht">
+      Bericht
+    </label>
+
+    <textarea
+      id="bericht"
+      placeholder="Typ hier je bericht"
+    ></textarea>
+
+    <button onclick="verstuurContact()">
+      Versturen
+    </button>
+
+    <div
+      id="contactStatus"
+      class="status"
+    >
+      Vul het formulier in
+    </div>
+
+  </div>
+
+</div>
+
+<script src="menu.js?v=13"></script>
+
+<script>
+
+const contactScriptUrl =
+"https://script.google.com/macros/s/HIER_JOUW_CONTACT_SCRIPT_URL/exec";
+
+function verstuurContact(){
+
+  const naam =
+    document.getElementById("naam").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const bericht =
+    document.getElementById("bericht").value.trim();
+
+  const status =
+    document.getElementById("contactStatus");
+
+  if(naam === "" || email === "" || bericht === ""){
+
+    status.innerText =
+      "Vul alle velden in";
+
+    return;
+
+  }
+
+  status.innerText =
+    "Versturen...";
+
+  fetch(contactScriptUrl, {
+
+    method:"POST",
+
+    body:JSON.stringify({
+      naam: naam,
+      email: email,
+      bericht: bericht
+    })
+
+  })
+  .then(function(response){
+    return response.text();
+  })
+  .then(function(text){
+
+    if(text !== "OK"){
+
+      status.innerText = text;
+      return;
+
+    }
+
+    status.innerText =
+      "Bericht verzonden";
+
+    document.getElementById("naam").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("bericht").value = "";
+
+  })
+  .catch(function(error){
+
+    console.log(error);
+
+    status.innerText =
+      "Versturen mislukt";
+
+  });
+
+}
+
+</script>
+
+</body>
+
+</html>
