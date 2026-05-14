@@ -15,7 +15,7 @@ type="image/png"
 href="logo.png">
 
 <link rel="stylesheet"
-href="style.css?v=7">
+href="style.css?v=8">
 
 </head>
 
@@ -60,7 +60,6 @@ href="style.css?v=7">
       oninput="zoekWedstrijd()"
     >
 
- 
     <div class="speler-invoer">
 
       <div class="speler-regel">
@@ -204,9 +203,6 @@ function zoekWedstrijd(){
   const speler2Naam =
     document.getElementById("speler2Naam");
 
-  const wedstrijdLabel =
-    document.getElementById("wedstrijdLabel");
-
   const status =
     document.getElementById("status");
 
@@ -215,7 +211,6 @@ function zoekWedstrijd(){
 
   speler1Naam.innerText = "-";
   speler2Naam.innerText = "-";
-  wedstrijdLabel.innerText = "-";
 
   status.innerText = "";
   opslaanKnop.disabled = true;
@@ -251,9 +246,6 @@ function zoekWedstrijd(){
     speler1: gevondenRij[3],
     speler2: gevondenRij[4]
   };
-
-  wedstrijdLabel.innerText =
-    gekozenWedstrijd.nummer || "-";
 
   speler1Naam.innerText =
     gekozenWedstrijd.speler1 || "-";
@@ -316,15 +308,6 @@ function opslaanUitslag(){
 
   }
 
-  if(scriptUrl === ""){
-
-    status.innerText =
-      "Opslaan nog niet actief";
-
-    return;
-
-  }
-
   status.innerText =
     "Opslaan...";
 
@@ -366,6 +349,11 @@ function opslaanUitslag(){
     status.innerText =
       "Uitslag opgeslagen";
 
+    document.getElementById("wedstrijdnummer").value = "";
+
+    document.getElementById("speler1Naam").innerText = "-";
+    document.getElementById("speler2Naam").innerText = "-";
+
     document.getElementById("score1").value = "";
     document.getElementById("score2").value = "";
 
@@ -374,6 +362,10 @@ function opslaanUitslag(){
 
     document.getElementById("max180_1").value = "";
     document.getElementById("max180_2").value = "";
+
+    gekozenWedstrijd = null;
+
+    document.getElementById("opslaanKnop").disabled = true;
 
   })
   .catch(function(error){
