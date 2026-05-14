@@ -217,12 +217,21 @@ function zoekWedstrijd(){
   const opslaanKnop =
     document.getElementById("opslaanKnop");
 
-  speler1Naam.innerText = "-";
-  speler2Naam.innerText = "-";
+speler1Naam.innerText = "-";
+speler2Naam.innerText = "-";
 
-  status.innerText = "";
-  opslaanKnop.disabled = true;
-  gekozenWedstrijd = null;
+document.getElementById("score1").value = "";
+document.getElementById("score2").value = "";
+
+document.getElementById("hf1").value = "";
+document.getElementById("hf2").value = "";
+
+document.getElementById("max180_1").value = "";
+document.getElementById("max180_2").value = "";
+
+status.innerText = "";
+opslaanKnop.disabled = true;
+gekozenWedstrijd = null;
 
   if(wedstrijdnummer === ""){
 
