@@ -15,39 +15,12 @@ type="image/png"
 href="logo.png">
 
 <link rel="stylesheet"
-href="style.css?v=6">
+href="style.css?v=7">
 
 </head>
 
 <body>
-<script>
 
-const juistePin = "1234";
-
-const ingevoerd = prompt("Voer pincode in:");
-
-if(ingevoerd !== juistePin){
-
-  document.body.innerHTML = `
-    <div style="
-      color:white;
-      font-family:Arial;
-      text-align:center;
-      margin-top:80px;
-    ">
-      <h1>Geen toegang</h1>
-      <p>Onjuiste pincode</p>
-      <a href="index.html" style="color:white;">
-        Terug naar site
-      </a>
-    </div>
-  `;
-
-  throw new Error("Geen toegang");
-
-}
-
-</script>
 <div class="page">
 
   <img
@@ -56,15 +29,25 @@ if(ingevoerd !== juistePin){
     alt="Darts Echteld"
   >
 
-<a href="index.html" class="terug-knop">
-  ← Terug
-</a>
+  <a href="index.html" class="terug-knop">
+    ← Terug
+  </a>
 
   <div class="invoer-box">
 
     <h2>
       Uitslag invoeren
     </h2>
+
+    <label for="pin">
+      Pincode
+    </label>
+
+    <input
+      type="password"
+      id="pin"
+      placeholder="Pincode"
+    >
 
     <label for="wedstrijdnummer">
       Wedstrijdnummer
@@ -169,8 +152,6 @@ if(ingevoerd !== juistePin){
 
 </div>
 
-
-
 <script src=
 "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
 </script>
@@ -180,11 +161,8 @@ if(ingevoerd !== juistePin){
 const sheetUrl =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=878988781&single=true&output=csv";
 
-/*
-  Hier komt straks de Google Apps Script Web App URL.
-*/
-
-const scriptUrl = "https://script.google.com/macros/s/AKfycbxnT-S3CuEPEzLdb2KgzdTMoqSpnbjK1qBBRjdwvCxtjITSOLFrpi352moY4mOnh6wbXQ/exec";
+const scriptUrl =
+"https://script.google.com/macros/s/AKfycbxnT-S3CuEPEzLdb2KgzdTMoqSpnbjK1qBBRjdwvCxtjITSOLFrpi352moY4mOnh6wbXQ/exec";
 
 let sheetData = [];
 let gekozenWedstrijd = null;
@@ -304,6 +282,9 @@ function opslaanUitslag(){
     return;
   }
 
+  const pin =
+    document.getElementById("pin").value.trim();
+
   const score1 =
     document.getElementById("score1").value.trim();
 
@@ -325,6 +306,15 @@ function opslaanUitslag(){
   const status =
     document.getElementById("status");
 
+  if(pin === ""){
+
+    status.innerText =
+      "Vul pincode in";
+
+    return;
+
+  }
+
   if(score1 === "" || score2 === ""){
 
     status.innerText =
@@ -343,11 +333,16 @@ function opslaanUitslag(){
 
   }
 
+  status.innerText =
+    "Opslaan...";
+
   fetch(scriptUrl, {
 
     method:"POST",
 
     body:JSON.stringify({
+      pin: pin,
+
       wedstrijdnummer: gekozenWedstrijd.nummer,
 
       speler1: gekozenWedstrijd.speler1,
@@ -368,6 +363,13 @@ function opslaanUitslag(){
     return response.text();
   })
   .then(function(text){
+
+    if(text !== "OK"){
+
+      status.innerText = text;
+      return;
+
+    }
 
     status.innerText =
       "Uitslag opgeslagen";
