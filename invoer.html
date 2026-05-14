@@ -14,7 +14,8 @@ content="width=device-width, initial-scale=1.0">
 type="image/png"
 href="logo.png">
 
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet"
+href="style.css?v=6">
 
 </head>
 
@@ -50,95 +51,72 @@ href="logo.png">
     <div class="wedstrijd-info">
 
       <div>
-        <span>Speler 1</span>
-        <strong id="speler1Naam">-</strong>
-      </div>
-
-      <div>
-        <span>Speler 2</span>
-        <strong id="speler2Naam">-</strong>
+        <span>Wedstrijd</span>
+        <strong id="wedstrijdLabel">-</strong>
       </div>
 
     </div>
 
-    <div class="score-grid">
+    <div class="speler-invoer">
 
-      <div>
-        <label for="score1">
-          Score speler 1
-        </label>
+      <div class="speler-regel">
+
+        <div class="speler-naam">
+          <span>Speler 1</span>
+          <strong id="speler1Naam">-</strong>
+        </div>
 
         <input
           type="number"
           id="score1"
           min="0"
-          placeholder="0"
+          placeholder="Score"
         >
-      </div>
-
-      <div>
-        <label for="score2">
-          Score speler 2
-        </label>
-
-        <input
-          type="number"
-          id="score2"
-          min="0"
-          placeholder="0"
-        >
-      </div>
-
-      <div>
-        <label for="hf1">
-          HF speler 1
-        </label>
 
         <input
           type="number"
           id="hf1"
           min="0"
-          placeholder="0"
+          placeholder="HF"
         >
-      </div>
-
-      <div>
-        <label for="hf2">
-          HF speler 2
-        </label>
-
-        <input
-          type="number"
-          id="hf2"
-          min="0"
-          placeholder="0"
-        >
-      </div>
-
-      <div>
-        <label for="max180_1">
-          180 speler 1
-        </label>
 
         <input
           type="number"
           id="max180_1"
           min="0"
-          placeholder="0"
+          placeholder="180"
         >
+
       </div>
 
-      <div>
-        <label for="max180_2">
-          180 speler 2
-        </label>
+      <div class="speler-regel">
+
+        <div class="speler-naam">
+          <span>Speler 2</span>
+          <strong id="speler2Naam">-</strong>
+        </div>
+
+        <input
+          type="number"
+          id="score2"
+          min="0"
+          placeholder="Score"
+        >
+
+        <input
+          type="number"
+          id="hf2"
+          min="0"
+          placeholder="HF"
+        >
 
         <input
           type="number"
           id="max180_2"
           min="0"
-          placeholder="0"
+          placeholder="180"
         >
+
       </div>
 
     </div>
@@ -162,7 +140,7 @@ href="logo.png">
 
 </div>
 
-<script src="menu.js?v=4"></script>
+<script src="menu.js?v=6"></script>
 
 <script src=
 "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js">
@@ -173,7 +151,11 @@ href="logo.png">
 const sheetUrl =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vS075yJCgYbuaeO8Mn1jB9SnHKYAyTxMR8lYRCjztsbuiuUZ2sNjrOKH2AxNNp7GkBpDgd23mxN-6kI/pub?gid=878988781&single=true&output=csv";
 
-const scriptUrl = "https://script.google.com/macros/s/AKfycbxnT-S3CuEPEzLdb2KgzdTMoqSpnbjK1qBBRjdwvCxtjITSOLFrpi352moY4mOnh6wbXQ/exec";
+/*
+  Hier komt straks de Google Apps Script Web App URL.
+*/
+
+const scriptUrl = "";
 
 let sheetData = [];
 let gekozenWedstrijd = null;
@@ -223,6 +205,9 @@ function zoekWedstrijd(){
   const speler2Naam =
     document.getElementById("speler2Naam");
 
+  const wedstrijdLabel =
+    document.getElementById("wedstrijdLabel");
+
   const status =
     document.getElementById("status");
 
@@ -231,6 +216,8 @@ function zoekWedstrijd(){
 
   speler1Naam.innerText = "-";
   speler2Naam.innerText = "-";
+  wedstrijdLabel.innerText = "-";
+
   status.innerText = "";
   opslaanKnop.disabled = true;
   gekozenWedstrijd = null;
@@ -265,6 +252,9 @@ function zoekWedstrijd(){
     speler1: gevondenRij[3],
     speler2: gevondenRij[4]
   };
+
+  wedstrijdLabel.innerText =
+    gekozenWedstrijd.nummer || "-";
 
   speler1Naam.innerText =
     gekozenWedstrijd.speler1 || "-";
@@ -330,6 +320,7 @@ function opslaanUitslag(){
 
     body:JSON.stringify({
       wedstrijdnummer: gekozenWedstrijd.nummer,
+
       speler1: gekozenWedstrijd.speler1,
       speler2: gekozenWedstrijd.speler2,
 
