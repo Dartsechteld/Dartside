@@ -20,7 +20,34 @@ href="style.css?v=6">
 </head>
 
 <body>
+<script>
 
+const juistePin = "1234";
+
+const ingevoerd = prompt("Voer pincode in:");
+
+if(ingevoerd !== juistePin){
+
+  document.body.innerHTML = `
+    <div style="
+      color:white;
+      font-family:Arial;
+      text-align:center;
+      margin-top:80px;
+    ">
+      <h1>Geen toegang</h1>
+      <p>Onjuiste pincode</p>
+      <a href="index.html" style="color:white;">
+        Terug naar site
+      </a>
+    </div>
+  `;
+
+  throw new Error("Geen toegang");
+
+}
+
+</script>
 <div class="page">
 
   <img
