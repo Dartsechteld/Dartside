@@ -907,3 +907,102 @@ body::before{
   }
 
 }
+
+/* CONTACT PAGINA */
+
+.contact-box{
+  width:100%;
+  max-width:360px;
+
+  margin:0 auto 24px;
+  padding:18px;
+
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:18px;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,0.25);
+}
+
+.contact-box h2{
+  margin:0 0 18px;
+
+  text-align:center;
+
+  font-size:20px;
+  font-weight:800;
+}
+
+.contact-box label{
+  display:block;
+
+  margin:12px 0 6px;
+
+  color:var(--muted);
+
+  font-size:13px;
+  font-weight:700;
+}
+
+.contact-box input,
+.contact-box textarea{
+  width:100%;
+
+  padding:12px 14px;
+
+  border:none;
+  outline:none;
+
+  border-radius:12px;
+
+  background:rgba(255,255,255,0.95);
+
+  color:#071d22;
+
+  font-size:15px;
+  font-weight:700;
+
+  font-family:Inter, Arial, sans-serif;
+}
+
+.contact-box textarea{
+  min-height:130px;
+  resize:vertical;
+}
+
+.contact-box input:focus,
+.contact-box textarea:focus{
+  box-shadow:
+    0 0 0 3px
+    rgba(0,180,255,0.35);
+}
+
+.contact-box button{
+  width:100%;
+
+  margin-top:18px;
+  padding:13px;
+
+  border:none;
+  border-radius:14px;
+
+  background:var(--accent);
+
+  color:white;
+
+  font-size:15px;
+  font-weight:800;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 8px 22px
+    rgba(0,180,255,0.28);
+}
+
+.contact-box button:hover{
+  background:var(--accent-hover);
+}
+
