@@ -71,15 +71,11 @@ body::before{
     rgba(0,0,0,0.35);
 }
 
-/* MENU FIXED BOVENIN - ALTIJD 2 KNOPPEN */
+/* MENU - NIET FIXED */
 
 .menu{
-  width:calc(100% - 32px);
+  width:100%;
   max-width:360px;
-
-  position:sticky;
-  top:10px;
-  z-index:1000;
 
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -95,7 +91,7 @@ body::before{
 
   box-shadow:
     0 10px 30px
-    rgba(0,0,0,0.45);
+    rgba(0,0,0,0.35);
 }
 
 .menu a{
@@ -131,16 +127,6 @@ body::before{
   box-shadow:
     0 6px 20px
     rgba(0,180,255,0.35);
-}
-
-/* HEEL SMAL SCHERM: 2 NAAST ELKAAR */
-
-@media(max-width:360px){
-
-  .menu{
-    grid-template-columns:repeat(2, 1fr);
-  }
-
 }
 
 /* INFO BLOKKEN */
