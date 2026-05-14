@@ -22,12 +22,7 @@ const menuItems = [
   {
     naam: "Knock-out B",
     link: "knockoutb.html"
-  },
-  
-  {
-  naam: "Invoer",
-  link: "invoer.html"
-}
+  }
 ];
 
 const menu = document.getElementById("menu");
