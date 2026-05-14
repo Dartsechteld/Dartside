@@ -586,7 +586,9 @@ body::before{
   font-weight:700;
 }
 
-.invoer-box input{
+/* normale invoervelden bovenaan */
+
+.invoer-box > input{
   width:100%;
 
   padding:12px 14px;
@@ -612,6 +614,8 @@ body::before{
     rgba(0,180,255,0.35);
 }
 
+/* wedstrijd info */
+
 .wedstrijd-info{
   margin:18px 0;
   padding:14px;
@@ -627,12 +631,6 @@ body::before{
   gap:12px;
 
   padding:8px 0;
-
-  border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-.wedstrijd-info div:last-child{
-  border-bottom:none;
 }
 
 .wedstrijd-info span{
@@ -645,18 +643,19 @@ body::before{
   text-align:right;
 }
 
-/* INVOER SPELER REGELS */
+/* spelerregels */
 
 .speler-invoer{
   display:flex;
   flex-direction:column;
   gap:10px;
+
   margin-top:16px;
 }
 
 .speler-regel{
   display:grid;
-  grid-template-columns:1fr 58px 58px 58px;
+  grid-template-columns:1fr 64px 58px 58px;
   gap:6px;
 
   align-items:center;
@@ -686,7 +685,7 @@ body::before{
 
   color:white;
 
-  font-size:14px;
+  font-size:15px;
   font-weight:800;
 
   overflow:hidden;
@@ -694,19 +693,29 @@ body::before{
   text-overflow:ellipsis;
 }
 
+/* alleen de velden in de spelerregel */
+
 .speler-regel input{
   width:100%;
 
   padding:9px 4px;
 
   border:none;
+  outline:none;
+
   border-radius:10px;
+
+  background:rgba(255,255,255,0.95);
+
+  color:#071d22;
 
   font-size:13px;
   font-weight:800;
 
   text-align:center;
 }
+
+/* knop */
 
 .invoer-box button{
   width:100%;
@@ -737,6 +746,8 @@ body::before{
   box-shadow:none;
 }
 
+/* status */
+
 .status{
   margin-top:14px;
 
@@ -748,12 +759,18 @@ body::before{
   font-weight:700;
 }
 
-@media(max-width:360px){
+/* kleinere schermen */
+
+@media(max-width:420px){
 
   .speler-regel{
-    grid-template-columns:1fr 50px 50px 50px;
+    grid-template-columns:1fr 56px 50px 50px;
     gap:5px;
     padding:8px;
+  }
+
+  .speler-naam strong{
+    font-size:14px;
   }
 
   .speler-regel input{
@@ -763,6 +780,17 @@ body::before{
 
 }
 
+@media(max-width:340px){
+
+  .speler-regel{
+    grid-template-columns:1fr 50px 46px 46px;
+  }
+
+  .speler-regel input{
+    font-size:11px;
+  }
+
+}
 
 /* TERUG KNOP */
 
