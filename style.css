@@ -832,3 +832,37 @@ body::before{
     0 6px 20px
     rgba(0,180,255,0.35);
 }
+
+/* PIN + WEDSTRIJDNUMMER NAAST ELKAAR */
+
+.top-invoer-regel{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+
+  margin-bottom:16px;
+}
+
+.top-invoer-regel label{
+  margin-top:0;
+}
+
+.top-invoer-regel input{
+  width:100%;
+
+  padding:12px 10px;
+
+  border:none;
+  outline:none;
+
+  border-radius:12px;
+
+  background:rgba(255,255,255,0.95);
+
+  color:#071d22;
+
+  font-size:16px;
+  font-weight:700;
+
+  text-align:center;
+}
