@@ -762,3 +762,45 @@ body::before{
   }
 
 }
+
+
+/* TERUG KNOP */
+
+.terug-knop{
+  width:100%;
+  max-width:360px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  min-height:42px;
+
+  margin:0 auto 22px;
+  padding:10px 12px;
+
+  border-radius:14px;
+
+  text-decoration:none;
+
+  color:white;
+
+  font-size:14px;
+  font-weight:800;
+
+  background:var(--card);
+
+  border:1px solid var(--card-border);
+
+  box-shadow:
+    0 8px 22px
+    rgba(0,0,0,0.25);
+}
+
+.terug-knop:hover{
+  background:var(--accent);
+
+  box-shadow:
+    0 6px 20px
+    rgba(0,180,255,0.35);
+}
