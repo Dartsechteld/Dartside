@@ -15,7 +15,7 @@ type="image/png"
 href="logo.png">
 
 <link rel="stylesheet"
-href="style.css?v=8">
+href="style.css?v=9">
 
 </head>
 
@@ -39,36 +39,43 @@ href="style.css?v=8">
       Uitslag invoeren
     </h2>
 
-  <div class="top-invoer-regel">
+    <div class="top-invoer-regel">
 
-  <div>
-    <label for="pin">
-      Pincode
-    </label>
+      <div>
+        <label for="pin">
+          Pincode
+        </label>
 
-    <input
-      type="password"
-      id="pin"
-      placeholder="Pin"
-    >
-  </div>
+        <input
+          type="password"
+          id="pin"
+          placeholder="Pin"
+        >
+      </div>
 
-  <div>
-    <label for="wedstrijdnummer">
-      Wedstrijdnummer
-    </label>
+      <div>
+        <label for="wedstrijdnummer">
+          Wedstrijdnummer
+        </label>
 
-    <input
-      type="number"
-      id="wedstrijdnummer"
-      placeholder="Nr"
-      oninput="zoekWedstrijd()"
-    >
-  </div>
+        <input
+          type="number"
+          id="wedstrijdnummer"
+          placeholder="Nr"
+          oninput="zoekWedstrijd()"
+        >
+      </div>
 
-</div>
+    </div>
 
     <div class="speler-invoer">
+
+      <div class="speler-header">
+        <div>Speler</div>
+        <div>Score</div>
+        <div>HF</div>
+        <div>180</div>
+      </div>
 
       <div class="speler-regel">
 
@@ -81,21 +88,21 @@ href="style.css?v=8">
           type="number"
           id="score1"
           min="0"
-          placeholder="Score"
+          placeholder="0"
         >
 
         <input
           type="number"
           id="hf1"
           min="0"
-          placeholder="HF"
+          placeholder="0"
         >
 
         <input
           type="number"
           id="max180_1"
           min="0"
-          placeholder="180"
+          placeholder="0"
         >
 
       </div>
@@ -111,21 +118,21 @@ href="style.css?v=8">
           type="number"
           id="score2"
           min="0"
-          placeholder="Score"
+          placeholder="0"
         >
 
         <input
           type="number"
           id="hf2"
           min="0"
-          placeholder="HF"
+          placeholder="0"
         >
 
         <input
           type="number"
           id="max180_2"
           min="0"
-          placeholder="180"
+          placeholder="0"
         >
 
       </div>
@@ -200,38 +207,37 @@ function laadWedstrijden(){
 
 }
 
+function resetVelden(){
+
+  document.getElementById("speler1Naam").innerText = "-";
+  document.getElementById("speler2Naam").innerText = "-";
+
+  document.getElementById("score1").value = "";
+  document.getElementById("score2").value = "";
+
+  document.getElementById("hf1").value = "";
+  document.getElementById("hf2").value = "";
+
+  document.getElementById("max180_1").value = "";
+  document.getElementById("max180_2").value = "";
+
+  document.getElementById("opslaanKnop").disabled = true;
+
+  gekozenWedstrijd = null;
+
+}
+
 function zoekWedstrijd(){
 
   const wedstrijdnummer =
     document.getElementById("wedstrijdnummer").value.trim();
 
-  const speler1Naam =
-    document.getElementById("speler1Naam");
-
-  const speler2Naam =
-    document.getElementById("speler2Naam");
-
   const status =
     document.getElementById("status");
 
-  const opslaanKnop =
-    document.getElementById("opslaanKnop");
+  resetVelden();
 
-speler1Naam.innerText = "-";
-speler2Naam.innerText = "-";
-
-document.getElementById("score1").value = "";
-document.getElementById("score2").value = "";
-
-document.getElementById("hf1").value = "";
-document.getElementById("hf2").value = "";
-
-document.getElementById("max180_1").value = "";
-document.getElementById("max180_2").value = "";
-
-status.innerText = "";
-opslaanKnop.disabled = true;
-gekozenWedstrijd = null;
+  status.innerText = "";
 
   if(wedstrijdnummer === ""){
 
@@ -264,16 +270,44 @@ gekozenWedstrijd = null;
     speler2: gevondenRij[4]
   };
 
-  speler1Naam.innerText =
+  document.getElementById("speler1Naam").innerText =
     gekozenWedstrijd.speler1 || "-";
 
-  speler2Naam.innerText =
+  document.getElementById("speler2Naam").innerText =
     gekozenWedstrijd.speler2 || "-";
+
+  /*
+    Bestaande waardes uit de sheet:
+    G = score speler 1 = index 6
+    I = score speler 2 = index 8
+    J = HF speler 1    = index 9
+    K = HF speler 2    = index 10
+    L = 180 speler 1   = index 11
+    M = 180 speler 2   = index 12
+  */
+
+  document.getElementById("score1").value =
+    gevondenRij[6] || "";
+
+  document.getElementById("score2").value =
+    gevondenRij[8] || "";
+
+  document.getElementById("hf1").value =
+    gevondenRij[9] || "";
+
+  document.getElementById("hf2").value =
+    gevondenRij[10] || "";
+
+  document.getElementById("max180_1").value =
+    gevondenRij[11] || "";
+
+  document.getElementById("max180_2").value =
+    gevondenRij[12] || "";
 
   status.innerText =
     "Wedstrijd gevonden";
 
-  opslaanKnop.disabled = false;
+  document.getElementById("opslaanKnop").disabled = false;
 
 }
 
@@ -368,21 +402,9 @@ function opslaanUitslag(){
 
     document.getElementById("wedstrijdnummer").value = "";
 
-    document.getElementById("speler1Naam").innerText = "-";
-    document.getElementById("speler2Naam").innerText = "-";
+    resetVelden();
 
-    document.getElementById("score1").value = "";
-    document.getElementById("score2").value = "";
-
-    document.getElementById("hf1").value = "";
-    document.getElementById("hf2").value = "";
-
-    document.getElementById("max180_1").value = "";
-    document.getElementById("max180_2").value = "";
-
-    gekozenWedstrijd = null;
-
-    document.getElementById("opslaanKnop").disabled = true;
+    laadWedstrijden();
 
   })
   .catch(function(error){
