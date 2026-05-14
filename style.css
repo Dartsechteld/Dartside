@@ -645,13 +645,66 @@ body::before{
   text-align:right;
 }
 
-.score-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
+/* INVOER SPELER REGELS */
+
+.speler-invoer{
+  display:flex;
+  flex-direction:column;
   gap:10px;
+  margin-top:16px;
 }
 
-.score-grid label{
+.speler-regel{
+  display:grid;
+  grid-template-columns:1fr 58px 58px 58px;
+  gap:6px;
+
+  align-items:center;
+
+  padding:10px;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,0.05);
+}
+
+.speler-naam{
+  min-width:0;
+}
+
+.speler-naam span{
+  display:block;
+
+  color:var(--muted);
+
+  font-size:11px;
+  font-weight:700;
+}
+
+.speler-naam strong{
+  display:block;
+
+  color:white;
+
+  font-size:14px;
+  font-weight:800;
+
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.speler-regel input{
+  width:100%;
+
+  padding:9px 4px;
+
+  border:none;
+  border-radius:10px;
+
+  font-size:13px;
+  font-weight:800;
+
   text-align:center;
 }
 
@@ -693,4 +746,19 @@ body::before{
 
   font-size:13px;
   font-weight:700;
+}
+
+@media(max-width:360px){
+
+  .speler-regel{
+    grid-template-columns:1fr 50px 50px 50px;
+    gap:5px;
+    padding:8px;
+  }
+
+  .speler-regel input{
+    font-size:12px;
+    padding:8px 3px;
+  }
+
 }
