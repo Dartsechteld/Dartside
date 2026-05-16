@@ -30,7 +30,7 @@ const menuItems = [
     {
     naam: "Regelement",
     link: "regelement.html"
-  },
+  }
 ];
 
 const menu = document.getElementById("menu");
