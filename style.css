@@ -1386,8 +1386,16 @@ body::before{
 
 .reglement h2{
   margin-top:0;
-  font-size:22px;
+
   text-align:center;
+
+  color:#6fdcff;
+
+  font-size:24px;
+
+  text-shadow:
+    0 0 14px
+    rgba(0,180,255,0.35);
 }
 
 .reglement h3{
