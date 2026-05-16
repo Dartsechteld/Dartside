@@ -1392,9 +1392,16 @@ body::before{
 
 .reglement h3{
   margin-top:0;
+
+  text-align:center;
+
   color:#6fdcff;
+
   font-size:18px;
-  text-shadow:0 0 12px rgba(0,180,255,0.35);
+
+  text-shadow:
+    0 0 12px
+    rgba(0,180,255,0.35);
 }
 
 .reglement p,
