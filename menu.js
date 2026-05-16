@@ -26,7 +26,11 @@ const menuItems = [
   {
     naam: "Contact",
     link: "contact.html"
-  }
+  },
+    {
+    naam: "Regelement",
+    link: "regelement.html"
+  },
 ];
 
 const menu = document.getElementById("menu");
